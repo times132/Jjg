@@ -2,14 +2,16 @@
   <div id="app">
     <Nav/>
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="당신의 Vue.js 앱에 오신걸 환영합니다."/>
+<!--    <HelloWorld msg="당신의 Vue.js 앱에 오신걸 환영합니다."/>-->
     {{ name }}
+    <Footer/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import Nav from "./components/Navbar";
+// import HelloWorld from './components/HelloWorld.vue'
+import Nav from './components/Navbar'
+import Footer from './components/footer'
 import request from 'request'
 
 export default {
@@ -20,7 +22,8 @@ export default {
     }
   },
   components: {
-    HelloWorld,
+    Footer,
+    // HelloWorld,
     Nav
   },
   mounted() {

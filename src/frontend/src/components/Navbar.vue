@@ -4,7 +4,8 @@
             <b-navbar toggleable="md" variant="light">
                 <div class="container">
                     <!-- logo and name -->
-                    <b-navbar-brand href="/">착한 중고</b-navbar-brand>
+<!--                    <b-navbar-brand href="/">착한 중고</b-navbar-brand>-->
+                    <router-link class="navbar-brand" to="/">착한 중고</router-link>
                     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                     <!-- navbar -->
                     <b-collapse id="nav-collapse" is-nav>
@@ -15,39 +16,62 @@
                             </b-nav-form>
 
                             <!-- 에어컨 -->
-                            <b-nav-item-dropdown text="에어컨" id="/aircon">
-                                <b-dropdown-item href="/aircon?type=벽걸이">벽걸이</b-dropdown-item>
-                                <b-dropdown-item href="/aircon?type=천장">천장</b-dropdown-item>
-                                <b-dropdown-item href="/aircon?type=스텐드">스텐드</b-dropdown-item>
-                            </b-nav-item-dropdown>
+                            <li class="nav-item dropdown">
+<!--                                <a class="nav-link dropdown-toggle" href="/aircon">에어컨</a>-->
+                                <router-link class="nav-link dropdown-toggle" to="/aircon">에어컨</router-link>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="/aircon?type=벽걸이">벽걸이</a>
+                                        <a class="dropdown-item" href="/aircon?type=천장">천장</a>
+                                        <a class="dropdown-item" href="/aircon?type=스텐드">스텐드</a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <!-- 가전 -->
-                            <b-nav-item-dropdown text="가전">
-                                <b-dropdown-item href="/appliances?type=티비">TV</b-dropdown-item>
-                                <b-dropdown-item href="/appliances?type=냉장고">냉장고</b-dropdown-item>
-                                <b-dropdown-item href="/appliances?type=세탁기">세탁기</b-dropdown-item>
-                            </b-nav-item-dropdown>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="/appliances">가전</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="/appliances?type=티비">TV</a>
+                                        <a class="dropdown-item" href="/appliances?type=냉장고">냉장고</a>
+                                        <a class="dropdown-item" href="/appliances?type=세탁기">세탁기</a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <!-- 가구 -->
-                            <b-nav-item-dropdown text="가구" href="/furniture">
-                                <b-dropdown-item href="/furniture?type=장농">장농</b-dropdown-item>
-                                <b-dropdown-item href="/furniture?type=서랍">서랍</b-dropdown-item>
-                                <b-dropdown-item href="/furniture?type=식탁">식탁</b-dropdown-item>
-                            </b-nav-item-dropdown>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="/furniture">가구</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="/furniture?type=장농">장농</a>
+                                        <a class="dropdown-item" href="/furniture?type=서랍">서랍</a>
+                                        <a class="dropdown-item" href="/furniture?type=식탁">식탁</a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <!-- 업소용 -->
-                            <b-nav-item-dropdown text="업소용" href="/business">
-                                <b-dropdown-item href="/business?type=선반">선반</b-dropdown-item>
-                                <b-dropdown-item href="/business?type=냉장고">냉장고</b-dropdown-item>
-                                <b-dropdown-item href="/business?type=화구">화구</b-dropdown-item>
-                            </b-nav-item-dropdown>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="/business">업소용</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="/business?type=선반">선반</a>
+                                        <a class="dropdown-item" href="/business?type=냉장고">냉장고</a>
+                                        <a class="dropdown-item" href="/business?type=화구">화구</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </b-navbar-nav>
                     </b-collapse>
+
                 </div>
             </b-navbar>
         </header>
         <div></div>
         <div></div>
+        <router-view/>
     </div>
 </template>
 
