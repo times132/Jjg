@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <Nav/>
-    <img alt="Vue logo" src="./assets/logo.png">
-    {{ name }}
+
     <Footer/>
   </div>
 </template>

@@ -4,69 +4,57 @@
             <b-navbar toggleable="md" variant="light">
                 <div class="container">
                     <!-- logo and name -->
-<!--                    <b-navbar-brand href="/">착한 중고</b-navbar-brand>-->
                     <router-link class="navbar-brand" to="/">착한 중고</router-link>
                     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                     <!-- navbar -->
                     <b-collapse id="nav-collapse" is-nav>
-                        <b-navbar-nav class="ml-auto">
+                        <b-navbar-nav class="category">
+                            <!-- 매장 -->
+                            <b-nav-item-dropdown text="매장" no-caret class="dropdown-menu-center">
+                                <b-dropdown-item to="/intro">소개</b-dropdown-item>
+                                <b-dropdown-item to="/location">찾아오는 길</b-dropdown-item>
+                            </b-nav-item-dropdown>
+
                             <!-- 에어컨 -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="/aircon">에어컨</a>
-<!--                                <template v-slot:button-content>-->
-<!--                                    <router-link class="nav-link dropdown-toggle" to="/aircon">에어컨</router-link>-->
-<!--                                </template>-->
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="/aircon?type=벽걸이">벽걸이</a>
-                                        <a class="dropdown-item" href="/aircon?type=천장">천장</a>
-                                        <a class="dropdown-item" href="/aircon?type=스텐드">스텐드</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <b-nav-item-dropdown text="에어컨" no-caret>
+                                <b-dropdown-item to="/aircon/1">벽걸이</b-dropdown-item>
+                                <b-dropdown-item to="/aircon/2">천장</b-dropdown-item>
+                                <b-dropdown-item to="/aircon/3">스텐드</b-dropdown-item>
+                            </b-nav-item-dropdown>
 
                             <!-- 가전 -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="/appliances">가전</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="/appliances?type=티비">TV</a>
-                                        <a class="dropdown-item" href="/appliances?type=냉장고">냉장고</a>
-                                        <a class="dropdown-item" href="/appliances?type=세탁기">세탁기</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <b-nav-item-dropdown text="가전" no-caret>
+                                <b-dropdown-item to="/appliances/1">티비</b-dropdown-item>
+                                <b-dropdown-item to="/appliances/2">냉장고</b-dropdown-item>
+                                <b-dropdown-item to="/appliances/3">세탁기</b-dropdown-item>
+                            </b-nav-item-dropdown>
 
                             <!-- 가구 -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="/furniture">가구</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="/furniture?type=장농">장농</a>
-                                        <a class="dropdown-item" href="/furniture?type=서랍">서랍</a>
-                                        <a class="dropdown-item" href="/furniture?type=식탁">식탁</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <b-nav-item-dropdown text="사무용 가구" no-caret>
+                                <b-dropdown-item to="/furniture/1">책상</b-dropdown-item>
+                                <b-dropdown-item to="/furniture/2">책상2</b-dropdown-item>
+                                <b-dropdown-item to="/furniture/3">책상3</b-dropdown-item>
+                            </b-nav-item-dropdown>
 
                             <!-- 업소용 -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="/business">업소용</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="/business?type=선반">선반</a>
-                                        <a class="dropdown-item" href="/business?type=냉장고">냉장고</a>
-                                        <a class="dropdown-item" href="/business?type=화구">화구</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <b-nav-item-dropdown text="업소용" no-caret>
+                                <b-dropdown-item to="/business?type=선반">선반</b-dropdown-item>
+                                <b-dropdown-item to="/business?type=냉장고">냉장고</b-dropdown-item>
+                                <b-dropdown-item to="/business?type=화구">화구</b-dropdown-item>
+                            </b-nav-item-dropdown>
+                        </b-navbar-nav>
 
+                        <b-navbar-nav class="ml-auto">
                             <b-nav-form>
-                                <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+                                <b-form-input id="search" size="sm" class="mr-sm-2" placeholder="검색"></b-form-input>
                             </b-nav-form>
                         </b-navbar-nav>
-                    </b-collapse>
 
+                        <p class="h4 mb-0 pb-1 pt-1">
+                            <b-link class="login" to="/login"><b-icon icon="person-circle"></b-icon></b-link>
+                        </p>
+
+                    </b-collapse>
                 </div>
             </b-navbar>
         </header>
@@ -78,20 +66,50 @@
 
 <script>
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        methods: {
+
+        }
     }
 </script>
 
 <style>
-    .dropdown:hover .dropdown-menu {
+    .nav-item:hover .dropdown-menu {
         display: block;
         margin-top: 0;
     }
-    .nav-link:hover {
+    .nav-item:hover .nav-link{
         color: #fe696a!important;
         transition-duration: 0.3s;
     }
-    .dropdown:hover .nav-link {
-        color: #fe696a;
+    .dropdown-item:hover {
+        color: #fe696a!important;
+        background: none!important;
+    }
+    .dropdown-menu {
+        right: auto;
+        left: 50%!important;
+        -webkit-transform: translate(-50%, 0);
+        -o-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+    .form-inline {
+        justify-content: center;
+    }
+    .category {
+        margin: auto;
+    }
+    .category>li{
+        margin: 0 1rem;
+    }
+    #search {
+        text-align: center;
+    }
+    .login {
+        color: black;
+    }
+    .login:hover {
+        text-decoration: none;
+        color: black;
     }
 </style>

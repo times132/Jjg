@@ -33,15 +33,15 @@
                 license: '111-22-33333',
                 mailOrder: '1111-제주-2222',
                 phoneNum: '064-711-4694',
-                address1: '제주 제주시 가령로 75 중고쇼핑몰',
-                address2: '제주 제주시 연북로 733 착한중고',
+                address1: '제주 제주시 연북로 733 착한중고',
+                address2: '제주 제주시 가령로 75 중고쇼핑몰',
                 email: 'times132@naver.com'
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
     .footer {
         position: absolute;
         left: 0;

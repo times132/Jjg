@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../components/Home.vue'
-import Aircon from '../components/aircon.vue'
+import Home from '../views/Home.vue'
+import Aircon from '../views/Aircon.vue'
 
 Vue.use(VueRouter)
 
