@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Aircon from '../views/Aircon.vue'
+import Home from '../views/Home'
+import Aircon from '../views/Aircon'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
         path: '/aircon',
         name: 'aircon',
         component: Aircon
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
     }
 ]
 
