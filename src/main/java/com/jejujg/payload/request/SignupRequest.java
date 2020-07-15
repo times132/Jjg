@@ -4,7 +4,9 @@ import com.jejujg.model.User;
 import com.jejujg.model.UserRole;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 public class SignupRequest {
 
@@ -12,7 +14,6 @@ public class SignupRequest {
     private String password;
     private String username;
     private String name;
-    private UserRole role;
 
     @Builder
     public SignupRequest(String email, String password, String username, String name, UserRole role) {
@@ -20,7 +21,6 @@ public class SignupRequest {
         this.password = password;
         this.username = username;
         this.name = name;
-        this.role = role;
     }
 
     public User toEntity(){
@@ -29,7 +29,6 @@ public class SignupRequest {
                 .password(this.password)
                 .username(this.username)
                 .name(this.name)
-                .role(this.role)
                 .build();
     }
 

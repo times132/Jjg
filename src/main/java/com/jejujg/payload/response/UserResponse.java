@@ -1,10 +1,13 @@
 package com.jejujg.payload.response;
 
+import com.jejujg.model.Role;
 import com.jejujg.model.User;
 import com.jejujg.model.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -14,10 +17,10 @@ public class UserResponse {
     private String email;
     private String username;
     private String name;
-    private UserRole role;
+    private Set<Role> role;
 
     @Builder
-    public UserResponse(Long id, String email, String username, String name, UserRole role){
+    public UserResponse(Long id, String email, String username, String name, Set<Role> role){
         this.id = id;
         this.email = email;
         this.username = username;

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -15,23 +16,24 @@ public class User extends DateAudit{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(length = 200, nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false, unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role;
 
     @Builder
-    public User(String username, String password, String email, String name, UserRole role){
+    public User(String username, String password, String email, String name, Set<Role> role){
         this.username = username;
         this.password = password;
         this.email = email;

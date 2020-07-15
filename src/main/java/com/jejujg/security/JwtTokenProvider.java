@@ -1,19 +1,28 @@
 package com.jejujg.security;
 
+import com.jejujg.model.Role;
+import com.jejujg.model.UserRole;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.attribute.UserPrincipal;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Set;
 
+@RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.expirationMin}")
     private Long jwtExpiration;
@@ -22,23 +31,32 @@ public class JwtTokenProvider {
     private String jwtSecret;
 
     // 토큰 생성
-    public String create(Authentication authentication){
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+    public String create(String userID, Set<Role> roles){
+        Claims claims = Jwts.claims().setSubject(userID);
+        claims.put("roles", roles);
 
         return Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setSubject(Long.toString(userDetails.getId()))
-//                .claim("email", userDetails.getEmail())
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * jwtExpiration))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes())
                 .compact();
     }
 
-    public Long getUserIdFromJWT(String token){
+    public Authentication getAuthentication(String token){
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserIdFromJWT(token));
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    public String getUserIdFromJWT(String token){
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
-        return Long.parseLong(claims.getSubject());
+        return claims.getSubject();
+    }
+
+    public String resolveToken(HttpServletRequest request){
+        return request.getHeader("X-AUTH-TOKEN");
     }
 
     public boolean validateToken(String authToken){
