@@ -1,7 +1,7 @@
 package com.jejujg.security;
 
 import com.jejujg.model.Role;
-import com.jejujg.model.UserRole;
+import com.jejujg.service.UserService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,6 +32,11 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
+    @PostConstruct
+    protected void init() {
+        jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
+    }
+
     // 토큰 생성
     public String create(String userID, Set<Role> roles){
         Claims claims = Jwts.claims().setSubject(userID);
@@ -39,7 +46,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * jwtExpiration))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes())
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
@@ -60,8 +67,12 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String authToken){
+        logger.info("엑세스 토큰: " + authToken);
         try {
+//            Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+//            return !claims.getBody().getExpiration().before(new Date());
+
             return true;
         }catch (SignatureException e){
             logger.error("서명을 확인 할 수 없는 토큰입니다.");

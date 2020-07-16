@@ -26,7 +26,7 @@ export default {
     request('http://localhost:9000/api/home', function (error, response, body) {
       window.console.log('error: ', error);
       window.console.log('statusCode: ', response && response.statusCode);
-      window.console.log('body: ', body)
+      window.console.log('body: ', body);
     })
   }
 }

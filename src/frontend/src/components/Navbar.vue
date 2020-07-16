@@ -41,6 +41,7 @@
                                 <b-dropdown-item to="/business?type=선반">선반</b-dropdown-item>
                                 <b-dropdown-item to="/business?type=냉장고">냉장고</b-dropdown-item>
                                 <b-dropdown-item to="/business?type=화구">화구</b-dropdown-item>
+                                <b-dropdown-item to="/me">내정보</b-dropdown-item>
                             </b-nav-item-dropdown>
                         </b-navbar-nav>
 
@@ -100,7 +101,7 @@
         margin: auto;
     }
     .category>li{
-        margin: 0 1rem;
+        margin: 0 0.75rem;
     }
     #search {
         text-align: center;

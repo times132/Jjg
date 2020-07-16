@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/signup").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/me").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/user/admin").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()// UsernamePasswordAuthenticationFilter 전에 JwtAuthenticationFilter를 넣음
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

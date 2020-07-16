@@ -9,21 +9,14 @@ import com.jejujg.payload.response.UserResponse;
 import com.jejujg.repository.RoleRepository;
 import com.jejujg.repository.UserRepository;
 import com.jejujg.security.CustomUserDetails;
-import com.jejujg.security.JwtTokenProvider;
-import lombok.AllArgsConstructor;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.Collections;
 
 @RequiredArgsConstructor
