@@ -8,31 +8,54 @@ const resourceHost = 'http://localhost:9000'
 
 export default new Vuex.Store({
     state: {
-        accessToken: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        userInfo: null
     },
     getters: {
 
     },
     mutations: {
-        LOGIN (state, {accessToken}) {
-            state.accessToken = accessToken,
-            state.isAuthenticated = true
+        // LOGIN (state, {accessToken}) {
+        //     state.accessToken = accessToken
+        //     state.isAuthenticated = true
+        //     sessionStorage.token = accessToken
+        // },
+        logout (state) {
+            delete sessionStorage.token
+            state.isAuthenticated = false
         },
-        LOGOUT (state) {
-            state.accessToken = null
+        getUserInfo (state, userInfo) {
+            state.userInfo = userInfo
+            state.isAuthenticated = true
         }
     },
     actions: {
-        LOGIN ({commit}, {username, password}) {
+        login ({ dispatch }, {username, password}) {
             return axios.post(`${resourceHost}/user/login`, {username, password})
                 .then(({data}) => {
-                    commit('LOGIN', data)
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+                    sessionStorage.setItem('token', data.accessToken)
+
+                    dispatch('getUserInfo')
                 })
         },
-        LOGOUT ({commit}) {
-            commit('LOGOUT')
+        logout ({commit}) {
+            axios.defaults.headers.common['Authorization'] = undefined
+            commit('logout')
         },
+        getUserInfo ({commit}) {
+            let token = sessionStorage.getItem('token')
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            axios.get('http://localhost:9000/user/me')
+                .then(({data}) => {
+                    let userInfo = {
+                        name: data.name,
+                        username: data.username,
+                        email: data.email,
+                        role: data.roles
+                    }
+                    commit('getUserInfo', userInfo)
+                })
+        }
     }
 })

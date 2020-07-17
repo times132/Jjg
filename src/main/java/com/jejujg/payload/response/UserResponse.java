@@ -17,15 +17,15 @@ public class UserResponse {
     private String email;
     private String username;
     private String name;
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @Builder
-    public UserResponse(Long id, String email, String username, String name, Set<Role> role){
+    public UserResponse(Long id, String email, String username, String name, Set<Role> roles){
         this.id = id;
         this.email = email;
         this.username = username;
         this.name = name;
-        this.role = role;
+        this.roles = roles;
     }
 
     public UserResponse toDto(User user){
@@ -34,7 +34,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .name(user.getName())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .build();
     }
 }

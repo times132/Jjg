@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService{
             .email(request.getEmail())
             .name(request.getName())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Collections.singleton(role))
+            .roles(Collections.singleton(role))
             .build()).getId();
     }
 
@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService{
 
     public UserResponse login(LoginRequest request){
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 사용자 입니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("가입되지 않은 사용자 입니다."));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");

@@ -7,11 +7,18 @@ import Me from '../views/Profile'
 
 Vue.use(VueRouter)
 
-// const requireAuth = () => (from, to, next) => {
-//     const isAuthentication = this.$store.state.isAuthenticated
-//     if (isAuthentication) return next()
-//     next('/login?returnPath=me')
-// }
+const requireAuth = (from, to, next) => {
+    let isAuthentication = sessionStorage.getItem('token')
+
+    if (isAuthentication){ // 로그인 되있을 때
+        return next()
+    } else { // 로그인 안 돼있을 때
+        next({
+            path: '/login',
+            query: { redirect: from.fullPath }
+        })
+    }
+}
 
 const routes = [
     {
@@ -33,7 +40,7 @@ const routes = [
         path: '/me',
         name: 'me',
         component: Me,
-        // beforeEnter: requireAuth()
+        beforeEnter: requireAuth
     }
 ]
 

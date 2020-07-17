@@ -1,5 +1,6 @@
 package com.jejujg.security;
 
+import com.jejujg.model.Role;
 import com.jejujg.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,13 +22,14 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private Set<Role> roles;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static CustomUserDetails create(User user){
-        Set<GrantedAuthority> authorities = user.getRole().stream()
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toSet());
 
-        return new CustomUserDetails(user.getId(), user.getName(), user.getUsername(), user.getEmail(), user.getPassword() , authorities);
+        return new CustomUserDetails(user.getId(), user.getName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getRoles() , authorities);
     }
 
     @Override

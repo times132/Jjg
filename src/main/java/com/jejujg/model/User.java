@@ -30,14 +30,14 @@ public class User extends DateAudit{
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @Builder
-    public User(String username, String password, String email, String name, Set<Role> role){
+    public User(String username, String password, String email, String name, Set<Role> roles){
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.role = role;
+        this.roles = roles;
     }
 }

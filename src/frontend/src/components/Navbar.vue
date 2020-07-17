@@ -51,7 +51,8 @@
                             </b-nav-form>
                         </b-navbar-nav>
 
-                        <p class="h4 mb-0 pb-1 pt-1">
+                        <a href="" v-if="isAuthenticated" @click.prevent="onClickLogout">logout</a>
+                        <p v-if="!isAuthenticated" class="h4 mb-0 pb-1 pt-1">
                             <b-link class="login" to="/login"><b-icon icon="person-circle"></b-icon></b-link>
                         </p>
 
@@ -66,10 +67,21 @@
 </template>
 
 <script>
+    import store from '../vuex'
+
     export default {
         name: "Navbar",
+        computed: {
+            isAuthenticated() {
+                return this.$store.state.isAuthenticated
+            }
+        },
         methods: {
-
+            onClickLogout() {
+                store.dispatch('logout')
+                    .then(() => this.$router.push('/'))
+                    .catch(() => {})
+            }
         }
     }
 </script>

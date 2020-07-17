@@ -3,14 +3,12 @@
         <div>profile</div>
         <div>
             <label>User info:</label>
-            <pre>{{user}}</pre>
+            <pre>{{ $store.state.userInfo }}</pre>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
-
     export default {
         data() {
             return {
@@ -18,8 +16,8 @@
             }
         },
         created() {
-            axios.get('http://localhost:9000/user/me')
-                .then(({data}) => (this.user = data))
+            this.$store.dispatch("getUserInfo")
+            .then()
         }
     }
 </script>

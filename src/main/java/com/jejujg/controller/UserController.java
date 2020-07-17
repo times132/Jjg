@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -27,7 +28,7 @@ public class UserController {
     @PostMapping("/login")
     public JwtAuthenticationResponse login(@RequestBody LoginRequest request){
         UserResponse response = userService.login(request);
-        String token = jwtTokenProvider.create(response.getUsername(), response.getRole());
+        String token = jwtTokenProvider.create(response.getUsername(), response.getRoles());
         JwtAuthenticationResponse accesstoken = JwtAuthenticationResponse.builder()
                 .accessToken(token)
                 .build();
@@ -41,6 +42,7 @@ public class UserController {
                 .username(userDetails.getUsername())
                 .name(userDetails.getName())
                 .email(userDetails.getEmail())
+                .roles(userDetails.getRoles())
                 .build();
         return user;
     }
