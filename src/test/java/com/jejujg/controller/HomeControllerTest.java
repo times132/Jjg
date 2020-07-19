@@ -1,5 +1,6 @@
 package com.jejujg.controller;
 
+import com.jejujg.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,13 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class HomeControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mvc;
 
     @Test
     public void Home() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"))
-                .andExpect(model().attribute("name", "park"));
+        mvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(status().isOk());
     }
 }

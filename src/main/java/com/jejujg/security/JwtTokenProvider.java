@@ -1,6 +1,7 @@
 package com.jejujg.security;
 
 import com.jejujg.model.Role;
+import com.jejujg.model.UserRole;
 import com.jejujg.service.UserService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 생성
-    public String create(String userID, Set<Role> roles){
+    public String create(String userID, Set<UserRole> roles){
         Claims claims = Jwts.claims().setSubject(userID);
         claims.put("roles", roles);
 

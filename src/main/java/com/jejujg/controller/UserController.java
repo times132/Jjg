@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -42,8 +44,9 @@ public class UserController {
                 .username(userDetails.getUsername())
                 .name(userDetails.getName())
                 .email(userDetails.getEmail())
-                .roles(userDetails.getRoles())
+                .roles(userDetails.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()))
                 .build();
+
         return user;
     }
 

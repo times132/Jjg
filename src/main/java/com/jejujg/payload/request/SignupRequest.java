@@ -31,8 +31,4 @@ public class SignupRequest {
                 .name(this.name)
                 .build();
     }
-
-    public void encodePassword(String password){
-        this.password = password;
-    }
 }

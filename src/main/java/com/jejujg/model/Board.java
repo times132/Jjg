@@ -1,10 +1,12 @@
 package com.jejujg.model;
 
+import com.jejujg.payload.request.BoardRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -13,7 +15,7 @@ public class Board extends DateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bno;
+    private Long bid;
 
     @Column
     private String category;
@@ -30,12 +32,25 @@ public class Board extends DateAudit{
     @Column
     private String writer;
 
+    @OneToMany(mappedBy = "board")
+    private List<File> files;
+
     @Builder
-    public Board(String category, String title, String content, Integer price, String writer){
+    public Board(Long bid, String category, String title, String content, Integer price, String writer, List<File> files){
+        this.bid = bid;
         this.category = category;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
+        this.files = files;
+    }
+
+    public void update(BoardRequest request){
+        this.category = request.getCategory();
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.price = request.getPrice();
+        this.files = request.getFiles();
     }
 }

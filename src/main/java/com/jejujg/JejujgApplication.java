@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
 @EntityScan
+@EnableJpaAuditing
 public class JejujgApplication {
 
     public static void main(String[] args) {

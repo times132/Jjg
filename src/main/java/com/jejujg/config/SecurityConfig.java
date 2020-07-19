@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
 @EnableWebSecurity //Spring Security 설정할 클래스라고 정의
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
