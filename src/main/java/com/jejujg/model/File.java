@@ -22,15 +22,15 @@ public class File extends DateAudit{
     private String fileName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "goods_id")
+    private Goods goods;
 
     @Builder
-    public File(Long fid, String uuid, String path, String fileName, Board board){
+    public File(Long fid, String uuid, String path, String fileName, Goods goods){
         this.fid = fid;
         this.uuid = uuid;
         this.path = path;
         this.fileName = fileName;
-        this.board = board;
+        this.goods = goods;
     }
 }

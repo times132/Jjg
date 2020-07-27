@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <span>에어컨</span>
-    </div>
+    <h2>글쓰기</h2>
 </template>
 
 <script>
     export default {
-        name: "aircon"
+        name: "Write"
     }
 </script>
 

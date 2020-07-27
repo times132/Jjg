@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import Aircon from '../views/Aircon'
+import Goods from '../views/Goods'
 import Login from '../views/Login'
 import Me from '../views/Profile'
+import Write from '../views/Write'
 
 Vue.use(VueRouter)
 
@@ -27,11 +28,6 @@ const routes = [
         component: Home
     },
     {
-        path: '/aircon',
-        name: 'aircon',
-        component: Aircon
-    },
-    {
         path: '/login',
         name: 'login',
         component: Login
@@ -41,6 +37,17 @@ const routes = [
         name: 'me',
         component: Me,
         beforeEnter: requireAuth
+    },
+    {
+        path: '/goods/write',
+        name: 'write',
+        component: Write
+    },
+    {
+        path: '/goods/:categorynum',
+        name: 'goods',
+        component: Goods,
+        props: true
     }
 ]
 

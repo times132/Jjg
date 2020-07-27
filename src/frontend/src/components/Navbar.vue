@@ -8,7 +8,7 @@
                     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                     <!-- navbar -->
                     <b-collapse id="nav-collapse" is-nav>
-                        <b-navbar-nav class="category">
+                        <b-navbar-nav class="categoryItem">
                             <!-- 매장 -->
                             <b-nav-item-dropdown text="매장" no-caret class="dropdown-menu-center">
                                 <b-dropdown-item to="/intro">소개</b-dropdown-item>
@@ -17,32 +17,33 @@
 
                             <!-- 에어컨 -->
                             <b-nav-item-dropdown text="에어컨" no-caret>
-                                <b-dropdown-item to="/aircon/1">벽걸이</b-dropdown-item>
-                                <b-dropdown-item to="/aircon/2">천장</b-dropdown-item>
-                                <b-dropdown-item to="/aircon/3">스텐드</b-dropdown-item>
+                                <b-dropdown-item to="/goods/011">스텐드</b-dropdown-item>
+                                <b-dropdown-item to="/goods/012">벽걸이</b-dropdown-item>
+                                <b-dropdown-item to="/goods/013">천장</b-dropdown-item>
                             </b-nav-item-dropdown>
 
                             <!-- 가전 -->
                             <b-nav-item-dropdown text="가전" no-caret>
-                                <b-dropdown-item to="/appliances/1">티비</b-dropdown-item>
-                                <b-dropdown-item to="/appliances/2">냉장고</b-dropdown-item>
-                                <b-dropdown-item to="/appliances/3">세탁기</b-dropdown-item>
-                            </b-nav-item-dropdown>
-
-                            <!-- 가구 -->
-                            <b-nav-item-dropdown text="사무용 가구" no-caret>
-                                <b-dropdown-item to="/furniture/1">책상</b-dropdown-item>
-                                <b-dropdown-item to="/furniture/2">책상2</b-dropdown-item>
-                                <b-dropdown-item to="/furniture/3">책상3</b-dropdown-item>
+                                <b-dropdown-item to="/goods/021">냉장고</b-dropdown-item>
+                                <b-dropdown-item to="/goods/022">세탁기</b-dropdown-item>
+                                <b-dropdown-item to="/goods/023">TV</b-dropdown-item>
                             </b-nav-item-dropdown>
 
                             <!-- 업소용 -->
                             <b-nav-item-dropdown text="업소용" no-caret>
-                                <b-dropdown-item to="/business?type=선반">선반</b-dropdown-item>
-                                <b-dropdown-item to="/business?type=냉장고">냉장고</b-dropdown-item>
-                                <b-dropdown-item to="/business?type=화구">화구</b-dropdown-item>
+                                <b-dropdown-item to="/goods/031">선반</b-dropdown-item>
+                                <b-dropdown-item to="/goods/032">냉장/냉동고</b-dropdown-item>
+                                <b-dropdown-item to="/goods/033">화구</b-dropdown-item>
                                 <b-dropdown-item to="/me">내정보</b-dropdown-item>
                             </b-nav-item-dropdown>
+
+                            <!-- 가구 -->
+                            <b-nav-item-dropdown text="사무용" no-caret>
+                                <b-dropdown-item to="/goods/041">사무용</b-dropdown-item>
+                                <b-dropdown-item to="/goods/042">사무용2</b-dropdown-item>
+                                <b-dropdown-item to="/goods/043">사무용3</b-dropdown-item>
+                            </b-nav-item-dropdown>
+
                         </b-navbar-nav>
 
                         <b-navbar-nav class="ml-auto">
@@ -109,10 +110,10 @@
     .form-inline {
         justify-content: center;
     }
-    .category {
+    .categoryItem {
         margin: auto;
     }
-    .category>li{
+    .categoryItem>li{
         margin: 0 0.75rem;
     }
     #search {

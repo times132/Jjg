@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Nav/>
+        <Nav :key="$route.fullPath"/>
 
         <Footer/>
     </div>
