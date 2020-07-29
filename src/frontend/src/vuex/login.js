@@ -1,5 +1,4 @@
 import axios from "axios";
-const resourceHost = 'http://localhost:9000'
 
 const state = {
     isAuthenticated: false,
@@ -18,8 +17,8 @@ const mutations = {
 }
 
 const actions = {
-    login ({ dispatch }, {username, password}) {
-        return axios.post(`${resourceHost}/user/login`, {username, password})
+    login ({ dispatch, rootState }, {username, password}) {
+        return axios.post(`${rootState.resourceHost}/user/login`, {username, password})
             .then(({data}) => {
                 sessionStorage.setItem('token', data.accessToken)
 
@@ -30,11 +29,11 @@ const actions = {
         axios.defaults.headers.common['Authorization'] = undefined
         commit('logout')
     },
-    getUserInfo ({commit}) {
+    getUserInfo ({ commit, rootState}) {
         let token = sessionStorage.getItem('token')
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-        axios.get('http://localhost:9000/user/me')
+        axios.get(`${rootState.resourceHost}/user/me`)
             .then(({data}) => {
                 let userInfo = {
                     name: data.name,

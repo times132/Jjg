@@ -3,7 +3,7 @@
         <div>profile</div>
         <div>
             <label>User info:</label>
-            <pre>{{ $store.state.userInfo }}</pre>
+            <pre>{{ $store.state.login.userInfo }}</pre>
         </div>
     </div>
 </template>

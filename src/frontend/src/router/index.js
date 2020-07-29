@@ -42,6 +42,7 @@ const routes = [
         path: '/goods/write',
         name: 'write',
         component: Write
+        // beforeEnter: requireAuth
     },
     {
         path: '/goods/:categorynum',

@@ -1,5 +1,4 @@
-import axios from "axios"
-const resourceHost = 'http://localhost:9000'
+import axios from 'axios'
 
 const state = {
     goods: null,
@@ -18,13 +17,12 @@ const mutations = {
 }
 
 const actions = {
-    getGoods({commit}, params) {
-        return axios.get(`${resourceHost}/goods/`+params)
+    getGoods({ commit, rootState}, params) {
+        return axios.get(`${rootState.resourceHost}/goods/`+params)
             .then(({data}) => {
-                console.log(data)
                 commit('getGoods', data)
             })
-    }
+    },
 }
 
 const getters = {

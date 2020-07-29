@@ -20,7 +20,7 @@ public class Goods extends DateAudit{
     @Column(length = 40)
     private String title;
 
-    @Column(length = 1000)
+    @Lob
     private String content;
 
     @Column(length = 10)

@@ -1,10 +1,87 @@
 <template>
-    <h2>글쓰기</h2>
+    <b-container class="mt-3">
+        <b-row class="mb-2">
+            <b-col md="4">
+                <b-form-select v-model="form.categoryItem" :options="options"></b-form-select>
+            </b-col>
+            <b-col md="4" class="ml-auto">
+                <b-form-input v-model="form.price" placeholder="가격" required></b-form-input>
+            </b-col>
+
+        </b-row>
+
+        <b-row class="mb-2">
+            <b-col>
+                <b-form-input v-model="form.title" placeholder="제목" required></b-form-input>
+            </b-col>
+        </b-row>
+
+        <b-row class="mb-2">
+            <b-col>
+                <Editor ref="tuiEditor"
+                        height="500px"
+                        initialEditType="wysiwyg"
+                        :value="form.content"
+                />
+            </b-col>
+        </b-row>
+
+        <b-button v-on:click="submit" squared>글쓰기</b-button>
+    </b-container>
 </template>
 
 <script>
+    import './codemirror.css'
+    import '@toast-ui/editor/dist/toastui-editor.css'
+    import { Editor } from '@toast-ui/vue-editor'
+    import axios from 'axios'
+
     export default {
-        name: "Write"
+        name: "Write",
+        components: {
+            Editor
+        },
+        data() {
+            return {
+                form: {
+                    title: '',
+                    price: null,
+                    content: '',
+                    categoryItem: null,
+                    writer: ''
+                },
+                options: [
+                    { value: null, text: '------------'},
+                    { value: {id: 1, itemNum: '011', name: '스텐드'}, text: '스텐드'},
+                    { value: {id: 2, itemNum: '012', name: '벽걸이'}, text: '벽걸이'},
+                    { value: {id: 3, itemNum: '013', name: '천장'}, text: '천장'},
+                    { value: {id: 4, itemNum: '021', name: '냉장고'}, text: '냉장고'},
+                    { value: {id: 5, itemNum: '022', name: '세탁기'}, text: '세탁기'},
+                    { value: {id: 1, itemNum: '023', name: 'TV'}, text: 'TV'},
+                    { value: {id: 7, itemNum: '031', name: '선반'}, text: '선반'},
+                    { value: {id: 8, itemNum: '032', name: '냉장/냉동고'}, text: '냉장/냉동고'},
+                    { value: {id: 9, itemNum: '033', name: '화구'}, text: '화구'},
+                    { value: {id: 10, itemNum: '041', name: '사무1'}, text: '사무1'},
+                    { value: {id: 11, itemNum: '042', name: '사무2'}, text: '사무2'},
+                    { value: {id: 12, itemNum: '043', name: '사무3'}, text: '사무3'}
+                ]
+            }
+        },
+        methods: {
+            submit: function (event) {
+                event.preventDefault()
+                this.form.content = this.$refs.tuiEditor.invoke('getHtml')
+                this.form.writer = this.$store.state.login.userInfo.username
+                alert(JSON.stringify(this.form))
+                axios.defaults.headers.post['Content-Type'] = 'application/json'
+                axios.post('http://localhost:9000/goods', JSON.stringify(this.form))
+                    .then(() => {
+                        alert("등록되었습니다.")
+                        this.$router.replace(this.$route.query.redirect || '/goods')
+                    })
+                    .catch(() => alert("실패하였습니다."))
+            }
+        }
     }
 </script>
 

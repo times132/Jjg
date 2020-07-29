@@ -74,7 +74,7 @@
         name: "Navbar",
         computed: {
             isAuthenticated() {
-                return this.$store.state.isAuthenticated
+                return this.$store.state.login.isAuthenticated
             }
         },
         methods: {
