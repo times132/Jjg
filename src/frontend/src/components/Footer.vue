@@ -1,6 +1,5 @@
-<template>
-    <div class="footer">
-        <b-container>
+<template v-slot:footer>
+        <b-container fluid>
             <b-row class="text-center">
                 <b-col cols="2">사진</b-col>
                 <b-col>
@@ -19,7 +18,7 @@
                 </b-col>
             </b-row>
         </b-container>
-    </div>
+
 </template>
 
 <script>
@@ -42,16 +41,12 @@
 </script>
 
 <style scoped>
-    .footer {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: lightgray;
+    ul {
+        margin: 0.25rem;
     }
     .a li{
         display: inline-block;
-        font-size: 12px;
+        font-size: 11px;
         padding: 0 2px 0 2px;
     }
 </style>

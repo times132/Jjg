@@ -1,8 +1,17 @@
 <template>
     <div id="app">
-        <Nav :key="$route.fullPath"/>
+        <slot name="header">
+            <Nav :key="$route.fullPath" id="header"/>
+        </slot>
 
-        <Footer/>
+        <slot id="content">
+            <router-view id="main"/>
+        </slot>
+
+        <slot name="footer">
+            <Footer id="footer"/>
+        </slot>
+
     </div>
 </template>
 
@@ -31,5 +40,23 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
+        min-height: 100%;
+        position: relative;
+        padding-bottom: 87px;
+    }
+    html {
+        height: 100%;
+    }
+    body {
+        margin: 0;
+        height: 100%;
+    }
+    #footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:grey;
+        color: white;
     }
 </style>

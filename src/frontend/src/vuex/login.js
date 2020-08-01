@@ -31,9 +31,9 @@ const actions = {
     },
     getUserInfo ({ commit, rootState}) {
         let token = sessionStorage.getItem('token')
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        axios.defaults.headers.post['Authorization'] = `Bearer ${token}`
 
-        axios.get(`${rootState.resourceHost}/user/me`)
+        axios.get(`${rootState.resourceHost}/user/me`, {headers: {'Authorization': `Bearer ${token}`}})
             .then(({data}) => {
                 let userInfo = {
                     name: data.name,

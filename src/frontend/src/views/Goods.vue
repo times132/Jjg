@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h6>params 카테고리 넘버: {{ $route.params.categorynum }}</h6>
-        <h6>props 카테고리 넘버: {{ categorynum }}</h6>
-        <h6>데이터 : {{ goods }}</h6>
+        <h6>params 카테고리 넘버: {{ $route.params.categoryNum }}</h6>
+        <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
         <b-table
                 small
                 hover
@@ -24,7 +23,7 @@
     export default {
         name: "Goods",
         props: {
-            categorynum: {
+            categoryNum: {
                 type: String,
                 default: ''
             }
@@ -40,7 +39,7 @@
         },
         created() {
             // console.log(this.$route.params.categorynum)
-            this.$store.dispatch("getGoods", this.$route.params.categorynum)
+            this.$store.dispatch("getGoods", this.$route.params.categoryNum)
                 .then(() => {
                     this.goods = this.$store.state.goods.goods
                 })
@@ -48,6 +47,7 @@
         methods: {
             clickRow(record) {
                 console.log(record.bid)
+                this.$router.push(`/goods/${this.categoryNum}/${record.bid}`)
             }
         }
     }

@@ -5,6 +5,7 @@ import Goods from '../views/Goods'
 import Login from '../views/Login'
 import Me from '../views/Profile'
 import Write from '../views/Write'
+import Detail from "../views/Detail";
 
 Vue.use(VueRouter)
 
@@ -45,9 +46,15 @@ const routes = [
         // beforeEnter: requireAuth
     },
     {
-        path: '/goods/:categorynum',
+        path: '/goods/:categoryNum',
         name: 'goods',
         component: Goods,
+        props: true
+    },
+    {
+        path: '/goods/:categoryNum/:bid',
+        name: 'detail',
+        component: Detail,
         props: true
     }
 ]
