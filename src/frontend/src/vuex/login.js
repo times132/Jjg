@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from '../api/index'
 
 const state = {
     isAuthenticated: false,
@@ -6,9 +6,12 @@ const state = {
 }
 
 const mutations = {
+    login (state, value) {
+        state.isAuthenticated = value
+    },
     logout (state) {
-        delete sessionStorage.token
         state.isAuthenticated = false
+        state.userInfo = null
     },
     getUserInfo (state, userInfo) {
         state.userInfo = userInfo
@@ -17,23 +20,22 @@ const mutations = {
 }
 
 const actions = {
-    login ({ dispatch, rootState }, {username, password}) {
-        return axios.post(`${rootState.resourceHost}/user/login`, {username, password})
-            .then(({data}) => {
-                sessionStorage.setItem('token', data.accessToken)
-
+    login ({ commit, dispatch }, {username, password}) {
+        return API.post('/user/login', {username, password})
+            .then(() => {
+                commit('login', true)
                 dispatch('getUserInfo')
             })
+            .catch((error) => {
+                return Promise.reject(error.response.status)
+            })
+
     },
     logout ({commit}) {
-        axios.defaults.headers.common['Authorization'] = undefined
         commit('logout')
     },
-    getUserInfo ({ commit, rootState}) {
-        let token = sessionStorage.getItem('token')
-        axios.defaults.headers.post['Authorization'] = `Bearer ${token}`
-
-        axios.get(`${rootState.resourceHost}/user/me`, {headers: {'Authorization': `Bearer ${token}`}})
+    getUserInfo ({ commit }) {
+        API.get('/user/me')
             .then(({data}) => {
                 let userInfo = {
                     name: data.name,
@@ -47,7 +49,9 @@ const actions = {
 }
 
 const getters = {
-
+    getIsAuth: state => {
+        return state.isAuthenticated
+    }
 }
 
 export default {

@@ -23,9 +23,12 @@
         methods: {
             login(username, password) {
                 this.$store.dispatch('login', {username, password})
-                    .then(() => this.$router.replace(this.$route.query.redirect || '/'))
-                    .catch((error) => {
-                        if (error.response.status === 401){
+                    .then(() => {
+                        this.$router.replace(this.$route.query.redirect || '/')
+                        // this.$router.go(-1)
+                    })
+                    .catch((status) => {
+                        if (status === 401){
                             this.msg = "아이디나 비밀번호가 틀렸습니다."
                             this.makeToast('danger')
                         }

@@ -1,0 +1,8 @@
+.carousel-indicators li {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+}
+.carousel-indicators li:focus {
+    outline: 0;
+}

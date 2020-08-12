@@ -1,4 +1,4 @@
-import axios from 'axios'
+import API from '../api/index'
 
 const state = {
     goods: null,
@@ -17,8 +17,8 @@ const mutations = {
 }
 
 const actions = {
-    getGoods({ commit, rootState}, params) {
-        return axios.get(`${rootState.resourceHost}/goods/`+params)
+    getGoods({ commit }, params) {
+        return API.get(`/goods/`+params)
             .then(({data}) => {
                 commit('getGoods', data)
             })

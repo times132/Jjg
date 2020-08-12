@@ -22,15 +22,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-
+    public static final long accessTokenExpiration = 5 * 1000L * 60;
+    public static final long refreshTokenExpiration = 10 * 1000L * 60;
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
-    private final UserDetailsService userDetailsService;
-
-    @Value("${jwt.accesstoken.expiration}")
-    private Long accessTokenExpiration;
-
-    @Value("${jwt.refreshtoken.testExpiration}")
-    private Long refreshTokenExpiration;
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -41,19 +35,6 @@ public class JwtTokenProvider {
     }
 
     // 토큰 생성
-//    public String create(Authentication authentication, long expireTime){
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//
-//        Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-//        claims.put("roles", userDetails.getRoles());
-//
-//        return Jwts.builder()
-//                .setClaims(claims)
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * accesstokenExpiration))
-//                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-//                .compact();
-//    }
     public String create(String username, long expireTime){
         Claims claims = Jwts.claims();
         claims.put("username", username);
@@ -61,7 +42,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * expireTime))
+                .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
@@ -74,24 +55,18 @@ public class JwtTokenProvider {
         return create(username, refreshTokenExpiration);
     }
 
-    public Authentication getAuthentication(String token){
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
     public String getUsername(String token){
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
         return claims.get("username", String.class);
     }
 
-    public boolean validateToken(String authToken){
-        logger.info("엑세스 토큰: " + authToken);
+    public boolean validateToken(String token, UserDetails userDetails){
+        logger.info("엑세스 토큰: " + token);
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            String username = getUsername(token);
 
-            return true;
+            return (username.equals(userDetails.getUsername()) && ! Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getExpiration().before(new Date()));
         }catch (SignatureException e){
             logger.error("서명을 확인 할 수 없는 토큰입니다.");
         }catch (MalformedJwtException e){

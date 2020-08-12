@@ -4,11 +4,11 @@ module.exports = {
     outputDir: path.resolve(__dirname, '../' + 'main/resources/static'),
     devServer: {
         proxy: {
-            '/api': {
+            '^(/api|user)': {
                 target: 'http://localhost:9000',
                 ws: true,
                 changeOrigin: true
-            },
+            }
         }
     }
 }

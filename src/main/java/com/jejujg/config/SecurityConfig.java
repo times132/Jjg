@@ -3,6 +3,8 @@ package com.jejujg.config;
 import com.jejujg.security.JwtAuthenticationEntryPoint;
 import com.jejujg.security.JwtAuthenticationFilter;
 import com.jejujg.security.JwtTokenProvider;
+import com.jejujg.service.CookieService;
+import com.jejujg.service.RedisService;
 import com.jejujg.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final CookieService cookieService;
+    private final RedisService redisService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
@@ -59,6 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET, "/user/admin").hasRole("ADMIN")
                     .anyRequest().permitAll()
                 .and()// UsernamePasswordAuthenticationFilter 전에 JwtAuthenticationFilter를 넣음
-                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, cookieService, userService, redisService), UsernamePasswordAuthenticationFilter.class);
     }
 }

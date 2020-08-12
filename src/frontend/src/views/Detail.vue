@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import './codemirror.css'
+    import '../css/codemirror.css'
     import '@toast-ui/editor/dist/toastui-editor.css'
     import { Viewer } from '@toast-ui/vue-editor'
     import axios from 'axios'
