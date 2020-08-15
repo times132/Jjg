@@ -32,7 +32,10 @@ const actions = {
 
     },
     logout ({commit}) {
-        commit('logout')
+        API.get('/user/logout')
+            .then(() => {
+                commit('logout')
+            })
     },
     getUserInfo ({ commit }) {
         API.get('/user/me')
@@ -51,6 +54,9 @@ const actions = {
 const getters = {
     getIsAuth: state => {
         return state.isAuthenticated
+    },
+    getAuth: state => {
+        return state.userInfo === null ? "" : state.userInfo.role
     }
 }
 

@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class CookieService {
 
-    public Cookie createCookie(String cookieName, String value){
+    public Cookie createCookie(String cookieName, String value, long maxage){
         Cookie cookie = new Cookie(cookieName, value);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge((int) JwtTokenProvider.accessTokenExpiration);
+        cookie.setMaxAge((int) maxage);
         cookie.setPath("/");
 
         return cookie;

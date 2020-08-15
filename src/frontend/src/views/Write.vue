@@ -4,6 +4,9 @@
             <b-col md="4">
                 <b-form-select v-model="form.categoryItem" :options="options"></b-form-select>
             </b-col>
+            <b-col md="4">
+                <Upload/>
+            </b-col>
             <b-col md="4" class="ml-auto">
                 <b-form-input v-model="form.price" placeholder="가격" required></b-form-input>
             </b-col>
@@ -18,28 +21,31 @@
 
         <b-row class="mb-2">
             <b-col>
-                <Editor ref="tuiEditor"
-                        height="500px"
-                        initialEditType="wysiwyg"
-                        :value="form.content"
-                />
+<!--                <Editor ref="tuiEditor"-->
+<!--                        height="500px"-->
+<!--                        initialEditType="wysiwyg"-->
+<!--                        :value="form.content"-->
+<!--                />-->
+                <ToastUI ref='tuiWrite' :initialValue="form.content"/>
             </b-col>
         </b-row>
+<!--        <ToastUI ref="tuiEditor" v-bind:content="form.content"/>-->
 
         <b-button v-on:click="submit" squared>글쓰기</b-button>
     </b-container>
 </template>
 
 <script>
-    import '../css/codemirror.css'
-    import '@toast-ui/editor/dist/toastui-editor.css'
-    import { Editor } from '@toast-ui/vue-editor'
     import axios from 'axios'
+    import ToastUI from '../components/ToastUI'
+    import Upload from '../components/FileUpload'
 
     export default {
         name: "Write",
         components: {
-            Editor
+            // Editor,
+            ToastUI,
+            Upload
         },
         data() {
             return {
@@ -70,7 +76,8 @@
         methods: {
             submit: function (event) {
                 event.preventDefault()
-                this.form.content = this.$refs.tuiEditor.invoke('getHtml')
+
+                this.form.content = this.$refs.tuiWrite.changeHtml()
                 this.form.writer = this.$store.state.login.userInfo.username
                 alert(JSON.stringify(this.form))
                 axios.defaults.headers.post['Content-Type'] = 'application/json'

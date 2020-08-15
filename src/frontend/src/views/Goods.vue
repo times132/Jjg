@@ -15,13 +15,20 @@
             </template>
         </b-table>
 
-        <b-button href="/goods/write" squared variant="outline-secondary">글쓰기</b-button>
+        <b-button v-if="checkAdmin" href="/goods/write" squared variant="outline-secondary">글쓰기</b-button>
     </div>
 </template>
 
 <script>
     export default {
         name: "Goods",
+        computed: {
+          checkAdmin() {
+              if (!this.$store.getters.getAuth.includes('ROLE_ADMIN'))
+                  return false
+              return true
+          }
+        },
         props: {
             categoryNum: {
                 type: String,

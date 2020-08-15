@@ -8,22 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Set;
+
 
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    public static final long accessTokenExpiration = 5 * 1000L * 60;
-    public static final long refreshTokenExpiration = 10 * 1000L * 60;
+    public static final long accessTokenExpiration = 10 * 1000L * 60; // 10분
+    public static final long refreshTokenExpiration = 1000L * 60 * 60 * 24 *7; // 7일
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")

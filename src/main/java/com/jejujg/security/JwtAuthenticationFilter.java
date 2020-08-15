@@ -63,14 +63,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 refreshUsername = redisService.getData(refreshJwt);
 
                 if (refreshUsername.equals(jwtTokenProvider.getUsername(refreshJwt))) {
-                    UserDetails userDetails = userService.loadUserByUsername(username);
+                    UserDetails userDetails = userService.loadUserByUsername(refreshUsername);
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
                     String newToken = jwtTokenProvider.createAccessToken(refreshUsername);
 
-                    Cookie newAccessToken = cookieService.createCookie("accessToken", newToken);
+                    Cookie newAccessToken = cookieService.createCookie("accessToken", newToken, JwtTokenProvider.accessTokenExpiration / 100);
                     response.addCookie(newAccessToken);
                 }
             }

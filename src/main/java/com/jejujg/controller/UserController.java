@@ -8,13 +8,17 @@ import com.jejujg.security.JwtTokenProvider;
 import com.jejujg.service.CookieService;
 import com.jejujg.service.RedisService;
 import com.jejujg.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.connector.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -22,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -34,26 +38,59 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
+
     @PostMapping("/signup")
     public Long signup(@RequestBody SignupRequest request){
         return userService.save(request);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
         CustomUserDetails authentication = (CustomUserDetails) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())).getPrincipal();
         String accessJwt = jwtTokenProvider.createAccessToken(authentication.getUsername());
         String refreshJwt = jwtTokenProvider.createRefreshToken(authentication.getUsername());
 
-        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt);
-        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt);
+        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 3); // 30분
+        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 10); // 10일
 
-        redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration);
+        redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration / 1000);
 
         response.addCookie(accessToken);
         response.addCookie(refreshToken);
 
         return new ResponseEntity<>(accessJwt, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse responses){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Cookie accessToken = cookieService.getCookie(request, "accessToken");
+        Cookie refreshToken = cookieService.getCookie(request, "refreshToken");
+        String username = null;
+        try {
+            username = jwtTokenProvider.getUsername(accessToken.getValue());
+        } catch (ExpiredJwtException e){
+            username = jwtTokenProvider.getUsername(e.getClaims().get("username").toString());
+        }
+
+        try {
+            if (((CustomUserDetails)auth.getPrincipal()).getUsername().equals(username)){
+                redisService.deleteData(refreshToken.getValue());
+
+                accessToken.setMaxAge(0);
+                accessToken.setPath("/");
+                responses.addCookie(accessToken);
+
+                refreshToken.setMaxAge(0);
+                refreshToken.setPath("/");
+                responses.addCookie(refreshToken);
+
+                new SecurityContextLogoutHandler().logout(request, responses, auth);
+            }
+        } catch (IllegalArgumentException e){
+            log.error("존재 하지 않는 유저입니다.");
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @GetMapping("/me")

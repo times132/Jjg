@@ -1,11 +1,11 @@
 <template>
     <div id="app">
         <slot name="header">
-            <Nav :key="$route.fullPath" id="header"/>
+            <Nav id="header"/>
         </slot>
 
         <slot id="content">
-            <router-view id="main"/>
+            <router-view id="main" :key="$route.fullPath"/>
         </slot>
 
         <slot name="footer">

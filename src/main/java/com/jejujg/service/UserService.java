@@ -52,18 +52,6 @@ public class UserService implements UserDetailsService{
         return new UserResponse().toDto(user);
     }
 
-    @Transactional
-    public UserResponse login(LoginRequest request){
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("가입되지 않은 사용자 입니다."));
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
-
-        return new UserResponse().toDto(user);
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
