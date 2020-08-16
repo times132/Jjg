@@ -19,8 +19,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    public static final long accessTokenExpiration = 10 * 1000L * 60; // 10분
-    public static final long refreshTokenExpiration = 1000L * 60 * 60 * 24 *7; // 7일
+    public static final long accessTokenExpiration = 1 * 1000L * 60; // 1분
+    public static final long refreshTokenExpiration = 1000L * 60 *7; // 7분
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")
@@ -50,6 +50,10 @@ public class JwtTokenProvider {
 
     public String createRefreshToken(String username){
         return create(username, refreshTokenExpiration);
+    }
+
+    public Date getTokenExpired(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getExpiration();
     }
 
     public String getUsername(String token){

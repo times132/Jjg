@@ -50,8 +50,8 @@ public class UserController {
         String accessJwt = jwtTokenProvider.createAccessToken(authentication.getUsername());
         String refreshJwt = jwtTokenProvider.createRefreshToken(authentication.getUsername());
 
-        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 3); // 30분
-        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 10); // 10일
+        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 30); // 30분
+        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 30); // 10일
 
         redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration / 1000);
 
@@ -67,6 +67,7 @@ public class UserController {
         Cookie accessToken = cookieService.getCookie(request, "accessToken");
         Cookie refreshToken = cookieService.getCookie(request, "refreshToken");
         String username = null;
+
         try {
             username = jwtTokenProvider.getUsername(accessToken.getValue());
         } catch (ExpiredJwtException e){

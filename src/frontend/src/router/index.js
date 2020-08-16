@@ -7,6 +7,7 @@ import Me from '../views/Profile'
 import Write from '../views/Write'
 import Detail from "../views/Detail"
 import store from '../vuex/index'
+import Signup from "../views/Signup"
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,11 @@ const routes = [
         name: 'detail',
         component: Detail,
         props: true
+    },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: Signup
     }
 ]
 

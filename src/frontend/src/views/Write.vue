@@ -76,7 +76,6 @@
         methods: {
             submit: function (event) {
                 event.preventDefault()
-
                 this.form.content = this.$refs.tuiWrite.changeHtml()
                 this.form.writer = this.$store.state.login.userInfo.username
                 alert(JSON.stringify(this.form))

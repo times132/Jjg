@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             }
-        } catch (ExpiredJwtException e) { // accessToken의 기간이 만료된 경우 쿠키에서 refreshToken을 읽어옴
+        } catch (ExpiredJwtException | NullPointerException e) { // accessToken의 기간이 만료된 경우 쿠키에서 refreshToken을 읽어옴
             Cookie refreshToken = cookieService.getCookie(request, "refreshToken");
             if (refreshToken != null){
                 refreshJwt = refreshToken.getValue();
@@ -62,16 +62,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (refreshJwt != null) { // refreshToken에서 유저 정보를 읽어 accessToken을 새로 생성해서 전달
                 refreshUsername = redisService.getData(refreshJwt);
 
+                // refreshToken 만료 기간이 일정 이하로 남았을 때 redis에서 삭제하고 재발급
+                if (jwtTokenProvider.getTokenExpired(refreshJwt).getTime() - System.currentTimeMillis() < 300000){
+                    String newRefreshToken = jwtTokenProvider.createRefreshToken(refreshUsername);
+
+                    Cookie newRefreshCookie = cookieService.createCookie("refreshToken", newRefreshToken, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 10);
+                    response.addCookie(newRefreshCookie);
+
+                    redisService.deleteData(refreshJwt);
+                    redisService.setDataExpire(newRefreshToken, refreshUsername, JwtTokenProvider.refreshTokenExpiration / 1000);
+                }
+
+                // redis에 저장된 유저와 토큰의 저장된 유저가 같은 경우 accessToken을 재발급, 세션 유지
                 if (refreshUsername.equals(jwtTokenProvider.getUsername(refreshJwt))) {
                     UserDetails userDetails = userService.loadUserByUsername(refreshUsername);
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
-                    String newToken = jwtTokenProvider.createAccessToken(refreshUsername);
+                    String newAccessToken = jwtTokenProvider.createAccessToken(refreshUsername);
 
-                    Cookie newAccessToken = cookieService.createCookie("accessToken", newToken, JwtTokenProvider.accessTokenExpiration / 100);
-                    response.addCookie(newAccessToken);
+                    Cookie newAccessCookie = cookieService.createCookie("accessToken", newAccessToken, JwtTokenProvider.accessTokenExpiration / 1000 * 3);
+                    response.addCookie(newAccessCookie);
                 }
             }
         } catch (Exception e){
@@ -79,18 +91,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-//        try {
-//            String token = getJwtFromRequest(request);
-//
-//            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)){
-//                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//            }
-//        }catch (Exception e){
-//            logger.error("Could not set user authentication in security context", e);
-//        }
-//
-//        filterChain.doFilter(request, response);
     }
 
 
