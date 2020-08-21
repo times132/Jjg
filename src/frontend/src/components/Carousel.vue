@@ -33,5 +33,5 @@
 </script>
 
 <style scoped>
-    @import "test.css";
+    @import "../css/indicator.css";
 </style>

@@ -36,6 +36,10 @@ const actions = {
             .then(() => {
                 commit('logout')
             })
+            .catch((error) => {
+                console.log(error)
+                commit('logout')
+            })
     },
     getUserInfo ({ commit }) {
         API.get('/user/me')

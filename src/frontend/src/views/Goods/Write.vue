@@ -21,15 +21,15 @@
 
         <b-row class="mb-2">
             <b-col>
-<!--                <Editor ref="tuiEditor"-->
-<!--                        height="500px"-->
-<!--                        initialEditType="wysiwyg"-->
-<!--                        :value="form.content"-->
-<!--                />-->
-                <ToastUI ref='tuiWrite' :initialValue="form.content"/>
+<!--                <ToastUI ref='tuiWrite'/>-->
+                <Editor
+                        ref="tuiEditor"
+                        height="500px"
+                        initialEditType="wysiwyg"
+                        :initialValue="form.content"
+                />
             </b-col>
         </b-row>
-<!--        <ToastUI ref="tuiEditor" v-bind:content="form.content"/>-->
 
         <b-button v-on:click="submit" squared>글쓰기</b-button>
     </b-container>
@@ -37,14 +37,19 @@
 
 <script>
     import axios from 'axios'
-    import ToastUI from '../components/ToastUI'
-    import Upload from '../components/FileUpload'
+    // import ToastUI from '../../components/ToastUI'
+    import Upload from '../../components/FileUpload'
+
+    import '../../css/codemirror.css'
+    import '@toast-ui/editor/dist/toastui-editor.css'
+
+    import { Editor } from '@toast-ui/vue-editor'
 
     export default {
         name: "Write",
         components: {
-            // Editor,
-            ToastUI,
+            Editor,
+            // ToastUI,
             Upload
         },
         data() {
@@ -73,17 +78,20 @@
                 ]
             }
         },
+        mounted() {
+
+        },
         methods: {
             submit: function (event) {
                 event.preventDefault()
-                this.form.content = this.$refs.tuiWrite.changeHtml()
+                this.form.content = this.$refs.tuiEditor.invoke('getHtml')
                 this.form.writer = this.$store.state.login.userInfo.username
-                alert(JSON.stringify(this.form))
+
                 axios.defaults.headers.post['Content-Type'] = 'application/json'
                 axios.post('http://localhost:9000/goods', JSON.stringify(this.form))
                     .then(() => {
-                        alert("등록되었습니다.")
-                        this.$router.replace(this.$route.query.redirect || '/goods')
+                        // alert("등록되었습니다.")
+                        this.$router.push(`/goods/${this.form.categoryItem.itemNum}`)
                     })
                     .catch(() => alert("실패하였습니다."))
             }

@@ -7,6 +7,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     function (config) {
+        config.headers.post['Content-Type'] = 'application/json'
         return config
     },
     function (error) {

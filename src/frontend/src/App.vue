@@ -1,17 +1,10 @@
 <template>
     <div id="app">
-        <slot name="header">
-            <Nav id="header"/>
-        </slot>
+        <Nav id="header"/>
 
-        <slot id="content">
-            <router-view id="main" :key="$route.fullPath"/>
-        </slot>
+        <router-view id="main" :key="$route.fullPath"/>
 
-        <slot name="footer">
-            <Footer id="footer"/>
-        </slot>
-
+        <Footer id="footer"/>
     </div>
 </template>
 

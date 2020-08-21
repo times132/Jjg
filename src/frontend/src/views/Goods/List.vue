@@ -11,11 +11,13 @@
                 @row-clicked="clickRow"
         >
             <template v-slot:cell(title)="data">
-                <b>{{ data.value}}</b>
+                <b>{{ data.value }}</b>
             </template>
         </b-table>
 
-        <b-button v-if="checkAdmin" href="/goods/write" squared variant="outline-secondary">글쓰기</b-button>
+        <router-link to="/goods/write">
+            <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
+        </router-link>
     </div>
 </template>
 

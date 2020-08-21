@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import Goods from '../views/Goods'
+import List from '../views/Goods/List'
 import Login from '../views/Login'
 import Me from '../views/Profile'
-import Write from '../views/Write'
-import Detail from "../views/Detail"
+import Write from '../views/Goods/Write'
+import Detail from "../views/Goods/Detail"
 import store from '../vuex/index'
 import Signup from "../views/Signup"
 
@@ -48,7 +48,7 @@ const routes = [
     {
         path: '/goods/:categoryNum',
         name: 'goods',
-        component: Goods,
+        component: List,
         props: true
     },
     {
