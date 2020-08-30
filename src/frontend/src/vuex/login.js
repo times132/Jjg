@@ -1,4 +1,4 @@
-import API from '../api/index'
+import { userLogin, userLogout, getUserInfo } from "../api/index";
 
 const state = {
     isAuthenticated: false,
@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
     login ({ commit, dispatch }, {username, password}) {
-        return API.post('/user/login', {username, password})
+        return userLogin({username, password})
             .then(() => {
                 commit('login', true)
                 dispatch('getUserInfo')
@@ -29,10 +29,9 @@ const actions = {
             .catch((error) => {
                 return Promise.reject(error.response.status)
             })
-
     },
     logout ({commit}) {
-        API.get('/user/logout')
+        userLogout()
             .then(() => {
                 commit('logout')
             })
@@ -42,7 +41,7 @@ const actions = {
             })
     },
     getUserInfo ({ commit }) {
-        API.get('/user/me')
+        getUserInfo()
             .then(({data}) => {
                 let userInfo = {
                     name: data.name,

@@ -27,6 +27,13 @@
 </script>
 
 <style>
+    html {
+        height: 100%;
+    }
+    body {
+        margin: 0;
+        height: 100%;
+    }
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -36,20 +43,5 @@
         min-height: 100%;
         position: relative;
         padding-bottom: 87px;
-    }
-    html {
-        height: 100%;
-    }
-    body {
-        margin: 0;
-        height: 100%;
-    }
-    #footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background:grey;
-        color: white;
     }
 </style>

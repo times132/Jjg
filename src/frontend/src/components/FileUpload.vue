@@ -1,17 +1,33 @@
 <template>
-    <b-form-group label-for="file-default" label-cols-sm="2">
-        <b-form-file id="file-default"></b-form-file>
-    </b-form-group>
+    <b-form-file
+            accept="image/*"
+            browse-text="대표 사진"
+            placeholder=""
+            v-on:input="selectImage"
+    />
 </template>
 
 <script>
     export default {
-        name: "FileUpload"
+        name: "FileUpload",
+        data() {
+            return {
+                file: null
+            }
+        },
+        methods: {
+            selectImage(file) {
+                this.$emit('event-data', file)
+            }
+        }
     }
 </script>
 
 <style>
-    .custom-file-input:lang(en) ~ .custom-file-label::after {
-        content: '업로드';
+    .custom-file-label{
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>

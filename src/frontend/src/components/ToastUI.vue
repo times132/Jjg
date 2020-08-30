@@ -13,7 +13,6 @@
 
     import { Editor } from '@toast-ui/vue-editor'
 
-
     export default {
         name: "ToastUI",
         props: ['initialValue'],

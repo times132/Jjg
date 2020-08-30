@@ -1,4 +1,4 @@
-import API from '../api/index'
+import { getGoodsList } from "../api";
 
 const state = {
     goods: null,
@@ -18,7 +18,7 @@ const mutations = {
 
 const actions = {
     getGoods({ commit }, params) {
-        return API.get(`/goods/`+params)
+        return getGoodsList(params)
             .then(({data}) => {
                 commit('getGoods', data)
             })

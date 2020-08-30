@@ -63,10 +63,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 refreshUsername = redisService.getData(refreshJwt);
 
                 // refreshToken 만료 기간이 일정 이하로 남았을 때 redis에서 삭제하고 재발급
-                if (jwtTokenProvider.getTokenExpired(refreshJwt).getTime() - System.currentTimeMillis() < 300000){
+                if (jwtTokenProvider.getTokenExpired(refreshJwt).getTime() - System.currentTimeMillis() < 21600000){ // 6시간 미만으로 남았을 때
                     String newRefreshToken = jwtTokenProvider.createRefreshToken(refreshUsername);
 
-                    Cookie newRefreshCookie = cookieService.createCookie("refreshToken", newRefreshToken, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 10);
+                    Cookie newRefreshCookie = cookieService.createCookie("refreshToken", newRefreshToken, JwtTokenProvider.refreshTokenExpiration / 1000); // 2일
                     response.addCookie(newRefreshCookie);
 
                     redisService.deleteData(refreshJwt);
@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     String newAccessToken = jwtTokenProvider.createAccessToken(refreshUsername);
 
-                    Cookie newAccessCookie = cookieService.createCookie("accessToken", newAccessToken, JwtTokenProvider.accessTokenExpiration / 1000 * 30);
+                    Cookie newAccessCookie = cookieService.createCookie("accessToken", newAccessToken, JwtTokenProvider.accessTokenExpiration / 1000 * 6 * 3); // 3시간
                     response.addCookie(newAccessCookie);
                 }
             }

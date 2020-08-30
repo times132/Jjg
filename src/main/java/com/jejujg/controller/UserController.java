@@ -11,6 +11,8 @@ import com.jejujg.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final CookieService cookieService;
     private final RedisService redisService;
@@ -50,10 +52,10 @@ public class UserController {
         String accessJwt = jwtTokenProvider.createAccessToken(authentication.getUsername());
         String refreshJwt = jwtTokenProvider.createRefreshToken(authentication.getUsername());
 
-        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 30); // 30분
-        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 / 7 * 30); // 30분
+        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 6 * 3); // 3시간
+        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 ); // 2일
 
-        redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration / 1000);
+        redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration / 1000); // 2일
 
         response.addCookie(accessToken);
         response.addCookie(refreshToken);
@@ -76,7 +78,7 @@ public class UserController {
             return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
         }
 
-        try {
+        try { // 토큰이 유효할 때 쿠키를 삭제하고 로그아웃 처리
             if (((CustomUserDetails)auth.getPrincipal()).getUsername().equals(username)){
                 redisService.deleteData(refreshToken.getValue());
 
@@ -91,7 +93,7 @@ public class UserController {
                 new SecurityContextLogoutHandler().logout(request, responses, auth);
             }
         } catch (IllegalArgumentException e){
-            log.error("존재 하지 않는 유저입니다.");
+            logger.error("존재 하지 않는 유저입니다.");
         }
         return new ResponseEntity<>("success", HttpStatus.OK);
     }

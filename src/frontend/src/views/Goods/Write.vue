@@ -5,7 +5,7 @@
                 <b-form-select v-model="form.categoryItem" :options="options"></b-form-select>
             </b-col>
             <b-col md="4">
-                <Upload/>
+                <Upload @event-data="fileInfo"/>
             </b-col>
             <b-col md="4" class="ml-auto">
                 <b-form-input v-model="form.price" placeholder="가격" required></b-form-input>
@@ -21,13 +21,7 @@
 
         <b-row class="mb-2">
             <b-col>
-<!--                <ToastUI ref='tuiWrite'/>-->
-                <Editor
-                        ref="tuiEditor"
-                        height="500px"
-                        initialEditType="wysiwyg"
-                        :initialValue="form.content"
-                />
+                <ToastUI ref='tuiWrite'/>
             </b-col>
         </b-row>
 
@@ -36,30 +30,25 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    // import ToastUI from '../../components/ToastUI'
+    import { uploadGoodsImage } from "../../api";
+    import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
-
-    import '../../css/codemirror.css'
-    import '@toast-ui/editor/dist/toastui-editor.css'
-
-    import { Editor } from '@toast-ui/vue-editor'
 
     export default {
         name: "Write",
         components: {
-            Editor,
-            // ToastUI,
+            ToastUI,
             Upload
         },
         data() {
             return {
+                file: null,
                 form: {
                     title: '',
                     price: null,
                     content: '',
                     categoryItem: null,
-                    writer: ''
+                    writer: '',
                 },
                 options: [
                     { value: null, text: '------------'},
@@ -82,18 +71,25 @@
 
         },
         methods: {
-            submit: function (event) {
+            submit(event) {
                 event.preventDefault()
-                this.form.content = this.$refs.tuiEditor.invoke('getHtml')
+                this.form.content = this.$refs.tuiWrite.getHtml()
                 this.form.writer = this.$store.state.login.userInfo.username
+                const a = new FormData()
+                a.append('file', this.file)
+                // console.log(this.file)
+                uploadGoodsImage(a)
+                    .then(({data}) => console.log(data))
 
-                axios.defaults.headers.post['Content-Type'] = 'application/json'
-                axios.post('http://localhost:9000/goods', JSON.stringify(this.form))
-                    .then(() => {
-                        // alert("등록되었습니다.")
-                        this.$router.push(`/goods/${this.form.categoryItem.itemNum}`)
-                    })
-                    .catch(() => alert("실패하였습니다."))
+                // writeGoods(JSON.stringify(this.form))
+                //     .then(() => {
+                //         alert("등록되었습니다.")
+                //         this.$router.go(-1)
+                //     })
+                //     .catch(() => alert("실패하였습니다."))
+            },
+            fileInfo(file) {
+                this.file = file
             }
         }
     }

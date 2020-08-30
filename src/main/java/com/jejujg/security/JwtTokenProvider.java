@@ -19,8 +19,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    public static final long accessTokenExpiration = 1 * 1000L * 60; // 1분
-    public static final long refreshTokenExpiration = 1000L * 60 *7; // 7분
+    public static final long accessTokenExpiration = 10 * 1000L * 60; // 10분
+    public static final long refreshTokenExpiration = 1000L * 60 * 60 * 24 * 2; // 2일
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")
