@@ -30,20 +30,20 @@ public class Goods extends DateAudit{
     private String writer;
 
     @OneToMany(mappedBy = "goods")
-    private List<File> files;
+    private List<Image> images;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CategotyItem_id")
     private CategoryItem categoryItem;
 
     @Builder
-    public Goods(Long bid, String title, String content, Integer price, String writer, List<File> files, CategoryItem categoryItem){
+    public Goods(Long bid, String title, String content, Integer price, String writer, List<Image> images, CategoryItem categoryItem){
         this.bid = bid;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
-        this.files = files;
+        this.images = images;
         this.categoryItem = categoryItem;
     }
 
@@ -51,7 +51,7 @@ public class Goods extends DateAudit{
         this.title = request.getTitle();
         this.content = request.getContent();
         this.price = request.getPrice();
-        this.files = request.getFiles();
+        this.images = request.getImages();
         this.categoryItem = request.getCategoryItem();
     }
 }

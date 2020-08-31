@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class File extends DateAudit{
+public class Image extends DateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class File extends DateAudit{
     private Goods goods;
 
     @Builder
-    public File(Long fid, String uuid, String path, String fileName, Goods goods){
+    public Image(Long fid, String uuid, String path, String fileName, Goods goods){
         this.fid = fid;
         this.uuid = uuid;
         this.path = path;

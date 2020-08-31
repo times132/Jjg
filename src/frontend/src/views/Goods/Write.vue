@@ -72,11 +72,12 @@
         },
         methods: {
             submit(event) {
-                event.preventDefault()
+                event.preventDefault
                 this.form.content = this.$refs.tuiWrite.getHtml()
                 this.form.writer = this.$store.state.login.userInfo.username
                 const a = new FormData()
                 a.append('file', this.file)
+                a.append('categoryNum', this.form.categoryItem.itemNum)
                 // console.log(this.file)
                 uploadGoodsImage(a)
                     .then(({data}) => console.log(data))

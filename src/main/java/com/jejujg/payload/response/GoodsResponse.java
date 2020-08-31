@@ -1,6 +1,6 @@
 package com.jejujg.payload.response;
 
-import com.jejujg.model.File;
+import com.jejujg.model.Image;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +16,15 @@ public class GoodsResponse {
     private String content;
     private Integer price;
     private String writer;
-    private List<File> files;
+    private List<Image> images;
 
     @Builder
-    public GoodsResponse(Long bid, String title, String content, Integer price, String writer, List<File> files) {
+    public GoodsResponse(Long bid, String title, String content, Integer price, String writer, List<Image> images) {
         this.bid = bid;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
-        this.files = files;
+        this.images = images;
     }
 }

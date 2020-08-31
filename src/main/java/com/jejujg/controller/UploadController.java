@@ -1,5 +1,6 @@
 package com.jejujg.controller;
 
+import com.jejujg.model.Image;
 import com.jejujg.payload.response.UploadResponse;
 import com.jejujg.service.UploadService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,13 +24,9 @@ public class UploadController {
     private final UploadService uploadService;
 
     @PostMapping(value = "/goods")
-    public ResponseEntity<UploadResponse> saveGoodsImage(@RequestPart MultipartFile file) {
-        UploadResponse uploadResponse = UploadResponse.builder()
-                .fileName(file.getOriginalFilename())
-                .path("D://upload")
-                .uuid(UUID.randomUUID().toString())
-                .build();
+    public ResponseEntity<?> saveGoodsImage(@RequestPart MultipartFile file, String categoryNum) {
+        Map<String, Object> imageMap = uploadService.uploadGoods(file, categoryNum);
 
-        return new ResponseEntity<>(uploadResponse, HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
