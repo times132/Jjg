@@ -30,4 +30,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .custom-file-label text{
+        float: left;
+    }
 </style>

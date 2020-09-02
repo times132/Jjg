@@ -29,21 +29,21 @@ public class Goods extends DateAudit{
     @Column(length = 10)
     private String writer;
 
-    @OneToMany(mappedBy = "goods")
-    private List<Image> images;
+    @OneToOne(mappedBy = "goods")
+    private Image image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CategotyItem_id")
     private CategoryItem categoryItem;
 
     @Builder
-    public Goods(Long bid, String title, String content, Integer price, String writer, List<Image> images, CategoryItem categoryItem){
+    public Goods(Long bid, String title, String content, Integer price, String writer, Image image, CategoryItem categoryItem){
         this.bid = bid;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
-        this.images = images;
+        this.image = image;
         this.categoryItem = categoryItem;
     }
 
@@ -51,7 +51,7 @@ public class Goods extends DateAudit{
         this.title = request.getTitle();
         this.content = request.getContent();
         this.price = request.getPrice();
-        this.images = request.getImages();
+        this.image = request.getImage();
         this.categoryItem = request.getCategoryItem();
     }
 }

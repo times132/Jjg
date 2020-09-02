@@ -2,7 +2,7 @@
     <b-container class="mt-3">
         <b-row class="mb-2">
             <b-col md="4">
-                <b-form-select v-model="form.categoryItem" :options="options"></b-form-select>
+                <b-form-select v-model="form.categoryItem" :options="options" required></b-form-select>
             </b-col>
             <b-col md="4">
                 <Upload @event-data="fileInfo"/>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { uploadGoodsImage } from "../../api";
+    import { uploadGoodsImage, writeGoods } from "../../api";
     import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
 
@@ -48,7 +48,8 @@
                     price: null,
                     content: '',
                     categoryItem: null,
-                    writer: '',
+                    writer: this.$store.state.login.userInfo.username,
+                    image: { uuid: null, path: null, fileName: null}
                 },
                 options: [
                     { value: null, text: '------------'},
@@ -71,23 +72,29 @@
 
         },
         methods: {
-            submit(event) {
-                event.preventDefault
+            async submit(event) {
+                event.preventDefault()
                 this.form.content = this.$refs.tuiWrite.getHtml()
-                this.form.writer = this.$store.state.login.userInfo.username
-                const a = new FormData()
-                a.append('file', this.file)
-                a.append('categoryNum', this.form.categoryItem.itemNum)
-                // console.log(this.file)
-                uploadGoodsImage(a)
-                    .then(({data}) => console.log(data))
 
-                // writeGoods(JSON.stringify(this.form))
-                //     .then(() => {
-                //         alert("등록되었습니다.")
-                //         this.$router.go(-1)
-                //     })
-                //     .catch(() => alert("실패하였습니다."))
+                const uploadData = new FormData()
+                uploadData.append('file', this.file)
+                uploadData.append('categoryNum', this.form.categoryItem.itemNum)
+
+                let uploadResponse = null
+                if (this.file !== null) {
+                    uploadResponse = await uploadGoodsImage(uploadData)
+                    console.log(uploadResponse)
+                    this.form.image.uuid = uploadResponse.data.uuid
+                    this.form.image.path = uploadResponse.data.uploadPath
+                    this.form.image.fileName = uploadResponse.data.fileName
+                }
+
+                writeGoods(JSON.stringify(this.form))
+                    .then(() => {
+                        alert("등록되었습니다.")
+                        this.$router.go(-1)
+                    })
+                    .catch(() => alert("실패하였습니다."))
             },
             fileInfo(file) {
                 this.file = file

@@ -67,7 +67,7 @@
         methods: {
             onSubmit(event) {
                 event.preventDefault()
-                axios.defaults.headers.post['Content-Type'] = 'application/json'
+
                 axios.post('http://localhost:9000/user/signup', JSON.stringify(this.form))
                     .then(() => {
                         alert("등록되었습니다.")

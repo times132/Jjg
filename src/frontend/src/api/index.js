@@ -52,11 +52,10 @@ function getGoodsList(categoryNum) {
 }
 
 function uploadGoodsImage(file) {
-    console.log(file)
     return instance({
         url: '/upload/goods',
         method: 'post',
-        data: file
+        data: file,
     })
 }
 

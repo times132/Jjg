@@ -25,8 +25,12 @@ public class UploadController {
 
     @PostMapping(value = "/goods")
     public ResponseEntity<?> saveGoodsImage(@RequestPart MultipartFile file, String categoryNum) {
-        Map<String, Object> imageMap = uploadService.uploadGoods(file, categoryNum);
+        Map<String, Object> map = uploadService.uploadGoods(file, categoryNum);
 
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        if (map.get("isImage").equals(true)){
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
 }

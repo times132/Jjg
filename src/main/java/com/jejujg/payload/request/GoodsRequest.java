@@ -19,15 +19,15 @@ public class GoodsRequest {
     private String content;
     private Integer price;
     private String writer;
-    private List<Image> images;
+    private Image image;
 
     @Builder
-    public GoodsRequest(CategoryItem categoryItem, String title, String content, Integer price, String writer, List<Image> images) {
+    public GoodsRequest(CategoryItem categoryItem, String title, String content, Integer price, String writer, Image image) {
         this.categoryItem = categoryItem;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
-        this.images = images;
+        this.image = image;
     }
 }

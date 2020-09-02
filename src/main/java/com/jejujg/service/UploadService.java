@@ -1,21 +1,17 @@
 package com.jejujg.service;
 
-import com.jejujg.model.Image;
 import com.jejujg.repository.UploadRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UploadService {
@@ -60,7 +56,6 @@ public class UploadService {
     private boolean checkImage(File file){
         try {
             String mimeType = new Tika().detect(file);
-            log.info("MimeType: ", mimeType);
             if (mimeType.startsWith("image")){
                 return true;
             }

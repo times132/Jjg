@@ -16,15 +16,15 @@ public class GoodsResponse {
     private String content;
     private Integer price;
     private String writer;
-    private List<Image> images;
+    private Image image;
 
     @Builder
-    public GoodsResponse(Long bid, String title, String content, Integer price, String writer, List<Image> images) {
+    public GoodsResponse(Long bid, String title, String content, Integer price, String writer, Image image) {
         this.bid = bid;
         this.title = title;
         this.content = content;
         this.price = price;
         this.writer = writer;
-        this.images = images;
+        this.image = image;
     }
 }
