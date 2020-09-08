@@ -52,7 +52,7 @@ const routes = [
         props: true
     },
     {
-        path: '/goods/:categoryNum/:bid',
+        path: '/goods/:categoryNum/:gid',
         name: 'detail',
         component: Detail,
         props: true
@@ -61,6 +61,10 @@ const routes = [
         path: '/signup',
         name: 'signup',
         component: Signup
+    },
+    {
+        path: '/display',
+        name: 'display'
     }
 ]
 

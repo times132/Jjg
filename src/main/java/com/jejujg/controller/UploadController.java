@@ -1,29 +1,34 @@
 package com.jejujg.controller;
 
-import com.jejujg.model.Image;
-import com.jejujg.payload.response.UploadResponse;
 import com.jejujg.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/upload")
+//@RequestMapping("/upload")
 public class UploadController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
     private final UploadService uploadService;
 
-    @PostMapping(value = "/goods")
+    @PostMapping(value = "/upload/goods")
     public ResponseEntity<?> saveGoodsImage(@RequestPart MultipartFile file, String categoryNum) {
         Map<String, Object> map = uploadService.uploadGoods(file, categoryNum);
 
@@ -32,5 +37,27 @@ public class UploadController {
         }
 
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> imageGet(@RequestParam("imageName") String imageName){
+        File file = new File("D:\\jjg-upload\\" + imageName);
+
+        ResponseEntity<byte[]> result = null;
+
+        try {
+            HttpHeaders header = new HttpHeaders();
+
+            header.add("Content-Type", Files.probeContentType(file.toPath()));
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+        }catch (AccessDeniedException e){
+            logger.error("잘못된 접근입니다.");
+        }catch (NoSuchFileException e){
+            logger.error("존재하지 않는 파일입니다.");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

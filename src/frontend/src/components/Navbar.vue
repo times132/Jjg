@@ -83,6 +83,10 @@
 </script>
 
 <style>
+    .navbar-brand{
+        font-weight: bold;
+        font-size: 1.5rem!important;
+    }
     .nav-item:hover .dropdown-menu {
         display: block;
         margin-top: 0;

@@ -4,16 +4,17 @@ import com.jejujg.common.Criteria;
 import com.jejujg.mapper.GoodsMapper;
 import com.jejujg.model.CategoryItem;
 import com.jejujg.model.Goods;
+import com.jejujg.model.Image;
 import com.jejujg.payload.request.GoodsRequest;
+import com.jejujg.payload.response.GoodsListResponse;
 import com.jejujg.payload.response.GoodsResponse;
 import com.jejujg.repository.GoodsRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -22,46 +23,43 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
     private final GoodsMapper mapper;
 
-    public Page<Goods> list(Criteria criteria, CategoryItem categoryItem){
+    public Page<GoodsListResponse> list(Criteria criteria, CategoryItem categoryItem){
         Pageable pageable = PageRequest.of(criteria.getPage() - 1, criteria.getPageSize(), Sort.by(Sort.Direction.DESC, "createdDate"));
 
         Page<Goods> page;
 
         switch (criteria.getType()){
-            // 제목
-            case "T": page = goodsRepository.findAllByTitleContaining(criteria.getKeyword(), pageable); break;
-            // 내용
-            case "C": page = goodsRepository.findAllByContentContaining(criteria.getKeyword(), pageable); break;
-            // 카테고리
-//            case "I": page = goodsRepository.findAllByCategory(criteria.getKeyword(), pageable); break;
-            // 작성자
-            case "W": page = goodsRepository.findAllByWriter(criteria.getKeyword(), pageable); break;
+            case "T": page = goodsRepository.findAllByTitleContaining(criteria.getKeyword(), pageable); break; // 제목
+            case "C": page = goodsRepository.findAllByContentContaining(criteria.getKeyword(), pageable); break; // 내용
+//            case "I": page = goodsRepository.findAllByCategory(criteria.getKeyword(), pageable); break; // 카테고리
+            case "W": page = goodsRepository.findAllByWriter(criteria.getKeyword(), pageable); break; // 작성자
             default: page = goodsRepository.findAllByCategoryItem(categoryItem, pageable); break;
         }
 
-        return page;
+        return new PageImpl<>(mapper.goodsEntityToListDTO(page.getContent()), pageable, page.getTotalElements());
     }
 
     @Transactional
-    public Long save(GoodsRequest request){
-        return goodsRepository.save(mapper.goodsDtoToEntity(request)).getBid();
+    public Long save(GoodsRequest request, Image image){
+
+        return goodsRepository.save(mapper.goodsDtoToEntity(request, image)).getGid();
 
     }
 
     @Transactional
     public GoodsResponse findOne(Long bid){
-        Goods goods = goodsRepository.findById(bid)
+        Goods goods = goodsRepository.findByGid(bid)
                 .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 게시물 입니다."));
 
         return mapper.goodsEntityToDTO(goods);
     }
 
     @Transactional
-    public Long update(Long bid, GoodsRequest request){
+    public Long update(Long bid, GoodsRequest request, Image image){
         Goods goods = goodsRepository.findById(bid)
                 .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 게시물 입니다."));
 
-        goods.update(request);
+        goods.update(request, image);
 
         return bid;
     }

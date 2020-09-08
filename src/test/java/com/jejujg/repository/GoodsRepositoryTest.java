@@ -28,7 +28,7 @@ public class GoodsRepositoryTest {
     public void 게시물_조회(){
         Goods goods = goodsRepository.findById(1L).get();
 
-        assertEquals(1L, goods.getBid());
+        assertEquals(1L, goods.getGid());
         logger.info("게시물 정보: " + goods.getContent());
     }
 

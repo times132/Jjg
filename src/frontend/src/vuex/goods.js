@@ -17,9 +17,10 @@ const mutations = {
 }
 
 const actions = {
-    getGoods({ commit }, params) {
-        return getGoodsList(params)
+    getGoods({ commit }, categoryNum, criteria) {
+        return getGoodsList(categoryNum, criteria)
             .then(({data}) => {
+                console.log(data)
                 commit('getGoods', data)
             })
     },

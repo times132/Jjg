@@ -15,6 +15,9 @@
             </template>
         </b-table>
 
+        <!-- 페이징 -->
+        <Pagination :paging-data="pagination"/>
+
         <router-link to="/goods/write">
             <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
         </router-link>
@@ -22,8 +25,14 @@
 </template>
 
 <script>
+    import { getGoodsList } from "../../api";
+    import Pagination from "../../components/Pagination";
+
     export default {
         name: "Goods",
+        components: {
+            Pagination
+        },
         computed: {
           checkAdmin() {
               if (!this.$store.getters.getAuth.includes('ROLE_ADMIN'))
@@ -40,24 +49,46 @@
         data() {
             return {
                 fields: [
-                    'bid',
+                    'gid',
                     { key: 'title', label: '제목'}
                 ],
                 goods: null,
+                criteria: {
+                    page: 1,
+                    pageSize: 5,
+                    type: '',
+                    keyword: ''
+                },
+                // pagination: {
+                //     realEndPage: 0,
+                //     startPage: 0,
+                //     nowEndPage: 0,
+                //     nowPage: 0,
+                //     total: 0,
+                //     size: 0,
+                //     prev: false,
+                //     next: false,
+                // }
+                pagination: {}
             }
         },
         created() {
-            // console.log(this.$route.params.categorynum)
-            this.$store.dispatch("getGoods", this.$route.params.categoryNum)
-                .then(() => {
-                    this.goods = this.$store.state.goods.goods
+            // this.$store.dispatch("getGoods", this.$route.params.categoryNum, this.criteria)
+            //     .then(() => {
+            //         this.goods = this.$store.state.goods.goods
+            //     })
+            getGoodsList(this.$route.params.categoryNum, this.criteria)
+                .then(({data}) => {
+                    this.goods = data.content
+                    this.pagination = data
+
+                    console.log(data)
                 })
         },
         methods: {
             clickRow(record) {
-                console.log(record.bid)
-                this.$router.push(`/goods/${this.categoryNum}/${record.bid}`)
-            }
+                this.$router.push(`/goods/${this.categoryNum}/${record.gid}`)
+            },
         }
     }
 </script>

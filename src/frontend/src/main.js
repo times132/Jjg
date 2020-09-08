@@ -6,10 +6,12 @@ import {BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueCookie from 'vue-cookie'
+import { Viewer } from "@toast-ui/vue-editor";
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueCookie)
+Vue.component('viewer', Viewer)
 Vue.config.productionTip = false
 
 new Vue({

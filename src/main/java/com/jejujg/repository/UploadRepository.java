@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UploadRepository extends JpaRepository<Image, Long> {
+
+
 }

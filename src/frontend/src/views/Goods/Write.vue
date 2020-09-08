@@ -83,9 +83,9 @@
                 let uploadResponse = null
                 if (this.file !== null) {
                     uploadResponse = await uploadGoodsImage(uploadData)
-                    console.log(uploadResponse)
+
                     this.form.image.uuid = uploadResponse.data.uuid
-                    this.form.image.path = uploadResponse.data.uploadPath
+                    this.form.image.path = uploadResponse.data.path
                     this.form.image.fileName = uploadResponse.data.fileName
                 }
 
