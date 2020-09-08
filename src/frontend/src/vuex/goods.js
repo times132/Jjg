@@ -1,26 +1,22 @@
-import { getGoodsList } from "../api";
+import { getGoodsList } from "../api/index";
 
 const state = {
-    goods: null,
-    totalElements: 0,
-    totalPages: 0,
-    pageSize: 0
+    pagination: null
 }
 
 const mutations = {
     getGoods (state, data) {
-        state.goods = data.content
-        state.totalElements = data.totalElements
-        state.totalPages = data.totalPages
-        state.pageSize = data.size
+        state.pagination = data
     }
 }
 
 const actions = {
-    getGoods({ commit }, params) {
-        return getGoodsList(params)
+    getGoods({ commit }, data) {
+        getGoodsList(data.categoryNum, data.criteria)
             .then(({data}) => {
-                commit('getGoods', data)
+                commit('getGoods', data.pagination)
+                console.log(data.goodsList)
+                return data.goodsList
             })
     },
 }

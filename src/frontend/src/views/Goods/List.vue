@@ -15,21 +15,31 @@
             </template>
         </b-table>
 
+        <!-- 페이징 -->
+        <Pagination :paging-data="pagination"/>
+
         <router-link to="/goods/write">
             <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
         </router-link>
+
     </div>
 </template>
 
 <script>
+    import { getGoodsList } from "../../api";
+    import Pagination from "../../components/Pagination";
+
     export default {
         name: "Goods",
+        components: {
+            Pagination
+        },
         computed: {
-          checkAdmin() {
-              if (!this.$store.getters.getAuth.includes('ROLE_ADMIN'))
-                  return false
-              return true
-          }
+            checkAdmin() {
+                if (!this.$store.getters.getAuth.includes('ROLE_ADMIN'))
+                    return false
+                return true
+            },
         },
         props: {
             categoryNum: {
@@ -40,25 +50,64 @@
         data() {
             return {
                 fields: [
-                    'bid',
+                    'gid',
                     { key: 'title', label: '제목'}
                 ],
                 goods: null,
+                criteria: {
+                    page: 1,
+                    pageSize: 5,
+                    type: '',
+                    keyword: ''
+                },
+                // pagination: {
+                //     realEndPage: 0,
+                //     startPage: 0,
+                //     nowEndPage: 0,
+                //     nowPage: 0,
+                //     total: 0,
+                //     size: 0,
+                //     prev: false,
+                //     next: false,
+                // }
+                pagination: {}
             }
         },
         created() {
-            // console.log(this.$route.params.categorynum)
-            this.$store.dispatch("getGoods", this.$route.params.categoryNum)
-                .then(() => {
-                    this.goods = this.$store.state.goods.goods
+            console.log("list created")
+            // this.$store.dispatch("getGoods", this.$route.params.categoryNum, this.criteria)
+            //     .then(() => {
+            //         this.goods = this.$store.state.goods.goods
+            //     })
+
+            getGoodsList(this.$route.params.categoryNum, this.criteria)
+                .then(({data}) => {
+                    console.log(data)
+                    this.goods = data.goodsList
+                    this.pagination = data.pagination
                 })
+
+            // this.$store.dispatch("getGoods", {categoryNum: this.$route.params.categoryNum, criteria: this.criteria})
+            //     .then((data) => {
+            //         console.log(data)
+            //         this.goods = data
+            //     })
+            // console.log(this.$store.state.goods.pagination)
         },
         methods: {
             clickRow(record) {
-                console.log(record.bid)
-                this.$router.push(`/goods/${this.categoryNum}/${record.bid}`)
-            }
-        }
+                this.$router.push(`/goods/${this.categoryNum}/${record.gid}`)
+            },
+            // getList(){
+            //     getGoodsList(this.$route.params.categoryNum, this.criteria)
+            //         .then(({data}) => {
+            //             this.pagination = data.pagination
+            //             this.goods = data.goodsList
+            //
+            //             console.log(data.pagination)
+            //         })
+            // }
+        },
     }
 </script>
 

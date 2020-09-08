@@ -1,6 +1,7 @@
 package com.jejujg.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Entity
 @JsonIgnoreProperties({"goods", "category"})
+@Builder
 public class CategoryItem {
 
     @Id
@@ -30,12 +33,4 @@ public class CategoryItem {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-    @Builder
-    public CategoryItem(Long id, String name, List<Goods> goods, Category category){
-        this.id = id;
-        this.name = name;
-        this.goods = goods;
-        this.category = category;
-    }
 }

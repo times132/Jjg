@@ -1,5 +1,7 @@
 package com.jejujg.service;
 
+import com.jejujg.model.Goods;
+import com.jejujg.model.Image;
 import com.jejujg.repository.UploadRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
@@ -20,7 +22,7 @@ public class UploadService {
 
     public Map<String, Object> uploadGoods(MultipartFile uploadFile, String categoryNum){
         Map<String, Object> map = new HashMap<>();
-        String uploadFolder = "D:\\jjg";
+        String uploadFolder = "D:\\jjg-upload";
         String uploadFolderPath = "goods/" + categoryNum;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -33,13 +35,13 @@ public class UploadService {
         uploadOriFileName = uploadOriFileName.substring(uploadOriFileName.lastIndexOf("\\") + 1); // IE file path
 
         UUID uuid = UUID.randomUUID();
-        String uploadFileName = uuid.toString() + "_" + uploadOriFileName;
+        String uploadFileName = uuid + "_" + uploadOriFileName;
         try {
             File saveFile = new File(uploadPath, uploadFileName);
             uploadFile.transferTo(saveFile);
 
             if (checkImage(saveFile)) { // 이미지 파일일 때
-                map.put("uploadPath", uploadFolderPath);
+                map.put("path", uploadFolderPath);
                 map.put("fileName", uploadOriFileName);
                 map.put("uuid", uuid);
                 map.put("isImage", true);
@@ -53,6 +55,10 @@ public class UploadService {
         return map;
     }
 
+    public Image saveGoodsDB(Map<String, Object> imageMap){
+        return uploadRepository.save(convertMapToImage(imageMap));
+    }
+
     private boolean checkImage(File file){
         try {
             String mimeType = new Tika().detect(file);
@@ -64,5 +70,13 @@ public class UploadService {
         }
 
         return false;
+    }
+
+    private Image convertMapToImage(Map<String, Object> imageMap){
+        return Image.builder()
+                .fileName(String.valueOf(imageMap.get("fileName")))
+                .path(String.valueOf(imageMap.get("path")))
+                .uuid(String.valueOf(imageMap.get("uuid")))
+                .build();
     }
 }

@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     plugins:  [
         createPersistedState({
-            paths: ['login'],
+            paths: ['login', 'goods'],
             // storage: {
             //     getItem: (key) => ls.get(key),
             //     setItem: (key, value) => ls.set(key, value),

@@ -44,10 +44,27 @@ function writeGoods(goodsData) {
     })
 }
 
-function getGoodsList(categoryNum) {
+function getGoodsList(categoryNum, criteria) {
     return instance({
         url: '/goods/' + categoryNum,
-        method: 'get'
+        method: 'get',
+        params: {
+            page: criteria.page,
+            pageSize: criteria.pageSize,
+            type: criteria.type,
+            keyword: criteria.keyword
+        }
+    })
+}
+
+function displayGoodsImage(imageName) {
+    console.log(imageName)
+    return instance({
+        url: '/display',
+        method: 'get',
+        params: {
+            imageName: imageName
+        }
     })
 }
 
@@ -86,6 +103,7 @@ export {
     getDetail,
     writeGoods,
     getGoodsList,
+    displayGoodsImage,
     uploadGoodsImage,
     userLogin,
     userLogout,

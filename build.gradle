@@ -52,16 +52,16 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-//task setUp(type: NpmTask) {
-//    description = 'Install Node package'
-//    args = ['install']
-//    inputs.files file('package.json')
-//    outputs.files file('node_modules')
-//}
-//
-//task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
-//    description = 'Build vue.js'
-//    args = ['run', 'build']
-//}
-//
-//processResources.dependsOn 'buildFrontEnd'
+task setUp(type: NpmTask) {
+    description = 'Install Node package'
+    args = ['install']
+    inputs.files file('package.json')
+    outputs.files file('node_modules')
+}
+
+task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
+    description = 'Build vue.js'
+    args = ['run', 'build']
+}
+
+processResources.dependsOn 'buildFrontEnd'
