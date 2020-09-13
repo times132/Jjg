@@ -25,7 +25,7 @@ public class GoodsService {
     private final GoodsMapper mapper;
 
     public Page<GoodsList> list(Criteria criteria, CategoryItem categoryItem){
-        Pageable pageable = PageRequest.of(criteria.getPage() - 1, criteria.getPageSize(), Sort.by(Sort.Direction.ASC, "createdDate"));
+        Pageable pageable = PageRequest.of(criteria.getPage() - 1, criteria.getPageSize(), Sort.by(Sort.Direction.DESC, "createdDate"));
 
         Page<Goods> page;
 

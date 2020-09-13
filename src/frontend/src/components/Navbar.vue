@@ -101,10 +101,6 @@
     }
     .dropdown-menu {
         right: auto;
-        left: 50%!important;
-        -webkit-transform: translate(-50%, 0);
-        -o-transform: translate(-50%, 0);
-        transform: translate(-50%, 0);
     }
     .form-inline {
         justify-content: center;

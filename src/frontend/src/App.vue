@@ -40,8 +40,17 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        min-height: 100%;
-        position: relative;
-        padding-bottom: 87px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    #main{
+        flex: 1 0 auto;
+    }
+    #footer{
+        flex-shrink: 0;
+        padding: 20px;
+        background-color: gray;
+        color: white;
     }
 </style>
