@@ -2,19 +2,15 @@
     <div class="pagination">
         <ul class="pagination">
             <li v-if="pagination.prev" class="page-item">
-                <router-link to="#">
-                    이전
-                </router-link>
+                <span @click="clickPrev">이전</span>
             </li>
 
-            <li v-for="index in pagination.endPage" :key="index" class="page-item">
-                <router-link to="#">{{index}}</router-link>
+            <li v-for="index in calRange" :key="index" class="page-item" :class="{'active': checkPage(index)}">
+                <span @click="clickPage(index)">{{index}}</span>
             </li>
 
             <li v-if="pagination.next" class="page-item">
-                <router-link to="#">
-                    다음
-                </router-link>
+                <span @click="clickNext">다음</span>
             </li>
         </ul>
     </div>
@@ -24,24 +20,49 @@
 <script>
     export default {
         name: "Pagination",
-        props: ['pagingData'],
+        props: ['pagingData', 'cri'],
         data() {
           return {
               pagination: this.pagingData,
-
+              criteria: this.cri
           }
         },
         created() {
-            console.log("pagination created")
+
+        },
+        computed: {
+            calRange() {
+                let pageRange = []
+
+                for (var i=this.pagingData.startPage; i <= this.pagingData.endPage; i++){
+                    pageRange.push(i)
+                }
+
+                return pageRange
+            }
         },
         watch: {
             pagingData: function (value) {
                 this.pagination = value
             }
+        },
+        methods: {
+            clickPage(page) {
+                this.criteria.page = page
+            },
+            clickPrev() {
+                this.criteria.page = this.pagingData.startPage - 1
+            },
+            clickNext() {
+                this.criteria.page = this.pagingData.endPage + 1
+            },
+            checkPage(index) {
+                return (this.criteria.page === index)
+            }
         }
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>

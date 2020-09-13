@@ -40,7 +40,7 @@ public class GoodsRepositoryTest {
                 .name("스텐드")
                 .itemNum("011")
                 .build();
-        for (int i=3; i<4; i++){
+        for (int i=10; i<57; i++){
             Goods goods = Goods.builder()
                     .title("스텐드" + i)
                     .categoryItem(categoryItem)

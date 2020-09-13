@@ -16,7 +16,7 @@
         </b-table>
 
         <!-- 페이징 -->
-        <Pagination :paging-data="pagination"/>
+        <Pagination :paging-data="pagination" :cri="criteria"/>
 
         <router-link to="/goods/write">
             <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
@@ -60,57 +60,49 @@
                     type: '',
                     keyword: ''
                 },
-                // pagination: {
-                //     realEndPage: 0,
-                //     startPage: 0,
-                //     nowEndPage: 0,
-                //     nowPage: 0,
-                //     total: 0,
-                //     size: 0,
-                //     prev: false,
-                //     next: false,
-                // }
                 pagination: {}
             }
         },
         created() {
-            console.log("list created")
-            // this.$store.dispatch("getGoods", this.$route.params.categoryNum, this.criteria)
-            //     .then(() => {
-            //         this.goods = this.$store.state.goods.goods
-            //     })
-
-            getGoodsList(this.$route.params.categoryNum, this.criteria)
-                .then(({data}) => {
-                    console.log(data)
-                    this.goods = data.goodsList
-                    this.pagination = data.pagination
-                })
-
-            // this.$store.dispatch("getGoods", {categoryNum: this.$route.params.categoryNum, criteria: this.criteria})
-            //     .then((data) => {
-            //         console.log(data)
-            //         this.goods = data
-            //     })
-            // console.log(this.$store.state.goods.pagination)
+            this.getList()
+        },
+        watch: {
+            criteria: {
+                deep: true,
+                handler() {
+                    this.getList()
+                }
+            }
         },
         methods: {
             clickRow(record) {
                 this.$router.push(`/goods/${this.categoryNum}/${record.gid}`)
             },
-            // getList(){
-            //     getGoodsList(this.$route.params.categoryNum, this.criteria)
-            //         .then(({data}) => {
-            //             this.pagination = data.pagination
-            //             this.goods = data.goodsList
-            //
-            //             console.log(data.pagination)
-            //         })
-            // }
+            getList(){
+                getGoodsList(this.$route.params.categoryNum, this.criteria)
+                    .then(({data}) => {
+                        this.pagination = data.pagination
+                        this.goods = data.goodsList
+                    })
+            }
         },
     }
 </script>
 
-<style scoped>
-
+<style>
+    .pagination{
+        justify-content: center;
+    }
+    .pagination span{
+        margin: 0 0.2rem;
+        font-size: 1.25rem;
+    }
+    .pagination span:hover:not(.active){
+        cursor: pointer;
+        background-color: #ddd;
+    }
+    .active{
+        font-weight: bold;
+        text-decoration: underline;
+    }
 </style>
