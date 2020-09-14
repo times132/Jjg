@@ -55,7 +55,7 @@
                 ],
                 goods: null,
                 criteria: {
-                    page: 1,
+                    page: this.$route.params.page===undefined ? 1 : this.$route.params.page,
                     pageSize: 5,
                     type: '',
                     keyword: ''
@@ -77,6 +77,8 @@
         methods: {
             clickRow(record) {
                 this.$router.push(`/goods/${this.categoryNum}/${record.gid}`)
+                this.$store.dispatch('setCriteria', this.criteria)
+                console.log(this.$store.state.goods.criteria)
             },
             getList(){
                 getGoodsList(this.$route.params.categoryNum, this.criteria)
