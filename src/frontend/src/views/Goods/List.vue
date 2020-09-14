@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container>
         <h6>params 카테고리 넘버: {{ $route.params.categoryNum }}</h6>
         <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
         <b-table
@@ -15,6 +15,16 @@
             </template>
         </b-table>
 
+        <div v-if="isDataFetch">
+            <b-row  v-for="i in 3" :key="i">
+                <b-col v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
+                    <span>{{goods}}</span>
+                    <b-img thumbnail fluid :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage"/>
+                </b-col>
+            </b-row>
+        </div>
+
+
         <!-- 페이징 -->
         <Pagination :paging-data="pagination" :cri="criteria"/>
 
@@ -22,7 +32,7 @@
             <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
         </router-link>
 
-    </div>
+    </b-container>
 </template>
 
 <script>
@@ -39,7 +49,7 @@
                 if (!this.$store.getters.getAuth.includes('ROLE_ADMIN'))
                     return false
                 return true
-            },
+            }
         },
         props: {
             categoryNum: {
@@ -56,11 +66,13 @@
                 goods: null,
                 criteria: {
                     page: this.$route.params.page===undefined ? 1 : this.$route.params.page,
-                    pageSize: 5,
+                    pageSize: 9,
                     type: '',
                     keyword: ''
                 },
-                pagination: {}
+                pagination: {},
+                isDataFetch: false,
+                noImage: require('@/assets/img/no-image.jpg')
             }
         },
         created() {
@@ -85,7 +97,16 @@
                     .then(({data}) => {
                         this.pagination = data.pagination
                         this.goods = data.goodsList
+                        this.isDataFetch = true
                     })
+            },
+            thumbnail(value) {
+                console.log(value)
+                if (value === null) {
+                    return null
+                }else {
+                    return value.path+'/'+value.uuid+'_'+value.fileName
+                }
             }
         },
     }
