@@ -1,8 +1,8 @@
 <template>
     <b-container>
         <div class="button-group mt-3">
-            <b-button squared size="sm">수정</b-button>
-            <b-button squared variant="outline-danger" size="sm">삭제</b-button>
+            <b-button v-if="compareUser" squared size="sm">수정</b-button>
+            <b-button v-if="compareUser" squared variant="outline-danger" size="sm">삭제</b-button>
             <b-button @click="moveList" squared variant="primary" size="sm">목록</b-button>
         </div>
 
@@ -39,6 +39,14 @@
         computed: {
             getCri() {
                 return this.$store.getters.getCriteria
+            },
+            compareUser(){
+                if (this.$store.getters.getIsAuth){
+                    if (this.$store.state.login.userInfo.username === this.writer) {
+                        return true
+                    }
+                }
+                return false
             }
         },
         data() {
@@ -61,10 +69,10 @@
                     this.content = data.content
                     this.title = data.title
                     this.price = data.price
+                    this.writer = data.writer
 
                     if (data.image !== null) this.imageUrl = data.image.path + '/' + data.image.uuid + '_' + data.image.fileName
                 })
-
         },
         mounted() {
 
