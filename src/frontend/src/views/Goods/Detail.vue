@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <div class="button-group mt-3">
-            <b-button v-if="compareUser" squared size="sm">수정</b-button>
+            <b-button @click="modifyGoods" v-if="compareUser" squared size="sm">수정</b-button>
             <b-button v-if="compareUser" squared variant="outline-danger" size="sm">삭제</b-button>
             <b-button @click="moveList" squared variant="primary" size="sm">목록</b-button>
         </div>
@@ -14,8 +14,8 @@
                 <b-col md="7">
                     <b-card-body>
                         <b-card-text>
-                            <h2 class="title">{{title}}</h2>
-                            <h4>{{price}}원</h4>
+                            <h2 class="title">{{goods.title}}</h2>
+                            <h4>{{goods.price}}원</h4>
                         </b-card-text>
                     </b-card-body>
                 </b-col>
@@ -23,7 +23,7 @@
             <b-row>
                 <b-col>
                     <b-card-text class="content">
-                        <viewer v-if="content != null" :initialValue="content"/>
+                        <viewer v-if="goods.content != null" :initialValue="goods.content"/>
                     </b-card-text>
                 </b-col>
             </b-row>
@@ -42,7 +42,7 @@
             },
             compareUser(){
                 if (this.$store.getters.getIsAuth){
-                    if (this.$store.state.login.userInfo.username === this.writer) {
+                    if (this.$store.state.login.userInfo.username === this.goods.writer) {
                         return true
                     }
                 }
@@ -51,11 +51,15 @@
         },
         data() {
             return {
-                gid: this.$route.params.gid,
-                title: '',
-                price: 0,
-                content: null,
-                writer: '',
+                goods: {
+                    gid: this.$route.params.gid,
+                    categoryItem: null,
+                    title: '',
+                    price: 0,
+                    content: null,
+                    writer: '',
+                    image: null
+                },
                 imageUrl: '',
                 imageData: '',
                 width: 320,
@@ -64,14 +68,18 @@
             }
         },
         created() {
-            getDetail('/goods/detail', this.gid)
+            getDetail('/goods/detail', this.goods.gid)
                 .then(({data}) => {
-                    this.content = data.content
-                    this.title = data.title
-                    this.price = data.price
-                    this.writer = data.writer
+                    this.goods.content = data.content
+                    this.goods.title = data.title
+                    this.goods.price = data.price
+                    this.goods.writer = data.writer
+                    this.goods.categoryItem = data.categoryItem
 
-                    if (data.image !== null) this.imageUrl = data.image.path + '/' + data.image.uuid + '_' + data.image.fileName
+                    if (data.image !== null) {
+                        this.goods.image = data.image
+                        this.imageUrl = data.image.path + '/' + data.image.uuid + '_' + data.image.fileName
+                    }
                 })
         },
         mounted() {
@@ -80,6 +88,9 @@
         methods: {
             moveList() {
                 this.$router.push({name: 'goods', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
+            },
+            modifyGoods() {
+                this.$router.push({name: 'modify', params: {goods: this.goods}})
             }
         }
     }

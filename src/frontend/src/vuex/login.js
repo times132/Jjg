@@ -55,11 +55,14 @@ const actions = {
 }
 
 const getters = {
-    getIsAuth: state => {
+    getIsAuth: function (state) {
         return state.isAuthenticated
     },
-    getAuth: state => {
-        return state.userInfo === null ? "" : state.userInfo.role
+    getAuth: function (state) {
+        return state.userInfo === null ? '' : state.userInfo.role
+    },
+    getUsername: function (state) {
+        return state.userInfo === null ? '' : state.userInfo.username
     }
 }
 

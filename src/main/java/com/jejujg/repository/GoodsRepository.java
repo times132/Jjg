@@ -19,7 +19,7 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     Page<Goods> findAllByContentContaining(String content, Pageable pageable);
     Page<Goods> findAllByWriter(String writer, Pageable pageable);
 
-    @EntityGraph(attributePaths = "image")
+    @EntityGraph(attributePaths = {"image", "categoryItem"})
     @Query(value = "select DISTINCT g from Goods g where g.gid=?1")
     Optional<Goods> findByGid(Long gid);
 }

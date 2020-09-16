@@ -33,7 +33,6 @@
                             <b-dropdown-item to="/goods/031">선반</b-dropdown-item>
                             <b-dropdown-item to="/goods/032">냉장/냉동고</b-dropdown-item>
                             <b-dropdown-item to="/goods/033">화구</b-dropdown-item>
-                            <b-dropdown-item to="/me">내정보</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 가구 -->
@@ -51,11 +50,22 @@
                         </b-nav-form>
                     </b-navbar-nav>
 
-                    <a href="" v-if="isAuthenticated" @click.prevent="onClickLogout">logout</a>
-                    <p v-if="!isAuthenticated" class="h4 mb-0 pb-1 pt-1">
-                        <b-link class="login" to="/login"><b-icon icon="person-circle"></b-icon></b-link>
-                    </p>
+                    <b-navbar-nav v-if="isAuthenticated">
+                        <b-nav-item-dropdown no-caret right>
+                            <template v-slot:button-content>
+                                <b-icon icon="person-circle"></b-icon>
+                            </template>
+                            <b-dropdown-text tag="span" class="username">{{getUsername()}}님</b-dropdown-text>
+                            <b-dropdown-divider></b-dropdown-divider>
+                            <b-dropdown-item to="/me">내정보</b-dropdown-item>
+                            <b-dropdown-item @click.prevent="onClickLogout">로그아웃</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
 
+
+                    <p v-if="!isAuthenticated" class="h4 mb-0 pb-1 pt-1 login">
+                        <b-link to="/login">로그인</b-link>
+                    </p>
                 </b-collapse>
             </div>
         </b-navbar>
@@ -72,11 +82,20 @@
                 return this.$store.state.login.isAuthenticated
             }
         },
+        data() {
+            return {
+                // username: this.$store.state.login.userInfo === null ? '' : this.$store.state.login.userInfo.username
+                username: '',
+            }
+        },
         methods: {
             onClickLogout() {
                 store.dispatch('logout')
                     .then(() => this.$router.push('/'))
                     .catch(() => {})
+            },
+            getUsername(){
+                return this.$store.getters.getUsername
             }
         }
     }
@@ -115,10 +134,17 @@
         text-align: center;
     }
     .login {
+        justify-content: center;
+    }
+    .login a{
+        font-size: 1rem;
         color: black;
     }
     .login:hover {
         text-decoration: none;
         color: black;
+    }
+    .username{
+
     }
 </style>

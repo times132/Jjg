@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import List from '../views/Goods/List'
 import Login from '../views/Login'
 import Me from '../views/Profile'
 import Write from '../views/Goods/Write'
-import Detail from "../views/Goods/Detail"
+import Modify from '../views/Goods/Modify'
+import Detail from '../views/Goods/Detail'
+import List from '../views/Goods/List'
 import store from '../vuex/index'
-import Signup from "../views/Signup"
+import Signup from '../views/Signup'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,12 @@ const routes = [
         path: '/goods/write',
         name: 'write',
         component: Write,
+        beforeEnter: requireAuth
+    },
+    {
+        path: '/goods/modify/:gid',
+        name: 'modify',
+        component: Modify,
         beforeEnter: requireAuth
     },
     {

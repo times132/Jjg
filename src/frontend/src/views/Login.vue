@@ -24,7 +24,7 @@
             login(username, password) {
                 this.$store.dispatch('login', {username, password})
                     .then(() => {
-                        this.$router.replace(this.$route.query.redirect || '/')
+                        this.$router.push(this.$route.query.redirect || '/')
                         // this.$router.go(-1)
                     })
                     .catch((status) => {

@@ -30,7 +30,7 @@ public class GoodsController {
         Page page = goodsService.list(criteria, categoryService.findOne(categoryNum));
         Pagination pagination = Pagination.builder()
                 .criteria(criteria)
-                .pagingSize(criteria.getPageSize())
+                .pageRange(criteria.getPageRange())
                 .realEndPage(page.getTotalPages())
                 .total(page.getTotalElements())
                 .build();

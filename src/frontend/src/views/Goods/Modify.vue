@@ -1,41 +1,43 @@
 <template>
     <b-container class="mt-3">
+
         <b-row class="mb-2">
             <b-col md="4">
-                <b-form-select v-model="form.categoryItem" :options="options" required></b-form-select>
+                <b-form-select v-model="goods.categoryItem" :options="options" required></b-form-select>
             </b-col>
             <b-col md="4">
                 <Upload @event-data="fileInfo"/>
             </b-col>
             <b-col md="4" class="ml-auto">
-                <b-form-input v-model="form.price" placeholder="가격" required></b-form-input>
+                <b-form-input v-model="goods.price" placeholder="가격" required></b-form-input>
             </b-col>
 
         </b-row>
 
         <b-row class="mb-2">
             <b-col>
-                <b-form-input v-model="form.title" placeholder="제목" required></b-form-input>
+                <b-form-input v-model="goods.title" placeholder="제목" required></b-form-input>
             </b-col>
         </b-row>
 
         <b-row class="mb-2">
             <b-col>
-                <ToastUI ref='tuiWrite'/>
+                <ToastUI :initialValue="goods.content" ref='tuiWrite'/>
             </b-col>
         </b-row>
 
-        <b-button v-on:click="submit" squared>글쓰기</b-button>
+        <b-button v-on:click="submit" squared>수정</b-button>
+
     </b-container>
 </template>
 
 <script>
-    import { uploadGoodsImage, writeGoods } from "../../api";
     import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
+    import { uploadGoodsImage, writeGoods } from "../../api";
 
     export default {
-        name: "Write",
+        name: "Modify",
         components: {
             ToastUI,
             Upload
@@ -43,14 +45,7 @@
         data() {
             return {
                 file: null,
-                form: {
-                    title: '',
-                    price: null,
-                    content: '',
-                    categoryItem: null,
-                    writer: this.$store.state.login.userInfo.username,
-                    image: null
-                },
+                goods: this.$route.params.goods,
                 options: [
                     { value: null, text: '------------'},
                     { value: {id: 1, itemNum: '011', name: '스텐드'}, text: '스텐드'},
@@ -68,13 +63,13 @@
                 ]
             }
         },
-        mounted() {
-
+        created() {
+            console.log(this.goods)
         },
         methods: {
             async submit(event) {
                 event.preventDefault()
-                this.form.content = this.$refs.tuiWrite.getHtml()
+                this.goods.content = this.$refs.tuiWrite.getHtml()
 
                 const uploadData = new FormData()
                 uploadData.append('file', this.file)

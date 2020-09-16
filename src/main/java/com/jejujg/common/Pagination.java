@@ -15,12 +15,12 @@ public class Pagination {
     private boolean prev, next;
 
     @Builder
-    public Pagination(Criteria criteria, Long total, Integer realEndPage, Integer pagingSize){
+    public Pagination(Criteria criteria, Long total, Integer realEndPage, Integer pageRange){
         this.total = total;
         this.realEndPage = realEndPage;
 
-        this.endPage = (int) Math.ceil(criteria.getPage() / (double) pagingSize) * pagingSize;
-        this.startPage = endPage - pagingSize + 1;
+        this.endPage = (int) Math.ceil(criteria.getPage() / (double) pageRange) * pageRange;
+        this.startPage = endPage - pageRange + 1;
 
         if (this.realEndPage < this.endPage) this.endPage = this.realEndPage;
 

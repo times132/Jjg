@@ -2,28 +2,27 @@
     <b-container>
         <h6>params 카테고리 넘버: {{ $route.params.categoryNum }}</h6>
         <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
-        <b-table
-                small
-                hover
-                :fields="fields"
-                :items="goods"
-                responsive="sm"
-                @row-clicked="clickRow"
-        >
-            <template v-slot:cell(title)="data">
-                <b>{{ data.value }}</b>
-            </template>
-        </b-table>
+<!--        <b-table-->
+<!--                small-->
+<!--                hover-->
+<!--                :fields="fields"-->
+<!--                :items="goods"-->
+<!--                responsive="sm"-->
+<!--                @row-clicked="clickRow"-->
+<!--        >-->
+<!--            <template v-slot:cell(title)="data">-->
+<!--                <b>{{ data.value }}</b>-->
+<!--            </template>-->
+<!--        </b-table>-->
 
         <div v-if="isDataFetch">
             <b-row  v-for="i in 3" :key="i">
-                <b-col v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
-                    <span>{{goods}}</span>
+                <b-col cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j" @click="clickRow(goods.gid)">
                     <b-img thumbnail fluid :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage"/>
+                    <span>{{goods.title}}</span>
                 </b-col>
             </b-row>
         </div>
-
 
         <!-- 페이징 -->
         <Pagination :paging-data="pagination" :cri="criteria"/>
@@ -59,14 +58,11 @@
         },
         data() {
             return {
-                fields: [
-                    'gid',
-                    { key: 'title', label: '제목'}
-                ],
                 goods: null,
                 criteria: {
                     page: this.$route.params.page===undefined ? 1 : this.$route.params.page,
                     pageSize: 9,
+                    pageRange: 5,
                     type: '',
                     keyword: ''
                 },
@@ -87,10 +83,9 @@
             }
         },
         methods: {
-            clickRow(record) {
-                this.$router.push(`/goods/${this.categoryNum}/${record.gid}`)
+            clickRow(gid) {
+                this.$router.push(`/goods/${this.categoryNum}/${gid}`)
                 this.$store.dispatch('setCriteria', this.criteria)
-                console.log(this.$store.state.goods.criteria)
             },
             getList(){
                 getGoodsList(this.$route.params.categoryNum, this.criteria)
@@ -101,7 +96,6 @@
                     })
             },
             thumbnail(value) {
-                console.log(value)
                 if (value === null) {
                     return null
                 }else {

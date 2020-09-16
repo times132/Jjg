@@ -33,7 +33,6 @@
         computed: {
             calRange() {
                 let pageRange = []
-
                 for (var i=this.pagingData.startPage; i <= this.pagingData.endPage; i++){
                     pageRange.push(i)
                 }
@@ -49,12 +48,15 @@
         methods: {
             clickPage(page) {
                 this.criteria.page = page
+                window.scrollTo(0,0)
             },
             clickPrev() {
                 this.criteria.page = this.pagingData.startPage - 1
+                window.scrollTo(0,0)
             },
             clickNext() {
                 this.criteria.page = this.pagingData.endPage + 1
+                window.scrollTo(0,0)
             },
             checkPage(index) {
                 return (this.criteria.page === index)
