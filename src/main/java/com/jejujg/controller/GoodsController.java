@@ -60,7 +60,7 @@ public class GoodsController {
 
     @PutMapping("/{gid}")
     public ResponseEntity<?> modify(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
-        Image image = uploadService.saveGoodsDB(request.getImage());
+        Image image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
     }
 

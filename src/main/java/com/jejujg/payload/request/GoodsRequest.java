@@ -22,14 +22,4 @@ public class GoodsRequest {
     private Integer price;
     private String writer;
     private Map<String, Object> image;
-
-//    @Builder
-//    public GoodsRequest(CategoryItem categoryItem, String title, String content, Integer price, String writer, Image image) {
-//        this.categoryItem = categoryItem;
-//        this.title = title;
-//        this.content = content;
-//        this.price = price;
-//        this.writer = writer;
-//        this.image = image;
-//    }
 }

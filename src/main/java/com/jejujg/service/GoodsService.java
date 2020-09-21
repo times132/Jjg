@@ -7,15 +7,12 @@ import com.jejujg.model.Goods;
 import com.jejujg.model.Image;
 import com.jejujg.payload.dto.GoodsList;
 import com.jejujg.payload.request.GoodsRequest;
-import com.jejujg.payload.response.GoodsListResponse;
 import com.jejujg.payload.response.GoodsResponse;
 import com.jejujg.repository.GoodsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -48,28 +45,28 @@ public class GoodsService {
     }
 
     @Transactional
-    public GoodsResponse findOne(Long bid){
-        Goods goods = goodsRepository.findByGid(bid)
+    public GoodsResponse findOne(Long gid){
+        Goods goods = goodsRepository.findByGid(gid)
                 .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 게시물 입니다."));
 
         return mapper.goodsEntityToDTO(goods);
     }
 
     @Transactional
-    public Long update(Long bid, GoodsRequest request, Image image){
-        Goods goods = goodsRepository.findById(bid)
+    public Long update(Long gid, GoodsRequest request, Image image){
+        Goods goods = goodsRepository.findById(gid)
                 .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 게시물 입니다."));
 
         goods.update(request, image);
 
-        return bid;
+        return gid;
     }
 
     @Transactional
-    public Long delete(Long bid){
-        if (goodsRepository.existsById(bid)){
-            goodsRepository.deleteById(bid);
-            return bid;
+    public Long delete(Long gid){
+        if (goodsRepository.existsById(gid)){
+            goodsRepository.deleteById(gid);
+            return gid;
         } else {
             throw new IllegalArgumentException("존재 하지 않는 게시물 입니다.");
         }

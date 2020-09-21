@@ -2,24 +2,14 @@
     <b-container>
         <h6>params 카테고리 넘버: {{ $route.params.categoryNum }}</h6>
         <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
-<!--        <b-table-->
-<!--                small-->
-<!--                hover-->
-<!--                :fields="fields"-->
-<!--                :items="goods"-->
-<!--                responsive="sm"-->
-<!--                @row-clicked="clickRow"-->
-<!--        >-->
-<!--            <template v-slot:cell(title)="data">-->
-<!--                <b>{{ data.value }}</b>-->
-<!--            </template>-->
-<!--        </b-table>-->
 
         <div v-if="isDataFetch">
             <b-row  v-for="i in 3" :key="i">
-                <b-col cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j" @click="clickRow(goods.gid)">
-                    <b-img thumbnail fluid :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage"/>
-                    <span>{{goods.title}}</span>
+                <b-col class="goods-list" cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
+                    <div>
+                        <b-img fluid thumbnail :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
+                        <span>{{goods.title}}</span>
+                    </div>
                 </b-col>
             </b-row>
         </div>
@@ -107,6 +97,23 @@
 </script>
 
 <style>
+    .goods-list{
+        /*padding: 0!important;*/
+        /*margin: 0 15px!important;*/
+    }
+    @media (min-width: 1200px) {
+        /*.goods-list{*/
+        /*    max-height: 380px;*/
+        /*    overflow: hidden;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    align-items: center;*/
+        /*}*/
+        .goods-list img{
+            height: 350px;
+            width: 100%;
+        }
+    }
     .pagination{
         justify-content: center;
     }

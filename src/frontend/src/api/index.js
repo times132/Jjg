@@ -9,6 +9,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
     function (config) {
         config.headers.post['Content-Type'] = 'application/json'
+        config.headers.put['Content-Type'] = 'application/json'
         return config
     },
     function (error) {
@@ -54,6 +55,14 @@ function getGoodsList(categoryNum, criteria) {
             type: criteria.type,
             keyword: criteria.keyword
         }
+    })
+}
+
+function updateGoods(goodsData, gid) {
+    return instance({
+        url: '/goods/' + gid,
+        method: 'put',
+        data: goodsData
     })
 }
 
@@ -103,6 +112,7 @@ export {
     getDetail,
     writeGoods,
     getGoodsList,
+    updateGoods,
     displayGoodsImage,
     uploadGoodsImage,
     userLogin,

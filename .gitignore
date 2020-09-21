@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 src/main/resources/application.properties
+src/main/resources/static
 
 ### STS ###
 .apt_generated

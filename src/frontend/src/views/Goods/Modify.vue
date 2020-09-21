@@ -6,7 +6,7 @@
                 <b-form-select v-model="goods.categoryItem" :options="options" required></b-form-select>
             </b-col>
             <b-col md="4">
-                <Upload @event-data="fileInfo"/>
+                <Upload @event-data="fileInfo" :initial-file="goods.image"/>
             </b-col>
             <b-col md="4" class="ml-auto">
                 <b-form-input v-model="goods.price" placeholder="가격" required></b-form-input>
@@ -34,7 +34,7 @@
 <script>
     import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
-    import { uploadGoodsImage, writeGoods } from "../../api";
+    import { uploadGoodsImage, updateGoods } from "../../api";
 
     export default {
         name: "Modify",
@@ -63,9 +63,6 @@
                 ]
             }
         },
-        created() {
-            console.log(this.goods)
-        },
         methods: {
             async submit(event) {
                 event.preventDefault()
@@ -73,22 +70,24 @@
 
                 const uploadData = new FormData()
                 uploadData.append('file', this.file)
-                uploadData.append('categoryNum', this.form.categoryItem.itemNum)
+                uploadData.append('categoryNum', this.goods.categoryItem.itemNum)
 
                 let uploadResponse = null
                 if (this.file !== null) {
+                    console.log("사진업로드")
                     uploadResponse = await uploadGoodsImage(uploadData)
-
-                    this.form.image = {
+                    console.log(uploadResponse.data)
+                    this.goods.image = {
+                        fid: this.goods.image.fid,
                         uuid: uploadResponse.data.uuid,
                         path: uploadResponse.data.path,
                         fileName: uploadResponse.data.fileName
                     }
                 }
 
-                writeGoods(JSON.stringify(this.form))
+                updateGoods(JSON.stringify(this.goods), this.goods.gid)
                     .then(() => {
-                        alert("등록되었습니다.")
+                        alert("수정되었습니다.")
                         this.$router.go(-1)
                     })
                     .catch(() => alert("실패하였습니다."))

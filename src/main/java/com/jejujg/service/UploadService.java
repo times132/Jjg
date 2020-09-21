@@ -1,6 +1,5 @@
 package com.jejujg.service;
 
-import com.jejujg.model.Goods;
 import com.jejujg.model.Image;
 import com.jejujg.repository.UploadRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +55,11 @@ public class UploadService {
     }
 
     public Image saveGoodsDB(Map<String, Object> imageMap){
-        return uploadRepository.save(convertMapToImage(imageMap));
+        return uploadRepository.save(convertMapToImage(null, imageMap));
+    }
+
+    public Image updateGoodsDB(Long fid, Map<String, Object> imageMap){
+        return uploadRepository.save(convertMapToImage(fid, imageMap));
     }
 
     private boolean checkImage(File file){
@@ -72,8 +75,9 @@ public class UploadService {
         return false;
     }
 
-    private Image convertMapToImage(Map<String, Object> imageMap){
+    private Image convertMapToImage(Long fid, Map<String, Object> imageMap){
         return Image.builder()
+                .fid(fid)
                 .fileName(String.valueOf(imageMap.get("fileName")))
                 .path(String.valueOf(imageMap.get("path")))
                 .uuid(String.valueOf(imageMap.get("uuid")))

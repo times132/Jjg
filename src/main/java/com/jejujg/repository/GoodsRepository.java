@@ -22,4 +22,5 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     @EntityGraph(attributePaths = {"image", "categoryItem"})
     @Query(value = "select DISTINCT g from Goods g where g.gid=?1")
     Optional<Goods> findByGid(Long gid);
+    Long findFidByGid(Long gid);
 }
