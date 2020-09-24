@@ -4,9 +4,13 @@ import com.jejujg.model.Image;
 import com.jejujg.repository.UploadRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,6 +44,7 @@ public class UploadService {
             uploadFile.transferTo(saveFile);
 
             if (checkImage(saveFile)) { // 이미지 파일일 때
+                makeThumbnail(uploadPath.getAbsolutePath(), uploadFileName, uploadFileName.substring(uploadFileName.lastIndexOf(".")+1), 350, 350);
                 map.put("path", uploadFolderPath);
                 map.put("fileName", uploadOriFileName);
                 map.put("uuid", uuid);
@@ -60,6 +65,42 @@ public class UploadService {
 
     public Image updateGoodsDB(Long fid, Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(fid, imageMap));
+    }
+
+    private void makeThumbnail(String filePath, String fileName, String fileExt, int height, int width) throws Exception{
+        BufferedImage srcImg = ImageIO.read(new File(filePath+ "/" + fileName));
+
+        // 썸네일 사이즈
+        int tw = width;
+        int th = height;
+
+        //파일 사이즈
+        int fw = srcImg.getWidth();
+        int fh = srcImg.getHeight();
+
+        int pd = 0;
+        if (fw > fh){
+            pd = (int)(Math.abs((th * fw / (double)tw) - fh) / 2d);
+        } else{
+            pd = (int)(Math.abs((tw * fh / (double)th) - fw) / 2d);
+        }
+        srcImg = Scalr.pad(srcImg, pd, Color.WHITE, Scalr.OP_ANTIALIAS);
+
+        fw = srcImg.getWidth();
+        fh = srcImg.getHeight();
+
+        int nw = fw;
+        int nh = (fw * th) / tw;
+        if (nh > fh){
+            nw = (fh * tw) / th;
+            nh = fh;
+        }
+        BufferedImage cropImg = Scalr.crop(srcImg, (fw-nw)/2, (fh-nh)/2, nw, nh);
+        BufferedImage destImg = Scalr.resize(cropImg, tw, th);
+
+        String thumbName = filePath + "/s_" + fileName;
+        File thumbFile = new File(thumbName);
+        ImageIO.write(destImg, fileExt.toUpperCase(), thumbFile);
     }
 
     private boolean checkImage(File file){

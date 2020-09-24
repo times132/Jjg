@@ -53,7 +53,7 @@
                     { value: {id: 3, itemNum: '013', name: '천장'}, text: '천장'},
                     { value: {id: 4, itemNum: '021', name: '냉장고'}, text: '냉장고'},
                     { value: {id: 5, itemNum: '022', name: '세탁기'}, text: '세탁기'},
-                    { value: {id: 1, itemNum: '023', name: 'TV'}, text: 'TV'},
+                    { value: {id: 6, itemNum: '023', name: 'TV'}, text: 'TV'},
                     { value: {id: 7, itemNum: '031', name: '선반'}, text: '선반'},
                     { value: {id: 8, itemNum: '032', name: '냉장/냉동고'}, text: '냉장/냉동고'},
                     { value: {id: 9, itemNum: '033', name: '화구'}, text: '화구'},

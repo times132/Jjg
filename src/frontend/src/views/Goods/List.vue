@@ -89,7 +89,7 @@
                 if (value === null) {
                     return null
                 }else {
-                    return value.path+'/'+value.uuid+'_'+value.fileName
+                    return value.path+'/s_'+value.uuid+'_'+value.fileName
                 }
             }
         },
@@ -102,15 +102,26 @@
         /*margin: 0 15px!important;*/
     }
     @media (min-width: 1200px) {
-        /*.goods-list{*/
-        /*    max-height: 380px;*/
-        /*    overflow: hidden;*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    align-items: center;*/
-        /*}*/
         .goods-list img{
             height: 350px;
+            width: 100%;
+        }
+    }
+    @media (max-width: 992px){
+        .goods-list img{
+            height: 290px;
+            width: 100%;
+        }
+    }
+    @media (max-width: 768px){
+        .goods-list img{
+            height: 210px;
+            width: 100%;
+        }
+    }
+    @media (max-width: 576px){
+        .goods-list img{
+            height: 150px;
             width: 100%;
         }
     }
