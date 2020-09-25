@@ -8,7 +8,9 @@
                 <b-col class="goods-list" cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
                     <div>
                         <b-img fluid thumbnail :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
-                        <span>{{goods.title}}</span>
+                        <div class="goods-body">
+                            <span>{{goods.title}}</span>
+                        </div>
                     </div>
                 </b-col>
             </b-row>
@@ -97,34 +99,6 @@
 </script>
 
 <style>
-    .goods-list{
-        /*padding: 0!important;*/
-        /*margin: 0 15px!important;*/
-    }
-    @media (min-width: 1200px) {
-        .goods-list img{
-            height: 350px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 992px){
-        .goods-list img{
-            height: 290px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 768px){
-        .goods-list img{
-            height: 210px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 576px){
-        .goods-list img{
-            height: 150px;
-            width: 100%;
-        }
-    }
     .pagination{
         justify-content: center;
     }

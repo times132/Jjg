@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -48,6 +50,7 @@ public class GoodsController {
         return new ResponseEntity<>(goodsService.findOne(gid), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> write(@RequestBody GoodsRequest request){
         Image image = null;
@@ -58,14 +61,17 @@ public class GoodsController {
         return new ResponseEntity<>(goodsService.save(request, image), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{gid}")
     public ResponseEntity<?> modify(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
         Image image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{gid}")
     public ResponseEntity<?> remove(@PathVariable("gid") Long gid){
+        Image image = goodsService.findImage(gid);
         return new ResponseEntity<>(goodsService.delete(gid), HttpStatus.OK);
     }
 }

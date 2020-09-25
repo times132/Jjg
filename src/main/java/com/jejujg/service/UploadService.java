@@ -44,7 +44,7 @@ public class UploadService {
             uploadFile.transferTo(saveFile);
 
             if (checkImage(saveFile)) { // 이미지 파일일 때
-                makeThumbnail(uploadPath.getAbsolutePath(), uploadFileName, uploadFileName.substring(uploadFileName.lastIndexOf(".")+1), 350, 350);
+                makeThumbnail(uploadPath.getAbsolutePath(), uploadFileName, uploadFileName.substring(uploadFileName.lastIndexOf(".")+1), 480, 480);
                 map.put("path", uploadFolderPath);
                 map.put("fileName", uploadOriFileName);
                 map.put("uuid", uuid);
@@ -59,6 +59,10 @@ public class UploadService {
         return map;
     }
 
+    public void deleteGoods(){
+
+    }
+
     public Image saveGoodsDB(Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(null, imageMap));
     }
@@ -67,6 +71,8 @@ public class UploadService {
         return uploadRepository.save(convertMapToImage(fid, imageMap));
     }
 
+
+    // 썸네일 생성
     private void makeThumbnail(String filePath, String fileName, String fileExt, int height, int width) throws Exception{
         BufferedImage srcImg = ImageIO.read(new File(filePath+ "/" + fileName));
 
@@ -78,6 +84,7 @@ public class UploadService {
         int fw = srcImg.getWidth();
         int fh = srcImg.getHeight();
 
+        // 썸네일 사이즈만큼 빈 픽셀에 하얀배경 추가
         int pd = 0;
         if (fw > fh){
             pd = (int)(Math.abs((th * fw / (double)tw) - fh) / 2d);
@@ -95,6 +102,7 @@ public class UploadService {
             nw = (fh * tw) / th;
             nh = fh;
         }
+
         BufferedImage cropImg = Scalr.crop(srcImg, (fw-nw)/2, (fh-nh)/2, nw, nh);
         BufferedImage destImg = Scalr.resize(cropImg, tw, th);
 
@@ -103,6 +111,7 @@ public class UploadService {
         ImageIO.write(destImg, fileExt.toUpperCase(), thumbFile);
     }
 
+    // 파일 mimeType 체크
     private boolean checkImage(File file){
         try {
             String mimeType = new Tika().detect(file);

@@ -33,7 +33,7 @@ public class Goods extends DateAudit{
     private String writer;
 
     @Nullable
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "image_id")
     private Image image;
 

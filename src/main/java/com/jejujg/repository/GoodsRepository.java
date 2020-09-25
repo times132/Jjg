@@ -2,6 +2,7 @@ package com.jejujg.repository;
 
 import com.jejujg.model.CategoryItem;
 import com.jejujg.model.Goods;
+import com.jejujg.model.Image;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -22,5 +23,5 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     @EntityGraph(attributePaths = {"image", "categoryItem"})
     @Query(value = "select DISTINCT g from Goods g where g.gid=?1")
     Optional<Goods> findByGid(Long gid);
-    Long findFidByGid(Long gid);
+    Image findImageByGid(Long gid);
 }
