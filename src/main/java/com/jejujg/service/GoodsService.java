@@ -71,4 +71,11 @@ public class GoodsService {
             throw new IllegalArgumentException("존재 하지 않는 게시물 입니다.");
         }
     }
+
+    @Transactional
+    public Image findImage(Long gid){
+        Image image = goodsRepository.findByGid(gid).get().getImage();
+
+        return image;
+    }
 }

@@ -66,6 +66,13 @@ function updateGoods(goodsData, gid) {
     })
 }
 
+function deleteGoods(gid) {
+    return instance({
+        url: '/goods/' + gid,
+        method: 'delete'
+    })
+}
+
 function displayGoodsImage(imageName) {
     console.log(imageName)
     return instance({
@@ -113,6 +120,7 @@ export {
     writeGoods,
     getGoodsList,
     updateGoods,
+    deleteGoods,
     displayGoodsImage,
     uploadGoodsImage,
     userLogin,
