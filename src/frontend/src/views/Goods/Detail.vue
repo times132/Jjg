@@ -6,28 +6,24 @@
             <b-button @click="moveList" squared variant="primary" size="sm">목록</b-button>
         </div>
 
-        <b-card no-body class="mt-1">
+        <div class="mt-1">
             <b-row no-gutters>
-                <b-col md="5" style="height: 600px">
-                    <b-card-img style="max-height: 600px" :src="'http://localhost:9000/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
+                <b-col md="5" class="goods-img-container">
+                    <div class="goods-detail">
+                        <b-card-img class="goods-detail-img" :src="'http://localhost:9000/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
+                    </div>
                 </b-col>
                 <b-col md="7">
-                    <b-card-body>
-                        <b-card-text>
-                            <h2 class="title">{{goods.title}}</h2>
-                            <h4>{{goods.price}}원</h4>
-                        </b-card-text>
-                    </b-card-body>
+                        <h2 class="title">{{goods.title}}</h2>
+                        <h4>{{goods.price}}원</h4>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
-                    <b-card-text class="content">
-                        <viewer v-if="goods.content != null" :initialValue="goods.content"/>
-                    </b-card-text>
+                    <viewer v-if="goods.content != null" :initialValue="goods.content"/>
                 </b-col>
             </b-row>
-        </b-card>
+        </div>
     </b-container>
 </template>
 
@@ -97,6 +93,20 @@
 </script>
 
 <style scoped>
+    .goods-img-container{
+        height: 480px;
+        overflow: hidden;
+    }
+    .goods-detail {
+        height: 100%;
+        display:flex;
+        align-items: center;
+    }
+    .goods-detail-img{
+        height: auto;
+        width: 100%;
+        align-self: center;
+    }
     .button-group{
         text-align: right;
     }
@@ -104,6 +114,6 @@
         margin: 0 0.1rem;
     }
     .content{
-        border-top: 1px solid rgba(0,0,0,.125)
+        border-top: 1px solid rgba(0, 0, 0, 0.12)
     }
 </style>

@@ -11,7 +11,7 @@
                         <!-- 매장 -->
                         <b-nav-item-dropdown text="매장" no-caret class="dropdown-menu-center">
                             <b-dropdown-item to="/intro">소개</b-dropdown-item>
-                            <b-dropdown-item to="/location">찾아오는 길</b-dropdown-item>
+                            <b-dropdown-item href="/location">찾아오는 길</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 에어컨 -->

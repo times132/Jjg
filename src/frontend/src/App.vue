@@ -52,5 +52,6 @@
         padding: 20px;
         background-color: gray;
         color: white;
+        margin-top: 2rem;
     }
 </style>

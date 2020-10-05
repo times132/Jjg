@@ -6,13 +6,18 @@ import {BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueCookie from 'vue-cookie'
-import { Viewer } from "@toast-ui/vue-editor";
+import { Viewer } from '@toast-ui/vue-editor'
+import naver from 'vue-naver-maps'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueCookie)
 Vue.component('viewer', Viewer)
 Vue.config.productionTip = false
+Vue.use(naver, {
+  clientID: '6dwlecs3gq',
+  useGovAPI: false
+})
 
 new Vue({
   store,

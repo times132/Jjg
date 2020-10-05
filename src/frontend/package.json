@@ -18,6 +18,7 @@
     "secure-ls": "^1.2.6",
     "vue": "^2.6.11",
     "vue-cookie": "^1.1.4",
+    "vue-naver-maps": "^0.14.1",
     "vue-router": "^3.3.2",
     "vuex": "^3.5.1",
     "vuex-persistedstate": "^3.1.0"

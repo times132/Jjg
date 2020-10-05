@@ -9,6 +9,7 @@ import Detail from '../views/Goods/Detail'
 import List from '../views/Goods/List'
 import store from '../vuex/index'
 import Signup from '../views/Signup'
+import Location from '../views/Intro/Location'
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,11 @@ const routes = [
     {
         path: '/display',
         name: 'display'
+    },
+    {
+        path: '/location',
+        name: 'location',
+        component: Location
     }
 ]
 

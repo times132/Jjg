@@ -6,10 +6,16 @@
         <div v-if="isDataFetch">
             <b-row  v-for="i in 3" :key="i">
                 <b-col class="goods-list" cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
-                    <div>
-                        <b-img fluid thumbnail :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
-                        <span>{{goods.title}}</span>
-                    </div>
+<!--                    <div>-->
+<!--                        <b-img fluid thumbnail :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>-->
+<!--                        <span>{{goods.title}}</span>-->
+<!--                    </div>-->
+                    <b-card no-body>
+                        <b-img class="goods-img" fluid :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
+                        <b-card-body>
+                            {{goods.title}}
+                        </b-card-body>
+                    </b-card>
                 </b-col>
             </b-row>
         </div>
@@ -98,32 +104,10 @@
 
 <style>
     .goods-list{
-        /*padding: 0!important;*/
-        /*margin: 0 15px!important;*/
+        margin-bottom: 1.5rem;
     }
-    @media (min-width: 1200px) {
-        .goods-list img{
-            height: 350px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 992px){
-        .goods-list img{
-            height: 290px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 768px){
-        .goods-list img{
-            height: 210px;
-            width: 100%;
-        }
-    }
-    @media (max-width: 576px){
-        .goods-list img{
-            height: 150px;
-            width: 100%;
-        }
+    .goods-img{
+        border-bottom: 1px solid rgba(0,0,0,.125);
     }
     .pagination{
         justify-content: center;
