@@ -85,16 +85,18 @@ public class UploadService {
         int fh = srcImg.getHeight();
 
         // 썸네일 사이즈만큼 빈 픽셀에 하얀배경 추가
-        int pd = 0;
-        if (fw > fh){
-            pd = (int)(Math.abs((th * fw / (double)tw) - fh) / 2d);
-        } else{
-            pd = (int)(Math.abs((tw * fh / (double)th) - fw) / 2d);
-        }
-        srcImg = Scalr.pad(srcImg, pd, Color.WHITE, Scalr.OP_ANTIALIAS);
+        if (fw != fh){
+            int pd = 0;
+            if (fw > fh){
+                pd = (int)(Math.abs((th * fw / (double)tw) - fh) / 2d);
+            } else{
+                pd = (int)(Math.abs((tw * fh / (double)th) - fw) / 2d);
+            }
+            srcImg = Scalr.pad(srcImg, pd, Color.WHITE, Scalr.OP_ANTIALIAS);
 
-        fw = srcImg.getWidth();
-        fh = srcImg.getHeight();
+            fw = srcImg.getWidth();
+            fh = srcImg.getHeight();
+        }
 
         int nw = fw;
         int nh = (fw * th) / tw;
