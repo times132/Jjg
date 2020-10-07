@@ -7,7 +7,7 @@ import Write from '../views/Goods/Write'
 import Modify from '../views/Goods/Modify'
 import Detail from '../views/Goods/Detail'
 import List from '../views/Goods/List'
-import store from '../vuex/index'
+import store from '../vuex'
 import Signup from '../views/Signup'
 import Location from '../views/Intro/Location'
 

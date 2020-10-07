@@ -1,8 +1,8 @@
 import axios from 'axios'
-import store from '../vuex/index'
+import store from '../vuex'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:9000',
+    // baseURL: 'http://localhost:9000',
     withCredentials: true,
 })
 
@@ -39,7 +39,7 @@ function getDetail(subUrl, id) {
 
 function writeGoods(goodsData) {
     return instance({
-        url: '/goods',
+        url: '/api/goods',
         method: 'post',
         data: goodsData
     })
@@ -47,7 +47,7 @@ function writeGoods(goodsData) {
 
 function getGoodsList(categoryNum, criteria) {
     return instance({
-        url: '/goods/' + categoryNum,
+        url: '/api/goods/' + categoryNum,
         method: 'get',
         params: {
             page: criteria.page,
@@ -60,7 +60,7 @@ function getGoodsList(categoryNum, criteria) {
 
 function updateGoods(goodsData, gid) {
     return instance({
-        url: '/goods/' + gid,
+        url: '/api/goods/' + gid,
         method: 'put',
         data: goodsData
     })
@@ -68,7 +68,7 @@ function updateGoods(goodsData, gid) {
 
 function deleteGoods(gid) {
     return instance({
-        url: '/goods/' + gid,
+        url: '/api/goods/' + gid,
         method: 'delete'
     })
 }
@@ -76,7 +76,7 @@ function deleteGoods(gid) {
 function displayGoodsImage(imageName) {
     console.log(imageName)
     return instance({
-        url: '/display',
+        url: '/api/display',
         method: 'get',
         params: {
             imageName: imageName
@@ -86,7 +86,7 @@ function displayGoodsImage(imageName) {
 
 function uploadGoodsImage(file) {
     return instance({
-        url: '/upload/goods',
+        url: '/api/upload/goods',
         method: 'post',
         data: file,
     })

@@ -6,12 +6,8 @@
         <div v-if="isDataFetch">
             <b-row  v-for="i in 3" :key="i">
                 <b-col class="goods-list" cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
-<!--                    <div>-->
-<!--                        <b-img fluid thumbnail :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>-->
-<!--                        <span>{{goods.title}}</span>-->
-<!--                    </div>-->
                     <b-card no-body>
-                        <b-img class="goods-img" fluid :src="'http://localhost:9000/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
+                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
                         <b-card-body>
                             {{goods.title}}
                         </b-card-body>
@@ -64,7 +60,7 @@
                 },
                 pagination: {},
                 isDataFetch: false,
-                noImage: require('@/assets/img/no-image.jpg')
+                noImage: require('@/assets/no-image.jpg')
             }
         },
         created() {

@@ -18,7 +18,7 @@
         data() {
             return {
                 fileName: '대표 사진(10MB 이하)',
-                photo: require('@/assets/img/photo.png')
+                photo: require('@/assets/photo.jpg')
             }
         },
         created() {

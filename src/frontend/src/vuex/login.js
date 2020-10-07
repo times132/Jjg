@@ -1,4 +1,4 @@
-import { userLogin, userLogout, getUserInfo } from "../api/index";
+import { userLogin, userLogout, getUserInfo } from "../api";
 
 const state = {
     isAuthenticated: false,

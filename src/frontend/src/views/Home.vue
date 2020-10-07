@@ -21,7 +21,7 @@
             }
         },
         created() {
-            axios.get('http://localhost:9000/api/home')
+            axios.get('/api/home')
                 .then(result => this.greeting = result.data)
         },
         components: {

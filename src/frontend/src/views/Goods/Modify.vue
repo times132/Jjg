@@ -77,8 +77,9 @@
                     console.log("사진업로드")
                     uploadResponse = await uploadGoodsImage(uploadData)
                     console.log(uploadResponse.data)
+                    console.log(this.goods.image)
                     this.goods.image = {
-                        fid: this.goods.image.fid,
+                        fid: this.goods.image == null ? 0 : this.goods.image.fid,
                         uuid: uploadResponse.data.uuid,
                         path: uploadResponse.data.path,
                         fileName: uploadResponse.data.fileName

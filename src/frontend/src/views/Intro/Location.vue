@@ -39,7 +39,7 @@
                     lng: 126.538032
                 },
                 initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
-                icon: require('@/assets/img/map-marker.png'),
+                icon: require('@/assets/map-marker.png'),
             }
         },
         computed: {

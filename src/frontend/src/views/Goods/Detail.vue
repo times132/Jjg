@@ -10,7 +10,7 @@
             <b-row no-gutters>
                 <b-col md="5" class="goods-img-container">
                     <div class="goods-detail">
-                        <b-card-img class="goods-detail-img" :src="'http://localhost:9000/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
+                        <b-card-img class="goods-detail-img" :src="'/api/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
                     </div>
                 </b-col>
                 <b-col md="7">
@@ -60,11 +60,11 @@
                 imageData: '',
                 width: 320,
                 height: 480,
-                noImage: require('@/assets/img/no-image.jpg')
+                noImage: require('@/assets/no-image.jpg')
             }
         },
         created() {
-            getDetail('/goods/detail', this.goods.gid)
+            getDetail('/api/goods/detail', this.goods.gid)
                 .then(({data}) => {
                     this.goods.content = data.content
                     this.goods.title = data.title

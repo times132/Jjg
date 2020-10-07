@@ -23,7 +23,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-//@RequestMapping("/upload")
+@RequestMapping("/api")
 public class UploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);

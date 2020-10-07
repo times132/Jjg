@@ -12,8 +12,8 @@ bootWar{
 }
 
 node {
-    version = '12.14.1'
-    npmVersion = '6.13.4'
+    version = '12.18.2'
+    npmVersion = '6.14.5'
     workDir = file('./src/frontend')
     npmWorkDir = file('./src/frontend')
     nodeModulesDir = file('./src/frontend')

@@ -13,13 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/api/goods")
 public class GoodsController {
 
     private final GoodsService goodsService;
@@ -54,7 +53,7 @@ public class GoodsController {
     @PostMapping
     public ResponseEntity<?> write(@RequestBody GoodsRequest request){
         Image image = null;
-        if (request.getImage() != null){
+        if (request.getImage() != null) {
             image = uploadService.saveGoodsDB(request.getImage());
         }
 
@@ -64,7 +63,11 @@ public class GoodsController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{gid}")
     public ResponseEntity<?> modify(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
-        Image image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+        Image image = null;
+        if (request.getImage() != null) {
+            image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+        }
+
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
     }
 
