@@ -5,6 +5,9 @@ import com.jejujg.repository.UploadRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,11 +24,14 @@ import java.util.UUID;
 @Service
 public class UploadService {
 
+    @Value("${spring.uploadFolderPath}")
+    private String uploadPath;
     private final UploadRepository uploadRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
 
     public Map<String, Object> uploadGoods(MultipartFile uploadFile, String categoryNum){
         Map<String, Object> map = new HashMap<>();
-        String uploadFolder = "D:\\jjg-upload";
+        String uploadFolder = uploadPath;
         String uploadFolderPath = "goods/" + categoryNum;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -42,9 +48,12 @@ public class UploadService {
         try {
             File saveFile = new File(uploadPath, uploadFileName);
             uploadFile.transferTo(saveFile);
-
+            logger.info("원본 생성 완료");
             if (checkImage(saveFile)) { // 이미지 파일일 때
+                logger.info("uploadPath.getAbsolutePath()" + uploadPath.getAbsolutePath());
                 makeThumbnail(uploadPath.getAbsolutePath(), uploadFileName, uploadFileName.substring(uploadFileName.lastIndexOf(".")+1), 480, 480);
+                logger.info("썸네일 생성 완료");
+
                 map.put("path", uploadFolderPath);
                 map.put("fileName", uploadOriFileName);
                 map.put("uuid", uuid);

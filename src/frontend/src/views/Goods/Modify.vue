@@ -73,7 +73,11 @@
                 uploadData.append('categoryNum', this.goods.categoryItem.itemNum)
 
                 let uploadResponse = null
-                if (this.file !== null) {
+                console.log(this.file)
+                if (this.file === -1){
+                    this.goods.image = null
+                }
+                else if (this.file !== null) {
                     console.log("사진업로드")
                     uploadResponse = await uploadGoodsImage(uploadData)
                     console.log(uploadResponse.data)
@@ -85,6 +89,7 @@
                         fileName: uploadResponse.data.fileName
                     }
                 }
+
 
                 updateGoods(JSON.stringify(this.goods), this.goods.gid)
                     .then(() => {

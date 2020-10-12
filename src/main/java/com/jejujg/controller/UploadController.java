@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,8 @@ import java.util.Map;
 @RequestMapping("/api")
 public class UploadController {
 
+    @Value("${spring.uploadFolderPath}")
+    private String uploadPath;
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
     private final UploadService uploadService;
 
@@ -43,7 +46,8 @@ public class UploadController {
 
     @GetMapping("/display")
     public ResponseEntity<byte[]> imageGet(@RequestParam("imageName") String imageName){
-        File file = new File("D:\\jjg-upload\\" + imageName);
+        logger.info("파일 경로: " + uploadPath + "/" + imageName);
+        File file = new File(uploadPath + "/" + imageName);
 
         ResponseEntity<byte[]> result = null;
 
