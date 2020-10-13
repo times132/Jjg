@@ -4,11 +4,11 @@
         <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
 
         <div v-if="isDataFetch">
-            <b-row  v-for="i in 3" :key="i">
-                <b-col class="goods-list" cols="12" sm="4" v-for="(goods, j) in goods.slice((i-1)*3, i*3)" :key="j">
+            <b-row  v-for="i in 4" :key="i">
+                <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
                         <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
-                        <b-card-body>
+                        <b-card-body style="padding: 1rem">
                             {{goods.title}}
                         </b-card-body>
                     </b-card>
@@ -53,7 +53,7 @@
                 goods: null,
                 criteria: {
                     page: this.$route.params.page===undefined ? 1 : this.$route.params.page,
-                    pageSize: 9,
+                    pageSize: 16,
                     pageRange: 5,
                     type: '',
                     keyword: ''
@@ -82,6 +82,7 @@
             getList(){
                 getGoodsList(this.$route.params.categoryNum, this.criteria)
                     .then(({data}) => {
+                        console.log(data)
                         this.pagination = data.pagination
                         this.goods = data.goodsList
                         this.isDataFetch = true

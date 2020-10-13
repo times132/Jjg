@@ -22,7 +22,7 @@
                         </b-nav-item-dropdown>
 
                         <!-- 가전 -->
-                        <b-nav-item-dropdown text="가전" no-caret>
+                        <b-nav-item-dropdown text="생활가전" no-caret>
                             <b-dropdown-item to="/goods/021">냉장고</b-dropdown-item>
                             <b-dropdown-item to="/goods/022">세탁기</b-dropdown-item>
                             <b-dropdown-item to="/goods/023">TV</b-dropdown-item>
@@ -44,14 +44,14 @@
 
                     </b-navbar-nav>
 
-                    <b-navbar-nav class="ml-auto">
+                    <b-navbar-nav class="mr-auto">
                         <b-nav-form>
                             <b-form-input id="search" size="sm" class="mr-sm-2" placeholder="검색"></b-form-input>
                         </b-nav-form>
                     </b-navbar-nav>
 
-                    <b-navbar-nav v-if="isAuthenticated">
-                        <b-nav-item-dropdown no-caret right>
+                    <b-navbar-nav>
+                        <b-nav-item-dropdown v-if="isAuthenticated" no-caret right>
                             <template v-slot:button-content>
                                 <b-icon icon="person-circle"></b-icon>
                             </template>
@@ -60,12 +60,11 @@
                             <b-dropdown-item to="/me">내정보</b-dropdown-item>
                             <b-dropdown-item @click.prevent="onClickLogout">로그아웃</b-dropdown-item>
                         </b-nav-item-dropdown>
+
+                        <p  class="h4 mb-0 login">
+                            <b-link v-if="!isAuthenticated" to="/login">로그인</b-link>
+                        </p>
                     </b-navbar-nav>
-
-
-                    <p v-if="!isAuthenticated" class="h4 mb-0 pb-1 pt-1 login">
-                        <b-link to="/login">로그인</b-link>
-                    </p>
                 </b-collapse>
             </div>
         </b-navbar>
@@ -134,12 +133,19 @@
         text-align: center;
     }
     .login {
+        min-width: 2.5rem;
         justify-content: center;
     }
     .login a{
-        font-size: 1rem;
+        font-size: 0.80rem;
         color: black;
     }
+    @media (min-width: 992px) {
+        .login a{
+            font-size: 1rem;
+        }
+    }
+
     .login:hover {
         text-decoration: none;
         color: black;

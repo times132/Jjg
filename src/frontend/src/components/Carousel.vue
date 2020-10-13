@@ -3,8 +3,6 @@
         <b-carousel
                 style="text-shadow: 0px 0px 2px #000"
                 indicators
-                img-width="1024"
-                img-height="480"
                 controls
         >
             <b-carousel-slide
@@ -34,4 +32,10 @@
 
 <style scoped>
     @import "../css/indicator.css";
+    .carousel-item{
+        max-height: 240px;
+    }
+    .carousel-item img{
+        height: 20vh;
+    }
 </style>
