@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../vuex'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:9000',
+    // baseURL: 'http://localhost:9000',
     withCredentials: true,
 })
 

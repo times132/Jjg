@@ -7,7 +7,7 @@
         <b-row class="mt-3" align-v="center">
             <b-col cols="12" sm="6" class="simple-banner">
                 <b-row class="a">
-                    <b-img src="http://times133.cdn3.cafe24.com/home/aircon.png"/>
+                    <b-img src="http://times133.cdn3.cafe24.com/home/aircon.jpg"/>
                     <b-img src="http://times133.cdn3.cafe24.com/home/appliances.jpg"/>
                 </b-row>
 

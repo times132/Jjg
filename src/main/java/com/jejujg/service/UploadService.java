@@ -16,6 +16,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -68,8 +70,18 @@ public class UploadService {
         return map;
     }
 
-    public void deleteGoods(){
+    public void deleteGoods(String fileName, String categoryPath){
+        File file;
 
+        try {
+            file = new File(uploadPath + "/" + categoryPath + "/" + URLDecoder.decode(fileName, "UTF-8"));
+            file.delete();
+
+            file = new File(uploadPath + "/" + categoryPath + "/s_" + URLDecoder.decode(fileName, "UTF-8"));
+            file.delete();
+        } catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
     }
 
     public Image saveGoodsDB(Map<String, Object> imageMap){

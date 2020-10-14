@@ -1,6 +1,6 @@
 <template v-slot:header>
     <div>
-        <b-navbar toggleable="md" variant="light">
+        <b-navbar toggleable="md">
             <div class="container">
                 <!-- logo and name -->
                 <router-link class="navbar-brand" to="/">착한 중고</router-link>

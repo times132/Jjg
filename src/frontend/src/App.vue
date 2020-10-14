@@ -44,6 +44,10 @@
         display: flex;
         flex-direction: column;
     }
+    #header{
+        background-color: #dae2e3;
+        margin-bottom: 1rem;
+    }
     #main{
         flex: 1 0 auto;
     }

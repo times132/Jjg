@@ -64,8 +64,21 @@ public class GoodsController {
     @PutMapping("/{gid}")
     public ResponseEntity<?> modify(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
         Image image = null;
-        if (request.getImage() != null) {
-            image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+        Image oldImage = goodsService.findImage(gid);
+
+        if (request.getImage() != null) { // 요청에 이미지가 있을 때
+            if (oldImage == null) { // 기존에 이미지가 없을 경우(삭제할 이미지가 없음)
+                image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+            } else if(!request.getImage().get("fid").equals(oldImage.getFid())) { // 기존 이미지랑 다를 경우
+                uploadService.deleteGoods(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
+                image = uploadService.updateGoodsDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+            } else { // 변화가 없는 경우
+                image = oldImage;
+            }
+        }else { // 이미지가 없을 경우
+            if (oldImage != null){ // 기존 이미지를 삭제 할 경우
+                uploadService.deleteGoods(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
+            }
         }
 
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
@@ -75,6 +88,7 @@ public class GoodsController {
     @DeleteMapping("/{gid}")
     public ResponseEntity<?> remove(@PathVariable("gid") Long gid){
         Image image = goodsService.findImage(gid);
+        uploadService.deleteGoods(image.getUuid() + "_" + image.getFileName(), image.getPath());
         return new ResponseEntity<>(goodsService.delete(gid), HttpStatus.OK);
     }
 }

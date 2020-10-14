@@ -7,8 +7,7 @@ plugins {
 }
 
 bootWar{
-    archiveBaseName="jjg"
-    archiveVersion="0.0.1-SNAPSHOT"
+    archiveBaseName="ROOT"
 }
 
 node {

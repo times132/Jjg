@@ -1,9 +1,20 @@
 <template>
     <b-container>
         <div class="button-group mt-3">
-            <b-button @click="modifyGoods" v-if="compareUser" squared size="sm">수정</b-button>
-            <b-button v-if="compareUser" squared variant="outline-danger" size="sm">삭제</b-button>
+            <b-button v-if="compareUser" @click="modifyGoods" squared size="sm">수정</b-button>
+            <b-button v-if="compareUser" @click="showModal" squared variant="outline-danger" size="sm">삭제</b-button>
             <b-button @click="moveList" squared variant="primary" size="sm">목록</b-button>
+
+            <b-modal ref="delete-modal" hide-footer>
+                <div>
+                    <h4>삭제하시겠습니까?</h4>
+                </div>
+
+                <div class="button-group">
+                    <button @click="deleteGoods" class="modal-button confirm">확인</button>
+                    <button @click="hideModal" class="modal-button cancel">취소</button>
+                </div>
+            </b-modal>
         </div>
 
         <div class="mt-1">
@@ -28,7 +39,7 @@
 </template>
 
 <script>
-    import { getDetail } from "../../api";
+    import { deleteGoods, getDetail } from "../../api";
 
     export default {
         name: "Detail",
@@ -87,6 +98,19 @@
             },
             modifyGoods() {
                 this.$router.push({name: 'modify', params: {goods: this.goods}})
+            },
+            deleteGoods() {
+                deleteGoods(this.goods.gid)
+                    .then(({data}) => {
+                        console.log(data)
+                        this.$router.push({name: 'goods', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
+                    })
+            },
+            showModal() {
+                this.$refs['delete-modal'].show()
+            },
+            hideModal() {
+                this.$refs['delete-modal'].hide()
             }
         }
     }
@@ -112,6 +136,29 @@
     }
     .button-group button{
         margin: 0 0.1rem;
+    }
+    .modal-button{
+        font-size: 1rem;
+    }
+    .confirm{
+        color: white;
+        background-color: #408af6;
+        border-radius: 0.25rem;
+        border: 1px solid #408af6;
+        padding: 0.2rem 0.7rem;
+    }
+    .confirm:hover{
+        background-color: #3683f3;
+    }
+    .cancel{
+        color: #408af6;
+        background-color: white;
+        border-radius: 0.25rem;
+        border: 1px solid #c4c4c4;
+        padding: 0.2rem 0.7rem;
+    }
+    .cancel:hover{
+        background-color: #efefef;
     }
     .content{
         border-top: 1px solid rgba(0, 0, 0, 0.12)
