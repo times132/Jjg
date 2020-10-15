@@ -47,8 +47,16 @@
     #header{
         background-color: #dae2e3;
         margin-bottom: 1rem;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        z-index: 100;
+        transform: translate(0, -4px);
+        padding-top: 0.25rem;
     }
     #main{
+        padding-top: 4.5rem;
         flex: 1 0 auto;
     }
     #footer{

@@ -1,10 +1,16 @@
 <template>
     <b-container>
-        <h6>params 카테고리 넘버: {{ $route.params.categoryNum }}</h6>
-        <h6>props 카테고리 넘버: {{ categoryNum }}</h6>
+        <h6>등록 제품 : {{pagination.total}}개</h6>
+
+        <b-nav>
+            <div v-for="(category, i) in category[categoryIndex]" :key="i">
+                <b-nav-item :to="'/goods/'+category.itemNum">{{category.name}}</b-nav-item>
+            </div>
+        </b-nav>
+
 
         <div v-if="isDataFetch">
-            <b-row  v-for="i in 4" :key="i">
+            <b-row v-for="i in 4" :key="i">
                 <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
                         <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
@@ -60,11 +66,19 @@
                 },
                 pagination: {},
                 isDataFetch: false,
+                category: [
+                    [{itemNum: '011', name: '스텐드'}, {itemNum: '012', name: '벽걸이'}, {itemNum: '013', name: '천장'}],
+                    [{itemNum: '021', name: '냉장고'}, {itemNum: '022', name: '세탁기'}, {itemNum: '023', name: 'TV'}],
+                    [{itemNum: '031', name: '선반'}, {itemNum: '032', name: '냉장/냉동고'}, {itemNum: '033', name: '화구'}],
+                    [{itemNum: '041', name: '사무1'}, {itemNum: '042', name: '사무2'}, {itemNum: '043', name: '사무3'}]
+                ],
+                categoryIndex: 0,
                 noImage: require('@/assets/no-image.jpg')
             }
         },
         created() {
             this.getList()
+            this.categoryIndex = parseInt(this.categoryNum.slice(0,2))-1
         },
         watch: {
             criteria: {
@@ -82,7 +96,6 @@
             getList(){
                 getGoodsList(this.$route.params.categoryNum, this.criteria)
                     .then(({data}) => {
-                        console.log(data)
                         this.pagination = data.pagination
                         this.goods = data.goodsList
                         this.isDataFetch = true

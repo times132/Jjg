@@ -8,17 +8,11 @@
                 <!-- navbar -->
                 <b-collapse id="nav-collapse" is-nav>
                     <b-navbar-nav class="categoryItem">
-                        <!-- 매장 -->
-                        <b-nav-item-dropdown text="매장" no-caret class="dropdown-menu-center">
-                            <b-dropdown-item to="/intro">소개</b-dropdown-item>
-                            <b-dropdown-item href="/location">찾아오는 길</b-dropdown-item>
-                        </b-nav-item-dropdown>
 
-                        <!-- 에어컨 -->
                         <b-nav-item-dropdown text="에어컨" no-caret>
                             <b-dropdown-item to="/goods/011">스텐드</b-dropdown-item>
+                            <b-dropdown-item to="/goods/013">중대형</b-dropdown-item>
                             <b-dropdown-item to="/goods/012">벽걸이</b-dropdown-item>
-                            <b-dropdown-item to="/goods/013">천장</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 가전 -->

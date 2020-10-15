@@ -20,11 +20,19 @@
             </b-col>
         </b-row>
 
-        <p>
-            For a guide and recipes on how to configure / customize this project,<br>
-            check out the
-            <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-        </p>
+        <b-row>
+            <b-col cols="12" md="7">
+                <div class="test-banner">
+                    기타배너
+                </div>
+            </b-col>
+
+            <b-col cols="12" md="5" class="map-div">
+                <Map :map-width='320' :map-height='320'/>
+            </b-col>
+        </b-row>
+
+
         <div>{{greeting}}</div>
     </b-container>
 </template>
@@ -32,6 +40,7 @@
 <script>
     import axios from 'axios'
     import Carousel from '../components/Carousel'
+    import Map from '../components/Maps'
 
     export default {
         data() {
@@ -44,12 +53,12 @@
                 .then(result => this.greeting = result.data)
         },
         components: {
-            Carousel
+            Carousel,
+            Map
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     h3 {
         margin: 40px 0 0;
@@ -80,5 +89,12 @@
         margin: 0 auto;
         border-radius: 50%;
     }
-
+    .test-banner{
+        background-color: #7ec699;
+        height: 360px;
+    }
+    .map-div{
+        overflow: hidden;
+        background-color: #7f7f7f;
+    }
 </style>

@@ -1,35 +1,34 @@
 <template>
-    <b-container class="mb-5">
-        <b-row>
-            <naver-maps
-                    :width="width"
-                    :height="height"
-                    :map-options="mapOptions"
-                    :init-layers="initLayers"
-                    @load="onLoad">
-                <naver-info-window
-                        class="info-window"
-                        :isOpen="info"
-                        :marker="marker">
-                    <div class="info-window-container">
-                        <h4>{{shopInfo}}</h4>
-                    </div>
-                </naver-info-window>
-                <naver-marker :lat="33.497950" :lng="126.537930" @click="onMarkerClicked" @load="onMarkerLoaded"/>
-            </naver-maps>
-        </b-row>
-    </b-container>
+    <div class="mb-5">
+        <naver-maps
+                :width="width"
+                :height="height"
+                :map-options="mapOptions"
+                :init-layers="initLayers"
+                @load="onLoad">
+            <naver-info-window
+                    class="info-window"
+                    :isOpen="info"
+                    :marker="marker">
+                <div class="info-window-container">
+                    <h4>{{shopInfo}}</h4>
+                </div>
+            </naver-info-window>
+            <naver-marker :lat="33.497950" :lng="126.537930" @click="onMarkerClicked" @load="onMarkerLoaded"/>
+        </naver-maps>
+    </div>
 
 </template>
 
 <script>
     export default {
         name: "Location",
+        props: ['mapWidth', 'mapHeight'],
         data() {
             return {
                 windowWidth: 0,
-                width: 600,
-                height: 600,
+                width: this.mapWidth,
+                height: this.mapHeight,
                 info: false,
                 map: null,
                 marker: null,
@@ -50,10 +49,10 @@
         mounted() {
             window.addEventListener('resize', () => {
                 this.windowWidth = window.innerWidth
-                if (window.innerWidth < 600) {
-                    this.map.setSize({width: 400, height: 400})
+                if (window.innerWidth < 768) {
+                    this.map.setSize({width: 250, height: 250})
                 } else{
-                    this.map.setSize({width: 600, height: 600})
+                    this.map.setSize({width: 320, height: 320})
                 }
             })
         },

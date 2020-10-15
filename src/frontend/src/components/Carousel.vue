@@ -37,7 +37,7 @@
 <style scoped>
     @import "../css/indicator.css";
     .carousel-item{
-        max-height: 240px;
+        max-height: 480px;
     }
     .carousel-item img{
         width: 100%;
