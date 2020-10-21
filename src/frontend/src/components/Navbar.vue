@@ -3,7 +3,7 @@
         <b-navbar toggleable="md">
             <div class="container">
                 <!-- logo and name -->
-                <router-link class="navbar-brand" to="/">착한 중고</router-link>
+                <router-link class="navbar-brand" to="/">중고쇼핑몰</router-link>
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                 <!-- navbar -->
                 <b-collapse id="nav-collapse" is-nav>

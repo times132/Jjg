@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><b-icon class="fa" icon="lock-fill"/></span>
-                        <input type="text" class="form-control" v-model="password" placeholder="Password" required="required">
+                        <input type="password" class="form-control" v-model="password" placeholder="Password" required="required">
                     </div>
                 </div>
                 <div class="form-group">

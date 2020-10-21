@@ -5,19 +5,13 @@
                 indicators
                 controls
                 img-width="1140"
-                img-height="240"
+                img-height="450"
         >
             <b-carousel-slide
-                    caption="First slide"
-                    :img-src="iu"
+                    img-src="http://times133.cdn3.cafe24.com/home/1.jpg"
             ></b-carousel-slide>
             <b-carousel-slide
-                    caption="Second Slide"
-                    img-src="https://picsum.photos/1024/480/?image=12"
-            ></b-carousel-slide>
-            <b-carousel-slide
-                    caption="Third Slide"
-                    img-src="https://picsum.photos/1024/480/?image=22"
+                    img-src="http://times133.cdn3.cafe24.com/home/2.jpg"
             ></b-carousel-slide>
         </b-carousel>
     </div>
@@ -28,7 +22,7 @@
         name: "Carousel",
         data() {
             return {
-                iu: require('@/assets/iu-1.jpg')
+
             }
         }
     }

@@ -20,7 +20,7 @@
         <div class="mt-1">
             <b-row no-gutters>
                 <b-col md="5" class="goods-img-container">
-                    <div class="goods-detail">
+                    <div v-if="isDataFetch" class="goods-detail">
                         <b-card-img class="goods-detail-img" :src="'/api/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
                     </div>
                 </b-col>
@@ -71,6 +71,7 @@
                 imageData: '',
                 width: 320,
                 height: 480,
+                isDataFetch: false,
                 noImage: require('@/assets/no-image.jpg')
             }
         },
@@ -87,6 +88,7 @@
                         this.goods.image = data.image
                         this.imageUrl = data.image.path + '/' + data.image.uuid + '_' + data.image.fileName
                     }
+                    this.isDataFetch = true
                 })
         },
         mounted() {

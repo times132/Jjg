@@ -1,6 +1,7 @@
 <template>
     <div class="mb-5">
         <naver-maps
+                class="mx-auto"
                 :width="width"
                 :height="height"
                 :map-options="mapOptions"
@@ -49,10 +50,14 @@
         mounted() {
             window.addEventListener('resize', () => {
                 this.windowWidth = window.innerWidth
-                if (window.innerWidth < 768) {
-                    this.map.setSize({width: 250, height: 250})
+                if (this.windowWidth >= 1200) {
+                    this.map.setSize({width: 450, height: 450})
+                } else if(992 <= this.windowWidth && this.windowWidth < 1200) {
+                    this.map.setSize({width: 400, height: 400})
+                } else if(768 <= this.windowWidth && this.windowWidth < 992){
+                    this.map.setSize({width: 300, height: 300})
                 } else{
-                    this.map.setSize({width: 320, height: 320})
+                    this.map.setSize({width: 345, height: 345})
                 }
             })
         },

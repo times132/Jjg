@@ -4,36 +4,44 @@
             <Carousel/>
         </b-row>
 
-        <b-row class="mt-3" align-v="center">
-            <b-col cols="12" sm="6" class="simple-banner">
+        <b-row class="mt-3 mb-3" align-v="center">
+            <b-col cols="12" sm="6" class="simple-category">
                 <b-row class="a">
-                    <b-img src="http://times133.cdn3.cafe24.com/home/aircon.jpg"/>
-                    <b-img src="http://times133.cdn3.cafe24.com/home/appliances.jpg"/>
+                    <div>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/aircon.jpg"/>
+                        <span>에어컨</span>
+                    </div>
+                    <div>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/appliances.jpg"/>
+                        <span>생활가전</span>
+                    </div>
                 </b-row>
 
             </b-col>
-            <b-col cols="12" sm="6" class="simple-banner">
+            <b-col cols="12" sm="6" class="simple-category">
                 <b-row class="a">
-                    <b-img src="http://times133.cdn3.cafe24.com/home/commercial-appliances.jpg"/>
-                    <b-img src="http://times133.cdn3.cafe24.com/home/office.jpg"/>
+                    <div>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/commercial-appliances.jpg"/>
+                        <span>업소용</span>
+                    </div>
+                    <div>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/office.jpg"/>
+                        <span>사무용</span>
+                    </div>
                 </b-row>
             </b-col>
         </b-row>
 
         <b-row>
             <b-col cols="12" md="7">
-                <div class="test-banner">
-                    기타배너
-                </div>
+                <b-img fluid src="http://times133.cdn3.cafe24.com/home/bottom.jpg"/>
             </b-col>
 
-            <b-col cols="12" md="5" class="map-div">
-                <Map :map-width='320' :map-height='320'/>
+            <b-col cols="12" md="5" class="map-div ml-auto">
+                <Map :map-width='450' :map-height='450'/>
             </b-col>
         </b-row>
 
-
-        <div>{{greeting}}</div>
     </b-container>
 </template>
 
@@ -78,23 +86,23 @@
         display: flex;
         padding: 0.75rem 0;
     }
-    .simple-banner{
-        background-color: #c9cac6;
-        height: 9rem;
+    .simple-category{
+        /*background-color: black;*/
     }
-    .simple-banner img{
+    .simple-category div{
+        margin: 0 auto;
+    }
+    .simple-category img{
         width: 7.5rem;
         height: 7.5rem;
         display: block;
-        margin: 0 auto;
         border-radius: 50%;
+        margin-bottom: 0.5rem;
     }
-    .test-banner{
-        background-color: #7ec699;
-        height: 360px;
+    .simple-category span{
+        font-weight: bold;
     }
     .map-div{
         overflow: hidden;
-        background-color: #7f7f7f;
     }
 </style>
