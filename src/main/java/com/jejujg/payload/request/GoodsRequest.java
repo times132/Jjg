@@ -2,10 +2,8 @@ package com.jejujg.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jejujg.model.CategoryItem;
-import com.jejujg.model.Image;
 import lombok.*;
 
-import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor

@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface GoodsRepository extends JpaRepository<Goods, Long> {
-
+    // image 필드를 Eager로 조회한다.
     @EntityGraph(attributePaths = "image")
     @Query(value = "select DISTINCT g from Goods g where g.categoryItem=?1")
     Page<Goods> findAllByCategoryItem(CategoryItem categoryItem, Pageable pageable);
@@ -23,5 +23,7 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     @EntityGraph(attributePaths = {"image", "categoryItem"})
     @Query(value = "select DISTINCT g from Goods g where g.gid=?1")
     Optional<Goods> findByGid(Long gid);
-    Image findImageByGid(Long gid);
+//    Image findImageByGid(Long gid);
+//    @Query(value = "select g from Goods g where g.categoryItem=?1 or g.categoryItem=?2 or g.categoryItem=?3")
+//    Page<Goods> findAllByMainCategoryItem()
 }

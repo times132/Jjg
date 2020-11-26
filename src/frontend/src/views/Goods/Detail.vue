@@ -19,6 +19,7 @@
 
         <div class="mt-1">
             <b-row no-gutters>
+                <!-- 대표 이미지 -->
                 <b-col md="5" class="goods-img-container">
                     <div v-if="isDataFetch" class="goods-detail">
                         <b-card-img class="goods-detail-img" :src="'/api/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
@@ -26,11 +27,15 @@
                 </b-col>
                 <b-col md="7">
                         <h2 class="title">{{goods.title}}</h2>
-                        <h4>{{goods.price}}원</h4>
+                        <h3 class="price">{{formatPrice(goods.price)}} 원 ~</h3>
+                        <div class="simple-banner">
+                            <b-img fluid src="http://times133.cdn3.cafe24.com/goods/small-banner.jpg"/>
+                        </div>
                 </b-col>
             </b-row>
-            <b-row>
-                <b-col>
+            <!-- 본문 -->
+            <b-row class="my-2">
+                <b-col class="content">
                     <viewer v-if="goods.content != null" :initialValue="goods.content"/>
                 </b-col>
             </b-row>
@@ -113,6 +118,10 @@
             },
             hideModal() {
                 this.$refs['delete-modal'].hide()
+            },
+            formatPrice(value){
+                let val = new Number(value)
+                return val.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
             }
         }
     }
@@ -162,7 +171,33 @@
     .cancel:hover{
         background-color: #efefef;
     }
+    .title{
+        margin: 0 2rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        font-family: "GothicA1";
+        border-bottom: 1px solid black;
+    }
+    .price{
+        padding: 1rem 3rem;
+        text-align: left;
+        font-weight: bold;
+        font-family: "InfinitySans";
+        color: #575757;
+    }
+    .simple-banner{
+        padding-top: 1rem;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+    }
+    @media (max-width: 768px) {
+        .simple-banner{
+            position: relative;
+            text-align: center;
+        }
+    }
     .content{
-        border-top: 1px solid rgba(0, 0, 0, 0.12)
+        margin-top: 1rem;
     }
 </style>

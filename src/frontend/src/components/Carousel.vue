@@ -2,6 +2,7 @@
     <div id="carousel">
         <b-carousel
                 style="text-shadow: 0px 0px 2px #000"
+                :interval=4000
                 indicators
                 controls
                 img-width="1140"

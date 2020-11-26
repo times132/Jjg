@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../vuex'
 
 const instance = axios.create({
-    // baseURL: 'http://localhost:9000',
+    baseURL: 'http://localhost:9000',
     withCredentials: true,
 })
 
@@ -23,7 +23,10 @@ instance.interceptors.response.use(
     },
     function (error) {
         if (error.response.status === 401){
-            store.dispatch("logout")
+            console.log(error.response)
+            if (error.response.data.message !== 'login error'){
+                store.dispatch("logout")
+            }
         }
         return Promise.reject(error)
     }
@@ -104,7 +107,7 @@ function userLogin(userData) {
 function userLogout() {
     return instance({
         url: '/user/logout',
-        method: 'get'
+        method: 'post'
     })
 }
 

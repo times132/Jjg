@@ -4,19 +4,18 @@ import com.jejujg.payload.request.LoginRequest;
 import com.jejujg.payload.request.SignupRequest;
 import com.jejujg.payload.response.UserResponse;
 import com.jejujg.security.CustomUserDetails;
-import com.jejujg.security.JwtTokenProvider;
-import com.jejujg.service.CookieService;
-import com.jejujg.service.RedisService;
+import com.jejujg.security.JwtUtil;
+import com.jejujg.service.CookieUtil;
+import com.jejujg.service.RedisUtil;
 import com.jejujg.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,9 +34,9 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
-    private final CookieService cookieService;
-    private final RedisService redisService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final CookieUtil cookieUtil;
+    private final RedisUtil redisUtil;
+    private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
 
@@ -46,41 +45,41 @@ public class UserController {
         return userService.save(request);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
-        CustomUserDetails authentication = (CustomUserDetails) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())).getPrincipal();
-        String accessJwt = jwtTokenProvider.createAccessToken(authentication.getUsername());
-        String refreshJwt = jwtTokenProvider.createRefreshToken(authentication.getUsername());
-
-        Cookie accessToken = cookieService.createCookie("accessToken", accessJwt, JwtTokenProvider.accessTokenExpiration / 1000 * 6 * 3); // 3시간
-        Cookie refreshToken = cookieService.createCookie("refreshToken", refreshJwt, JwtTokenProvider.refreshTokenExpiration / 1000 ); // 2일
-
-        redisService.setDataExpire(refreshJwt, authentication.getUsername(), JwtTokenProvider.refreshTokenExpiration / 1000); // 2일
-
-        response.addCookie(accessToken);
-        response.addCookie(refreshToken);
-
-        return new ResponseEntity<>(accessJwt, HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
+////        CustomUserDetails authentication = (CustomUserDetails) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())).getPrincipal();
+//        String accessJwt = jwtUtil.createAccessToken(loginRequest.getUsername());
+//        String refreshJwt = jwtUtil.createRefreshToken(loginRequest.getUsername());
+//
+//        Cookie accessToken = cookieUtil.createCookie("accessToken", accessJwt, jwtUtil.accessTokenExpiration / 1000 * 6 * 3); // 3시간
+//        Cookie refreshToken = cookieUtil.createCookie("refreshToken", refreshJwt, jwtUtil.refreshTokenExpiration / 1000 ); // 2일
+//
+//        redisUtil.setDataExpire(refreshJwt, loginRequest.getUsername(), jwtUtil.refreshTokenExpiration / 1000); // 2일
+//
+//        response.addCookie(accessToken);
+//        response.addCookie(refreshToken);
+//
+//        return new ResponseEntity<>(accessJwt, HttpStatus.OK);
+//    }
 
     @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse responses){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Cookie accessToken = cookieService.getCookie(request, "accessToken");
-        Cookie refreshToken = cookieService.getCookie(request, "refreshToken");
+        Cookie accessToken = cookieUtil.getCookie(request, "accessToken");
+        Cookie refreshToken = cookieUtil.getCookie(request, "refreshToken");
         String username = null;
 
         try {
-            username = jwtTokenProvider.getUsername(accessToken.getValue());
+            username = jwtUtil.getUsername(accessToken.getValue());
         } catch (ExpiredJwtException e){
-            username = jwtTokenProvider.getUsername(e.getClaims().get("username").toString());
+            username = jwtUtil.getUsername(e.getClaims().get("username").toString());
         } catch (NullPointerException e){
             return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
         }
 
         try { // 토큰이 유효할 때 쿠키를 삭제하고 로그아웃 처리
             if (((CustomUserDetails)auth.getPrincipal()).getUsername().equals(username)){
-                redisService.deleteData(refreshToken.getValue());
+                redisUtil.deleteData(refreshToken.getValue());
 
                 accessToken.setMaxAge(0);
                 accessToken.setPath("/");
@@ -98,6 +97,7 @@ public class UserController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/me")
     public UserResponse me(@AuthenticationPrincipal CustomUserDetails userDetails){
         UserResponse user = UserResponse.builder()
@@ -110,6 +110,7 @@ public class UserController {
         return user;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin")
     public String admin(){
         return "admin";

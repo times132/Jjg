@@ -20,12 +20,12 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    private List<CategoryItem> categories;
+    private List<CategoryItem> categoryItems;
 
     @Builder
-    public Category(Long id, String name, List<CategoryItem> categories) {
+    public Category(Long id, String name, List<CategoryItem> categoryItems) {
         this.id = id;
         this.name = name;
-        this.categories = categories;
+        this.categoryItems = categoryItems;
     }
 }

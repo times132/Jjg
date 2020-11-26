@@ -23,11 +23,11 @@ new Vue({
   store,
   router,
   beforeCreate() {
-    let token = store.state.login.isAuthenticated
+    // let token = store.state.login.isAuthenticated
 
-    if (token) { // 세션스토리지에 토큰이 있으면 새로고침할 때 유저 정보를 불러옴
-      store.dispatch('getUserInfo')
-    }
+    // if (token) { // 세션스토리지에 토큰이 있으면 새로고침할 때 유저 정보를 불러옴
+    //   store.dispatch('getUserInfo')
+    // }
   },
   render: h => h(App),
 }).$mount('#app')

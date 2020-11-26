@@ -46,20 +46,10 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import Carousel from '../components/Carousel'
     import Map from '../components/Maps'
 
     export default {
-        data() {
-            return {
-                greeting: ''
-            }
-        },
-        created() {
-            axios.get('/api/home')
-                .then(result => this.greeting = result.data)
-        },
         components: {
             Carousel,
             Map

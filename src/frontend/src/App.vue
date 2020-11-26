@@ -66,4 +66,14 @@
         color: white;
         margin-top: 2rem;
     }
+    @font-face {
+        font-family: "GothicA1";
+        src: local("GothicA1"),
+        url("./font/GothicA1.ttf") format("truetype");
+    }
+    @font-face {
+        font-family: "InfinitySans";
+        src: local("InfinitySans"),
+        url("./font/InfinitySans.ttf") format("truetype");
+    }
 </style>

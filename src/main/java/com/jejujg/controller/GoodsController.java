@@ -2,6 +2,7 @@ package com.jejujg.controller;
 
 import com.jejujg.common.Criteria;
 import com.jejujg.common.Pagination;
+import com.jejujg.model.Goods;
 import com.jejujg.model.Image;
 import com.jejujg.payload.request.GoodsRequest;
 import com.jejujg.payload.response.GoodsListResponse;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/goods")
@@ -25,8 +28,9 @@ public class GoodsController {
     private final UploadService uploadService;
     private final CategoryService categoryService;
 
+    // 세부 카테고리 제품 리스트
     @GetMapping("/{categoryNum}")
-    public ResponseEntity<GoodsListResponse> list(@PathVariable("categoryNum") String categoryNum, Criteria criteria){
+    public ResponseEntity<GoodsListResponse> subCategoryList(@PathVariable("categoryNum") String categoryNum, Criteria criteria){
 
         Page page = goodsService.list(criteria, categoryService.findOne(categoryNum));
         Pagination pagination = Pagination.builder()
@@ -44,11 +48,18 @@ public class GoodsController {
         return new ResponseEntity<>(goodsListResponse, HttpStatus.OK);
     }
 
+//    @GetMapping("/{categoryName}")
+//    public ResponseEntity<ArrayList<Goods>> mainCategoryList(@PathVariable("categoryName") String categoryName){
+//        ArrayList<Goods> mainCategoryGoods = categoryService.findMainCategoryGoods(categoryName);
+//    }
+
+    // 제품 상세 페이지
     @GetMapping("/detail/{gid}")
     public ResponseEntity<GoodsResponse> read(@PathVariable("gid") Long gid){
         return new ResponseEntity<>(goodsService.findOne(gid), HttpStatus.OK);
     }
 
+    // 제품 작성
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> write(@RequestBody GoodsRequest request){
@@ -60,6 +71,7 @@ public class GoodsController {
         return new ResponseEntity<>(goodsService.save(request, image), HttpStatus.OK);
     }
 
+    // 제품 수정
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{gid}")
     public ResponseEntity<?> modify(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
@@ -84,6 +96,7 @@ public class GoodsController {
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
     }
 
+    // 제품 삭제
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{gid}")
     public ResponseEntity<?> remove(@PathVariable("gid") Long gid){

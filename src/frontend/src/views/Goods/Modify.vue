@@ -49,15 +49,15 @@
                 options: [
                     { value: null, text: '------------'},
                     { value: {id: 1, itemNum: '011', name: '스텐드'}, text: '스텐드'},
-                    { value: {id: 2, itemNum: '012', name: '벽걸이'}, text: '벽걸이'},
-                    { value: {id: 3, itemNum: '013', name: '천장'}, text: '천장'},
+                    { value: {id: 2, itemNum: '012', name: '중대형'}, text: '중대형'},
+                    { value: {id: 3, itemNum: '013', name: '벽걸이'}, text: '벽걸이'},
                     { value: {id: 4, itemNum: '021', name: '냉장고'}, text: '냉장고'},
                     { value: {id: 5, itemNum: '022', name: '세탁기'}, text: '세탁기'},
                     { value: {id: 6, itemNum: '023', name: 'TV'}, text: 'TV'},
                     { value: {id: 7, itemNum: '031', name: '선반'}, text: '선반'},
                     { value: {id: 8, itemNum: '032', name: '냉장/냉동고'}, text: '냉장/냉동고'},
                     { value: {id: 9, itemNum: '033', name: '화구'}, text: '화구'},
-                    { value: {id: 10, itemNum: '041', name: '사무1'}, text: '사무1'},
+                    { value: {id: 10, itemNum: '041', name: '책상'}, text: '책상'},
                     { value: {id: 11, itemNum: '042', name: '사무2'}, text: '사무2'},
                     { value: {id: 12, itemNum: '043', name: '사무3'}, text: '사무3'}
                 ]

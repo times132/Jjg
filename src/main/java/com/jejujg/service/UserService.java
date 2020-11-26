@@ -59,4 +59,10 @@ public class UserService implements UserDetailsService{
 
         return CustomUserDetails.create(user);
     }
+
+    // 테스트에만 사용
+    public void clearUser() {
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
+    }
 }

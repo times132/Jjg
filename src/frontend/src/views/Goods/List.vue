@@ -1,21 +1,28 @@
 <template>
     <b-container>
-        <h6>등록 제품 : {{pagination.total}}개</h6>
 
-        <b-nav>
-            <div v-for="(category, i) in category[categoryIndex]" :key="i">
-                <b-nav-item :to="'/goods/'+category.itemNum">{{category.name}}</b-nav-item>
-            </div>
-        </b-nav>
+        <b-row align-h="between" class="mt-3">
+            <b-col sm="2" class="total-goods">
+                <span >등록 제품 : {{pagination.total}}개</span>
+            </b-col>
+            <b-col sm="9">
+                <b-nav>
+                    <b-col md="3" sm="4" cols="4" class="category-list" v-for="(category, i) in category[categoryIndex]" :key="i">
+                        <b-nav-item :to="'/goods/'+category.itemNum">
+                            {{category.name}}
+                        </b-nav-item>
+                    </b-col>
+                </b-nav>
+            </b-col>
+        </b-row>
 
-
-        <div v-if="isDataFetch">
+        <div v-if="isDataFetch" class="mt-4">
             <b-row v-for="i in 4" :key="i">
                 <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
                         <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
-                        <b-card-body style="padding: 1rem">
-                            {{goods.title}}
+                        <b-card-body class="goods-body">
+                            <span>{{goods.title}}</span>
                         </b-card-body>
                     </b-card>
                 </b-col>
@@ -67,10 +74,10 @@
                 pagination: {},
                 isDataFetch: false,
                 category: [
-                    [{itemNum: '011', name: '스텐드'}, {itemNum: '012', name: '벽걸이'}, {itemNum: '013', name: '천장'}],
+                    [{itemNum: '011', name: '스텐드'}, {itemNum: '012', name: '중대형'}, {itemNum: '013', name: '벽걸이'}],
                     [{itemNum: '021', name: '냉장고'}, {itemNum: '022', name: '세탁기'}, {itemNum: '023', name: 'TV'}],
                     [{itemNum: '031', name: '선반'}, {itemNum: '032', name: '냉장/냉동고'}, {itemNum: '033', name: '화구'}],
-                    [{itemNum: '041', name: '사무1'}, {itemNum: '042', name: '사무2'}, {itemNum: '043', name: '사무3'}]
+                    [{itemNum: '041', name: '책상'}, {itemNum: '042', name: '사무2'}, {itemNum: '043', name: '사무3'}]
                 ],
                 categoryIndex: 0,
                 noImage: require('@/assets/no-image.jpg')
@@ -113,11 +120,30 @@
 </script>
 
 <style>
+    .total-goods{
+        margin: auto 0;
+    }
+    .total-goods span{
+        font-size: 0.85rem;
+        color: #7b7b7b;
+    }
+    .category-list{
+        border: 1px solid #a7a7a7;
+    }
     .goods-list{
         margin-bottom: 1.5rem;
     }
     .goods-img{
         border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .goods-body{
+        padding-bottom: 1rem;
+        text-align: left;
+    }
+    .goods-body span{
+        font-family: "InfinitySans";
+        font-size: 1.2rem;
+        font-weight: bold;
     }
     .pagination{
         justify-content: center;
@@ -134,4 +160,8 @@
         font-weight: bold;
         text-decoration: underline;
     }
+    .nav-link{
+        color: black;
+    }
+
 </style>
