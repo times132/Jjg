@@ -1,25 +1,23 @@
-package com.jejujg.payload.response;
+package com.jejujg.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jejujg.model.CategoryItem;
-import com.jejujg.model.Image;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
-public class GoodsResponse {
+public class BoardRequest {
 
-    private Long gid;
-    @JsonIgnoreProperties({"goods", "category"})
+    @JsonIgnoreProperties({"boards", "category"})
     private CategoryItem categoryItem;
     private String title;
     private String content;
     private Integer price;
     private String writer;
-    private Image image;
+    private Map<String, Object> image;
 }

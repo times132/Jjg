@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <div class="button-group mt-3">
-            <b-button v-if="compareUser" @click="modifyGoods" squared size="sm">수정</b-button>
+            <b-button v-if="compareUser" @click="modifyBoard" squared size="sm">수정</b-button>
             <b-button v-if="compareUser" @click="showModal" squared variant="outline-danger" size="sm">삭제</b-button>
             <b-button @click="moveList" squared variant="primary" size="sm">목록</b-button>
 
@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="button-group">
-                    <button @click="deleteGoods" class="modal-button confirm">확인</button>
+                    <button @click="deleteBoard" class="modal-button confirm">확인</button>
                     <button @click="hideModal" class="modal-button cancel">취소</button>
                 </div>
             </b-modal>
@@ -20,23 +20,23 @@
         <div class="mt-1">
             <b-row no-gutters>
                 <!-- 대표 이미지 -->
-                <b-col md="5" class="goods-img-container">
-                    <div v-if="isDataFetch" class="goods-detail">
-                        <b-card-img class="goods-detail-img" :src="'/api/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
+                <b-col md="5" class="board-img-container">
+                    <div v-if="isDataFetch" class="board-detail">
+                        <b-card-img class="board-detail-img" :src="'/api/display?imageName=' + imageUrl" width="320" @error="$event.target.src=noImage"/>
                     </div>
                 </b-col>
                 <b-col md="7">
-                        <h2 class="title">{{goods.title}}</h2>
-                        <h3 class="price">{{formatPrice(goods.price)}} 원 ~</h3>
+                        <h2 class="title">{{board.title}}</h2>
+                        <h3 class="price">{{formatPrice(board.price)}} 원 ~</h3>
                         <div class="simple-banner">
-                            <b-img fluid src="http://times133.cdn3.cafe24.com/goods/small-banner.jpg"/>
+                            <b-img fluid src="http://times133.cdn3.cafe24.com/board/small-banner.jpg"/>
                         </div>
                 </b-col>
             </b-row>
             <!-- 본문 -->
             <b-row class="my-2">
                 <b-col class="content">
-                    <viewer v-if="goods.content != null" :initialValue="goods.content"/>
+                    <viewer v-if="board.content != null" :initialValue="board.content"/>
                 </b-col>
             </b-row>
         </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import { deleteGoods, getDetail } from "../../api";
+    import { deleteBoard, getDetail } from "../../api";
 
     export default {
         name: "Detail",
@@ -54,7 +54,7 @@
             },
             compareUser(){
                 if (this.$store.getters.getIsAuth){
-                    if (this.$store.state.login.userInfo.username === this.goods.writer) {
+                    if (this.$store.state.login.userInfo.username === this.board.writer) {
                         return true
                     }
                 }
@@ -63,8 +63,8 @@
         },
         data() {
             return {
-                goods: {
-                    gid: this.$route.params.gid,
+                board: {
+                    bid: this.$route.params.bid,
                     categoryItem: null,
                     title: '',
                     price: 0,
@@ -81,16 +81,16 @@
             }
         },
         created() {
-            getDetail('/api/goods/detail', this.goods.gid)
+            getDetail('/api/board/detail', this.board.bid)
                 .then(({data}) => {
-                    this.goods.content = data.content
-                    this.goods.title = data.title
-                    this.goods.price = data.price
-                    this.goods.writer = data.writer
-                    this.goods.categoryItem = data.categoryItem
+                    this.board.content = data.content
+                    this.board.title = data.title
+                    this.board.price = data.price
+                    this.board.writer = data.writer
+                    this.board.categoryItem = data.categoryItem
 
                     if (data.image !== null) {
-                        this.goods.image = data.image
+                        this.board.image = data.image
                         this.imageUrl = data.image.path + '/' + data.image.uuid + '_' + data.image.fileName
                     }
                     this.isDataFetch = true
@@ -101,16 +101,16 @@
         },
         methods: {
             moveList() {
-                this.$router.push({name: 'goods', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
+                this.$router.push({name: 'board', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
             },
-            modifyGoods() {
-                this.$router.push({name: 'modify', params: {goods: this.goods}})
+            modifyBoard() {
+                this.$router.push({name: 'modify', params: {board: this.board}})
             },
-            deleteGoods() {
-                deleteGoods(this.goods.gid)
+            deleteBoard() {
+                deleteBoard(this.board.bid)
                     .then(({data}) => {
                         console.log(data)
-                        this.$router.push({name: 'goods', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
+                        this.$router.push({name: 'board', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})
                     })
             },
             showModal() {
@@ -128,16 +128,16 @@
 </script>
 
 <style scoped>
-    .goods-img-container{
+    .board-img-container{
         height: 480px;
         overflow: hidden;
     }
-    .goods-detail {
+    .board-detail {
         height: 100%;
         display:flex;
         align-items: center;
     }
-    .goods-detail-img{
+    .board-detail-img{
         height: auto;
         width: 100%;
         align-self: center;

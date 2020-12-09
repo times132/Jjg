@@ -3,26 +3,26 @@
 
         <b-row class="mb-2">
             <b-col md="4">
-                <b-form-select v-model="goods.categoryItem" :options="options" required></b-form-select>
+                <b-form-select v-model="board.categoryItem" :options="options" required></b-form-select>
             </b-col>
             <b-col md="4">
-                <Upload @event-data="fileInfo" :initial-file="goods.image"/>
+                <Upload @event-data="fileInfo" :initial-file="board.image"/>
             </b-col>
             <b-col md="4" class="ml-auto">
-                <b-form-input v-model="goods.price" placeholder="가격" required></b-form-input>
+                <b-form-input v-model="board.price" placeholder="가격" required></b-form-input>
             </b-col>
 
         </b-row>
 
         <b-row class="mb-2">
             <b-col>
-                <b-form-input v-model="goods.title" placeholder="제목" required></b-form-input>
+                <b-form-input v-model="board.title" placeholder="제목" required></b-form-input>
             </b-col>
         </b-row>
 
         <b-row class="mb-2">
             <b-col>
-                <ToastUI :initialValue="goods.content" ref='tuiWrite'/>
+                <ToastUI :initialValue="board.content" ref='tuiWrite'/>
             </b-col>
         </b-row>
 
@@ -34,7 +34,7 @@
 <script>
     import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
-    import { uploadGoodsImage, updateGoods } from "../../api";
+    import { uploadBoardImage, updateBoard } from "../../api";
 
     export default {
         name: "Modify",
@@ -45,7 +45,7 @@
         data() {
             return {
                 file: null,
-                goods: this.$route.params.goods,
+                board: this.$route.params.board,
                 options: [
                     { value: null, text: '------------'},
                     { value: {id: 1, itemNum: '011', name: '스텐드'}, text: '스텐드'},
@@ -66,22 +66,22 @@
         methods: {
             async submit(event) {
                 event.preventDefault()
-                this.goods.content = this.$refs.tuiWrite.getHtml()
+                this.board.content = this.$refs.tuiWrite.getHtml()
 
                 const uploadData = new FormData()
                 uploadData.append('file', this.file)
-                uploadData.append('categoryNum', this.goods.categoryItem.itemNum)
+                uploadData.append('categoryNum', this.board.categoryItem.itemNum)
 
                 let uploadResponse = null
 
                 if (this.file === -1){
-                    this.goods.image = null
+                    this.board.image = null
                 }
                 else if (this.file !== null) {
-                    uploadResponse = await uploadGoodsImage(uploadData)
+                    uploadResponse = await uploadBoardImage(uploadData)
 
-                    this.goods.image = {
-                        fid: this.goods.image == null ? 0 : this.goods.image.fid,
+                    this.board.image = {
+                        fid: this.board.image == null ? 0 : this.board.image.fid,
                         uuid: uploadResponse.data.uuid,
                         path: uploadResponse.data.path,
                         fileName: uploadResponse.data.fileName
@@ -89,7 +89,7 @@
                 }
 
 
-                updateGoods(JSON.stringify(this.goods), this.goods.gid)
+                updateBoard(JSON.stringify(this.board), this.board.bid)
                     .then(() => {
                         alert("수정되었습니다.")
                         this.$router.go(-1)

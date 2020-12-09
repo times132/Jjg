@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Login from '../views/Login'
 import Me from '../views/Profile'
-import Write from '../views/Goods/Write'
-import Modify from '../views/Goods/Modify'
-import Detail from '../views/Goods/Detail'
-import List from '../views/Goods/List'
+import Write from '../views/Board/Write'
+import Modify from '../views/Board/Modify'
+import Detail from '../views/Board/Detail'
+import List from '../views/Board/List'
 import store from '../vuex'
 import Signup from '../views/Signup'
 
@@ -41,25 +41,25 @@ const routes = [
         beforeEnter: requireAuth
     },
     {
-        path: '/goods/write',
+        path: '/board/write',
         name: 'write',
         component: Write,
         beforeEnter: requireAuth
     },
     {
-        path: '/goods/modify/:gid',
+        path: '/board/modify/:gid',
         name: 'modify',
         component: Modify,
         beforeEnter: requireAuth
     },
     {
-        path: '/goods/:categoryNum',
-        name: 'goods',
+        path: '/board/:categoryNum',
+        name: 'board',
         component: List,
         props: true
     },
     {
-        path: '/goods/:categoryNum/:gid',
+        path: '/board/:categoryNum/:bid',
         name: 'detail',
         component: Detail,
         props: true

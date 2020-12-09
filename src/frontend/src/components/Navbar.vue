@@ -10,30 +10,30 @@
                     <b-navbar-nav class="categoryItem">
 
                         <b-nav-item-dropdown class="nav-list" text="에어컨" no-caret>
-                            <b-dropdown-item to="/goods/011">스탠드</b-dropdown-item>
-                            <b-dropdown-item to="/goods/012">중대형</b-dropdown-item>
-                            <b-dropdown-item to="/goods/013">벽걸이</b-dropdown-item>
+                            <b-dropdown-item to="/board/011">스탠드</b-dropdown-item>
+                            <b-dropdown-item to="/board/012">중대형</b-dropdown-item>
+                            <b-dropdown-item to="/board/013">벽걸이</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 가전 -->
                         <b-nav-item-dropdown class="nav-list" text="생활가전" no-caret>
-                            <b-dropdown-item to="/goods/021">냉장고</b-dropdown-item>
-                            <b-dropdown-item to="/goods/022">세탁기</b-dropdown-item>
-                            <b-dropdown-item to="/goods/023">TV</b-dropdown-item>
+                            <b-dropdown-item to="/board/021">냉장고</b-dropdown-item>
+                            <b-dropdown-item to="/board/022">세탁기</b-dropdown-item>
+                            <b-dropdown-item to="/board/023">TV</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 업소용 -->
                         <b-nav-item-dropdown class="nav-list" text="업소용" no-caret>
-                            <b-dropdown-item to="/goods/031">선반</b-dropdown-item>
-                            <b-dropdown-item to="/goods/032">냉장/냉동고</b-dropdown-item>
-                            <b-dropdown-item to="/goods/033">화구</b-dropdown-item>
+                            <b-dropdown-item to="/board/031">선반</b-dropdown-item>
+                            <b-dropdown-item to="/board/032">냉장/냉동고</b-dropdown-item>
+                            <b-dropdown-item to="/board/033">화구</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                         <!-- 가구 -->
                         <b-nav-item-dropdown class="nav-list" text="사무용" no-caret>
-                            <b-dropdown-item to="/goods/041">사무용</b-dropdown-item>
-                            <b-dropdown-item to="/goods/042">사무용2</b-dropdown-item>
-                            <b-dropdown-item to="/goods/043">사무용3</b-dropdown-item>
+                            <b-dropdown-item to="/board/041">사무용</b-dropdown-item>
+                            <b-dropdown-item to="/board/042">사무용2</b-dropdown-item>
+                            <b-dropdown-item to="/board/043">사무용3</b-dropdown-item>
                         </b-nav-item-dropdown>
 
                     </b-navbar-nav>

@@ -1,6 +1,6 @@
 package com.jejujg.model;
 
-import com.jejujg.payload.request.GoodsRequest;
+import com.jejujg.payload.request.BoardRequest;
 import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,17 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
 @Builder
-public class Goods extends DateAudit{
+public class Board extends DateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gid;
+    private Long bid;
 
     @Column(length = 40)
     private String title;
@@ -41,7 +42,10 @@ public class Goods extends DateAudit{
     @JoinColumn(name = "CategotyItem_id")
     private CategoryItem categoryItem;
 
-    public void update(GoodsRequest request, Image image){
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replyList;
+
+    public void update(BoardRequest request, Image image){
         this.title = request.getTitle();
         this.content = request.getContent();
         this.price = request.getPrice();

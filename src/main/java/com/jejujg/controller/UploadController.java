@@ -33,19 +33,22 @@ public class UploadController {
     private final UploadService uploadService;
 
     @Secured("ROLE_USER")
-    @PostMapping(value = "/upload/goods")
-    public ResponseEntity<?> saveGoodsImage(@RequestPart MultipartFile file, String categoryNum) {
-        Map<String, Object> map = uploadService.uploadGoods(file, categoryNum);
+    @PostMapping(value = "/upload/board")
+    public ResponseEntity<?> imagePOST(@RequestPart MultipartFile file, String categoryNum) {
+        Map<String, Object> map = uploadService.uploadBoardImage(file, categoryNum);
+        String errorMessage = "error";
 
         if (map.get("isImage").equals(true)){
             return new ResponseEntity<>(map, HttpStatus.OK);
+        }else {
+            errorMessage = "not image";
         }
 
-        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> imageGet(@RequestParam("imageName") String imageName){
+    public ResponseEntity<byte[]> imageGET(@RequestParam("imageName") String imageName){
         logger.info("파일 경로: " + uploadPath + "/" + imageName);
         File file = new File(uploadPath + "/" + imageName);
 

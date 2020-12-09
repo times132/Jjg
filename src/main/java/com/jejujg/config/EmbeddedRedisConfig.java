@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
 
-@Profile("dev")
+@Profile("dev | test")
 @Configuration
 public class EmbeddedRedisConfig {
 

@@ -1,5 +1,6 @@
 package com.jejujg.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Entity
+@Builder
 public class User extends DateAudit{
 
     @Id
@@ -28,16 +31,13 @@ public class User extends DateAudit{
     @Column(length = 50, nullable = false, unique = true)
     private String email;
 
+    @Column(length = 20, nullable = false, unique = true)
+    private String nickname;
+
+    @Column(length = 20, nullable = true)
+    private String phone;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
-    @Builder
-    public User(String username, String password, String email, String name, Set<Role> roles){
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.name = name;
-        this.roles = roles;
-    }
 }

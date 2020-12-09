@@ -1,34 +1,25 @@
 package com.jejujg.payload.request;
 
-import com.jejujg.model.User;
-import com.jejujg.model.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Builder
 public class SignupRequest {
 
-    private String email;
-    private String password;
     private String username;
+    private String password;
     private String name;
+    private String email;
+    private String nickname;
+    private String phone;
 
-    @Builder
-    public SignupRequest(String email, String password, String username, String name, UserRole role) {
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.name = name;
-    }
-
-    public User toEntity(){
-        return User.builder()
-                .email(this.email)
-                .password(this.password)
-                .username(this.username)
-                .name(this.name)
-                .build();
+    public String getPassword() {
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

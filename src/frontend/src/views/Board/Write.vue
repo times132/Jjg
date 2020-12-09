@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { uploadGoodsImage, writeGoods } from "../../api";
+    import { uploadBoardImage, writeBoard } from "../../api";
     import ToastUI from '../../components/ToastUI'
     import Upload from '../../components/FileUpload'
 
@@ -82,21 +82,28 @@
 
                 let uploadResponse = null
                 if (this.file !== null) {
-                    uploadResponse = await uploadGoodsImage(uploadData)
+                    try {
+                        uploadResponse = await uploadBoardImage(uploadData)
 
-                    this.form.image = {
-                        uuid: uploadResponse.data.uuid,
-                        path: uploadResponse.data.path,
-                        fileName: uploadResponse.data.fileName
+                        this.form.image = {
+                            uuid: uploadResponse.data.uuid,
+                            path: uploadResponse.data.path,
+                            fileName: uploadResponse.data.fileName
+                        }
+
+                        writeBoard(JSON.stringify(this.form))
+                            .then(() => {
+                                alert("등록되었습니다.")
+                                this.$router.go(-1)
+                            })
+                            .catch(() => alert("실패하였습니다."))
+                    } catch (error) {
+                        if (error.response.data === "not image"){
+                            alert("이미지 파일이 아닙니다.")
+                        }
                     }
                 }
 
-                writeGoods(JSON.stringify(this.form))
-                    .then(() => {
-                        alert("등록되었습니다.")
-                        this.$router.go(-1)
-                    })
-                    .catch(() => alert("실패하였습니다."))
             },
             fileInfo(file) {
                 this.file = file

@@ -14,9 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +29,10 @@ public class UploadService {
     private final UploadRepository uploadRepository;
     private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
 
-    public Map<String, Object> uploadGoods(MultipartFile uploadFile, String categoryNum){
+    public Map<String, Object> uploadBoardImage(MultipartFile uploadFile, String categoryNum){
         Map<String, Object> map = new HashMap<>();
         String uploadFolder = uploadPath;
-        String uploadFolderPath = "goods/" + categoryNum;
+        String uploadFolderPath = "board/" + categoryNum;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
 
@@ -52,6 +50,7 @@ public class UploadService {
             uploadFile.transferTo(saveFile);
             logger.info("원본 생성 완료");
             if (checkImage(saveFile)) { // 이미지 파일일 때
+//                uploadFile.transferTo(saveFile);
                 logger.info("uploadPath.getAbsolutePath()" + uploadPath.getAbsolutePath());
                 makeThumbnail(uploadPath.getAbsolutePath(), uploadFileName, uploadFileName.substring(uploadFileName.lastIndexOf(".")+1), 480, 480);
                 logger.info("썸네일 생성 완료");
@@ -70,7 +69,7 @@ public class UploadService {
         return map;
     }
 
-    public void deleteGoods(String fileName, String categoryPath){
+    public void deleteBoardImage(String fileName, String categoryPath){
         File file;
 
         try {
@@ -84,11 +83,11 @@ public class UploadService {
         }
     }
 
-    public Image saveGoodsDB(Map<String, Object> imageMap){
+    public Image saveBoardImageDB(Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(null, imageMap));
     }
 
-    public Image updateGoodsDB(Long fid, Map<String, Object> imageMap){
+    public Image updateBoardImageDB(Long fid, Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(fid, imageMap));
     }
 
@@ -140,6 +139,8 @@ public class UploadService {
             String mimeType = new Tika().detect(file);
             if (mimeType.startsWith("image")){
                 return true;
+            }else {
+                file.delete();
             }
         } catch (IOException e){
             e.printStackTrace();

@@ -2,13 +2,13 @@
     <b-container>
 
         <b-row align-h="between" class="mt-3">
-            <b-col sm="2" class="total-goods">
+            <b-col sm="2" class="total-board">
                 <span >등록 제품 : {{pagination.total}}개</span>
             </b-col>
             <b-col sm="9">
                 <b-nav>
                     <b-col md="3" sm="4" cols="4" class="category-list" v-for="(category, i) in category[categoryIndex]" :key="i">
-                        <b-nav-item :to="'/goods/'+category.itemNum">
+                        <b-nav-item :to="'/board/'+category.itemNum">
                             {{category.name}}
                         </b-nav-item>
                     </b-col>
@@ -18,11 +18,11 @@
 
         <div v-if="isDataFetch" class="mt-4">
             <b-row v-for="i in 4" :key="i">
-                <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
+                <b-col class="board-list" cols="6" sm="3" v-for="(board, j) in board.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
-                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
-                        <b-card-body class="goods-body">
-                            <span>{{goods.title}}</span>
+                        <b-img class="board-img" fluid :src="'/api/display?imageName='+thumbnail(board.image)" @error="$event.target.src=noImage" @click="clickRow(board.bid)"/>
+                        <b-card-body class="board-body">
+                            <span>{{board.title}}</span>
                         </b-card-body>
                     </b-card>
                 </b-col>
@@ -32,7 +32,7 @@
         <!-- 페이징 -->
         <Pagination :paging-data="pagination" :cri="criteria"/>
 
-        <router-link to="/goods/write">
+        <router-link to="/board/write">
             <b-button v-if="checkAdmin" squared variant="outline-secondary">글쓰기</b-button>
         </router-link>
 
@@ -40,11 +40,11 @@
 </template>
 
 <script>
-    import { getGoodsList } from "../../api";
+    import { getBoardList } from "../../api";
     import Pagination from "../../components/Pagination";
 
     export default {
-        name: "Goods",
+        name: "List",
         components: {
             Pagination
         },
@@ -63,7 +63,7 @@
         },
         data() {
             return {
-                goods: null,
+                board: null,
                 criteria: {
                     page: this.$route.params.page===undefined ? 1 : this.$route.params.page,
                     pageSize: 16,
@@ -96,15 +96,15 @@
             }
         },
         methods: {
-            clickRow(gid) {
-                this.$router.push(`/goods/${this.categoryNum}/${gid}`)
+            clickRow(bid) {
+                this.$router.push(`/board/${this.categoryNum}/${bid}`)
                 this.$store.dispatch('setCriteria', this.criteria)
             },
             getList(){
-                getGoodsList(this.$route.params.categoryNum, this.criteria)
+                getBoardList(this.$route.params.categoryNum, this.criteria)
                     .then(({data}) => {
                         this.pagination = data.pagination
-                        this.goods = data.goodsList
+                        this.board = data.boardList
                         this.isDataFetch = true
                     })
             },
@@ -120,27 +120,27 @@
 </script>
 
 <style>
-    .total-goods{
+    .total-board{
         margin: auto 0;
     }
-    .total-goods span{
+    .total-board span{
         font-size: 0.85rem;
         color: #7b7b7b;
     }
     .category-list{
         border: 1px solid #a7a7a7;
     }
-    .goods-list{
+    .board-list{
         margin-bottom: 1.5rem;
     }
-    .goods-img{
+    .board-img{
         border-bottom: 1px solid rgba(0,0,0,.125);
     }
-    .goods-body{
+    .board-body{
         padding-bottom: 1rem;
         text-align: left;
     }
-    .goods-body span{
+    .board-body span{
         font-family: "InfinitySans";
         font-size: 1.2rem;
         font-weight: bold;

@@ -40,17 +40,17 @@ function getDetail(subUrl, id) {
     })
 }
 
-function writeGoods(goodsData) {
+function writeBoard(boardData) {
     return instance({
-        url: '/api/goods',
+        url: '/api/board',
         method: 'post',
-        data: goodsData
+        data: boardData
     })
 }
 
-function getGoodsList(categoryNum, criteria) {
+function getBoardList(categoryNum, criteria) {
     return instance({
-        url: '/api/goods/' + categoryNum,
+        url: '/api/board/' + categoryNum,
         method: 'get',
         params: {
             page: criteria.page,
@@ -61,22 +61,22 @@ function getGoodsList(categoryNum, criteria) {
     })
 }
 
-function updateGoods(goodsData, gid) {
+function updateBoard(boardData, bid) {
     return instance({
-        url: '/api/goods/' + gid,
+        url: '/api/board/' + bid,
         method: 'put',
-        data: goodsData
+        data: boardData
     })
 }
 
-function deleteGoods(gid) {
+function deleteBoard(bid) {
     return instance({
-        url: '/api/goods/' + gid,
+        url: '/api/board/' + bid,
         method: 'delete'
     })
 }
 
-function displayGoodsImage(imageName) {
+function displayBoardImage(imageName) {
     console.log(imageName)
     return instance({
         url: '/api/display',
@@ -87,9 +87,9 @@ function displayGoodsImage(imageName) {
     })
 }
 
-function uploadGoodsImage(file) {
+function uploadBoardImage(file) {
     return instance({
-        url: '/api/upload/goods',
+        url: '/api/upload/board',
         method: 'post',
         data: file,
     })
@@ -120,12 +120,12 @@ function getUserInfo() {
 
 export {
     getDetail,
-    writeGoods,
-    getGoodsList,
-    updateGoods,
-    deleteGoods,
-    displayGoodsImage,
-    uploadGoodsImage,
+    writeBoard,
+    getBoardList,
+    updateBoard,
+    deleteBoard,
+    displayBoardImage,
+    uploadBoardImage,
     userLogin,
     userLogout,
     getUserInfo

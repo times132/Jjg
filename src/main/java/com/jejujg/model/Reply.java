@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
@@ -13,19 +12,17 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Builder
-public class Role {
+public class Reply extends DateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long rid;
 
-    @Enumerated(EnumType.STRING)
-    @NaturalId
-    private UserRole name;
+    private String reply;
 
-//    @Builder
-//    public Role(Long id, UserRole name){
-//        this.id = id;
-//        this.name = name;
-//    }
+    private String writer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 }

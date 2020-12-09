@@ -14,11 +14,6 @@
 
     export default {
         name: 'App',
-        data: function() {
-            return {
-                name: 'Park'
-            }
-        },
         components: {
             Footer,
             Nav
