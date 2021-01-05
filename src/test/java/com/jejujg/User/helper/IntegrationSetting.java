@@ -1,6 +1,7 @@
-package com.jejujg.helper;
+package com.jejujg.User.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jejujg.User.helper.Token;
 import com.jejujg.payload.request.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -14,7 +15,7 @@ import java.net.URISyntaxException;
 
 import static java.lang.String.format;
 
-public class IntegrationTest {
+public class IntegrationSetting {
 
     @LocalServerPort
     protected int port;

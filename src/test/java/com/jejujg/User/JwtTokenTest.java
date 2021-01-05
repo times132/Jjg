@@ -1,4 +1,4 @@
-package com.jejujg;
+package com.jejujg.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

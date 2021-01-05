@@ -33,9 +33,9 @@ public class UploadController {
     private final UploadService uploadService;
 
     @Secured("ROLE_USER")
-    @PostMapping(value = "/upload/board")
+    @PostMapping(value = "/upload/goods")
     public ResponseEntity<?> imagePOST(@RequestPart MultipartFile file, String categoryNum) {
-        Map<String, Object> map = uploadService.uploadBoardImage(file, categoryNum);
+        Map<String, Object> map = uploadService.uploadGoodsImage(file, categoryNum);
         String errorMessage = "error";
 
         if (map.get("isImage").equals(true)){

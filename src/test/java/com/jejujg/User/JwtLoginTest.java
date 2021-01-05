@@ -1,6 +1,6 @@
-package com.jejujg;
+package com.jejujg.User;
 
-import com.jejujg.helper.UserAdminIntegrationTest;
+import com.jejujg.User.helper.UserAdminSetting;
 import com.jejujg.payload.request.LoginRequest;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class JwtLoginTest extends UserAdminIntegrationTest {
+public class JwtLoginTest extends UserAdminSetting {
 
     @LocalServerPort
     private int port;

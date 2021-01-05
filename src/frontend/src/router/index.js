@@ -3,12 +3,13 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Login from '../views/Login'
 import Me from '../views/Profile'
-import Write from '../views/Board/Write'
-import Modify from '../views/Board/Modify'
-import Detail from '../views/Board/Detail'
-import List from '../views/Board/List'
+import Write from '../views/Goods/Write'
+import Modify from '../views/Goods/Modify'
+import Detail from '../views/Goods/Detail'
+import List from '../views/Goods/List'
 import store from '../vuex'
 import Signup from '../views/Signup'
+import Free from '../views/Free'
 
 Vue.use(VueRouter)
 
@@ -41,25 +42,25 @@ const routes = [
         beforeEnter: requireAuth
     },
     {
-        path: '/board/write',
+        path: '/goods/write',
         name: 'write',
         component: Write,
         beforeEnter: requireAuth
     },
     {
-        path: '/board/modify/:gid',
+        path: '/goods/modify/:gid',
         name: 'modify',
         component: Modify,
         beforeEnter: requireAuth
     },
     {
-        path: '/board/:categoryNum',
-        name: 'board',
+        path: '/goods/:categoryNum',
+        name: 'goods',
         component: List,
         props: true
     },
     {
-        path: '/board/:categoryNum/:bid',
+        path: '/goods/:categoryNum/:gid',
         name: 'detail',
         component: Detail,
         props: true
@@ -70,9 +71,14 @@ const routes = [
         component: Signup
     },
     {
-        path: '/display',
-        name: 'display'
+        path: '/free',
+        name: 'free',
+        component: Free
     }
+    // {
+    //     path: '/display',
+    //     name: 'display'
+    // }
 ]
 
 const router = new VueRouter({

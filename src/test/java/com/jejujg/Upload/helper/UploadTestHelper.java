@@ -1,4 +1,4 @@
-package com.jejujg.helper;
+package com.jejujg.Upload.helper;
 
 import com.jejujg.repository.UploadRepository;
 import com.jejujg.service.UploadService;

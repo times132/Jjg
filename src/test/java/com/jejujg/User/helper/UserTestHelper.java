@@ -1,4 +1,4 @@
-package com.jejujg.helper;
+package com.jejujg.User.helper;
 
 import com.jejujg.model.Role;
 import com.jejujg.model.User;

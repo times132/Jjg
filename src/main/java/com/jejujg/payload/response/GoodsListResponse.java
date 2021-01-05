@@ -1,7 +1,7 @@
 package com.jejujg.payload.response;
 
 import com.jejujg.common.Pagination;
-import com.jejujg.payload.dto.BoardList;
+import com.jejujg.payload.dto.GoodsList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class BoardListResponse {
+public class GoodsListResponse {
 
-    private List<BoardList> boardList;
+    private List<GoodsList> goodsList;
     private Pagination pagination;
 }

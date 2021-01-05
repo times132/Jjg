@@ -29,7 +29,7 @@ public class UploadService {
     private final UploadRepository uploadRepository;
     private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
 
-    public Map<String, Object> uploadBoardImage(MultipartFile uploadFile, String categoryNum){
+    public Map<String, Object> uploadGoodsImage(MultipartFile uploadFile, String categoryNum){
         Map<String, Object> map = new HashMap<>();
         String uploadFolder = uploadPath;
         String uploadFolderPath = "board/" + categoryNum;
@@ -69,7 +69,7 @@ public class UploadService {
         return map;
     }
 
-    public void deleteBoardImage(String fileName, String categoryPath){
+    public void deleteGoodsImage(String fileName, String categoryPath){
         File file;
 
         try {
@@ -83,11 +83,11 @@ public class UploadService {
         }
     }
 
-    public Image saveBoardImageDB(Map<String, Object> imageMap){
+    public Image saveGoodsImageDB(Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(null, imageMap));
     }
 
-    public Image updateBoardImageDB(Long fid, Map<String, Object> imageMap){
+    public Image updateGoodsImageDB(Long fid, Map<String, Object> imageMap){
         return uploadRepository.save(convertMapToImage(fid, imageMap));
     }
 

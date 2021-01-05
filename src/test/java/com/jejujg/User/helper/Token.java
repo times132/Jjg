@@ -1,4 +1,4 @@
-package com.jejujg.helper;
+package com.jejujg.User.helper;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

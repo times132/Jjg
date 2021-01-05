@@ -28,7 +28,7 @@ public class CategoryItem {
     private String itemNum;
 
     @OneToMany(mappedBy = "categoryItem")
-    private List<Board> boards;
+    private List<Goods> goods;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

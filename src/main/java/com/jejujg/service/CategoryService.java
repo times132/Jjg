@@ -1,6 +1,6 @@
 package com.jejujg.service;
 
-import com.jejujg.model.Board;
+import com.jejujg.model.Goods;
 import com.jejujg.model.Category;
 import com.jejujg.model.CategoryItem;
 import com.jejujg.repository.CategoryItemRepository;
@@ -25,21 +25,21 @@ public class CategoryService {
         return categoryItem;
     }
 
-    public ArrayList<Board> findMainCategoryBoard(String categoryName){
+    public ArrayList<Goods> findMainCategoryBoard(String categoryName){
         Category category = categoryRepository.findAllByName(categoryName)
                 .orElseThrow(() -> new IllegalArgumentException("없는 카테고리입니다."));
 
         List<CategoryItem> categoryItemList = category.getCategoryItems();
-        ArrayList<Board> boardList = new ArrayList<>();
+        ArrayList<Goods> goodsList = new ArrayList<>();
 
         for (CategoryItem categoryItem : categoryItemList) {
             try {
-                boardList.addAll(categoryItem.getBoards().subList(0, 2));
+                goodsList.addAll(categoryItem.getGoods().subList(0, 2));
             } catch (IndexOutOfBoundsException e) {
-                boardList.addAll(categoryItem.getBoards());
+                goodsList.addAll(categoryItem.getGoods());
             }
         }
 
-        return boardList;
+        return goodsList;
     }
 }

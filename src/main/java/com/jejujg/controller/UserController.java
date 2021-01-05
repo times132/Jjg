@@ -39,7 +39,6 @@ public class UserController {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-
     @PostMapping("/signup")
     public Long signup(@RequestBody SignupRequest request){
         return userService.save(request);
@@ -62,7 +61,7 @@ public class UserController {
 //        return new ResponseEntity<>(accessJwt, HttpStatus.OK);
 //    }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse responses){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Cookie accessToken = cookieUtil.getCookie(request, "accessToken");

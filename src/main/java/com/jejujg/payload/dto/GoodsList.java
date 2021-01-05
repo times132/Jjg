@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class BoardList {
+public class GoodsList {
 
-    private Long bid;
+    private Long gid;
     private String title;
     private Image image;
 }

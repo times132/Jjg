@@ -1,4 +1,4 @@
-package com.jejujg;
+package com.jejujg.Goods;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

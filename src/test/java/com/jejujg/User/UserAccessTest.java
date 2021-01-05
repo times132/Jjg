@@ -1,4 +1,4 @@
-package com.jejujg;
+package com.jejujg.User;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jejujg.controller.HomeController;

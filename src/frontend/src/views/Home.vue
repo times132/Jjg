@@ -8,11 +8,11 @@
             <b-col cols="12" sm="6" class="simple-category">
                 <b-row class="a">
                     <div>
-                        <b-img src="http://times133.cdn3.cafe24.com/board/aircon.jpg"/>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/aircon.jpg"/>
                         <span>에어컨</span>
                     </div>
                     <div>
-                        <b-img src="http://times133.cdn3.cafe24.com/board/appliances.jpg"/>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/appliances.jpg"/>
                         <span>생활가전</span>
                     </div>
                 </b-row>
@@ -21,11 +21,11 @@
             <b-col cols="12" sm="6" class="simple-category">
                 <b-row class="a">
                     <div>
-                        <b-img src="http://times133.cdn3.cafe24.com/board/commercial-appliances.jpg"/>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/commercial-appliances.jpg"/>
                         <span>업소용</span>
                     </div>
                     <div>
-                        <b-img src="http://times133.cdn3.cafe24.com/board/office.jpg"/>
+                        <b-img src="http://times133.cdn3.cafe24.com/goods/office.jpg"/>
                         <span>사무용</span>
                     </div>
                 </b-row>

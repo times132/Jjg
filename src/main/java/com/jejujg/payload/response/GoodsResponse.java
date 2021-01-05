@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class BoardResponse {
+public class GoodsResponse {
 
     private Long gid;
-    @JsonIgnoreProperties({"boards", "category"})
+    @JsonIgnoreProperties({"goods", "category"})
     private CategoryItem categoryItem;
     private String title;
     private String content;

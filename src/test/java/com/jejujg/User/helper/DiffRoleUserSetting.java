@@ -1,4 +1,4 @@
-package com.jejujg.helper;
+package com.jejujg.User.helper;
 
 import com.jejujg.model.User;
 import com.jejujg.repository.RoleRepository;
@@ -7,7 +7,7 @@ import com.jejujg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class DiffRoleUserIntegrationTest extends IntegrationTest{
+public class DiffRoleUserSetting extends IntegrationSetting {
 
     @Autowired
     protected UserService userService;

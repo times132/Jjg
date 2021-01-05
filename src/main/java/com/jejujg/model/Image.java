@@ -24,6 +24,10 @@ public class Image extends DateAudit{
 
     private String fileName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "goods_id")
 //    private Goods goods;

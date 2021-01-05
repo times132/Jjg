@@ -1,4 +1,4 @@
-package com.jejujg.helper;
+package com.jejujg.Upload.helper;
 
 import com.jejujg.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,22 +1,12 @@
-package com.jejujg;
+package com.jejujg.Upload;
 
-import com.jejujg.controller.UploadController;
-import com.jejujg.helper.DiffRoleUserIntegrationTest;
-import com.jejujg.security.JwtUtil;
-import com.jejujg.service.CookieUtil;
-import com.jejujg.service.RedisUtil;
-import com.jejujg.service.UploadService;
-import com.jejujg.service.UserService;
+import com.jejujg.User.helper.DiffRoleUserSetting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,7 +14,7 @@ import java.net.URISyntaxException;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UploadControllerTest extends DiffRoleUserIntegrationTest {
+public class UploadControllerSetting extends DiffRoleUserSetting {
 
 //    @MockBean
 //    private UploadService uploadService;
