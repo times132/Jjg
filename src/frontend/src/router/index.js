@@ -74,11 +74,12 @@ const routes = [
         path: '/free',
         name: 'free',
         component: Free
+    },
+    {
+        path: '/all/:categoryNum',
+        name: 'mainCategory',
+        component: List
     }
-    // {
-    //     path: '/display',
-    //     name: 'display'
-    // }
 ]
 
 const router = new VueRouter({

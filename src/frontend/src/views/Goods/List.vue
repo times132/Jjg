@@ -1,6 +1,5 @@
 <template>
     <b-container>
-
         <b-row align-h="between" class="mt-3">
             <b-col sm="2" class="total-goods">
                 <span >등록 제품 : {{pagination.total}}개</span>
@@ -20,7 +19,7 @@
             <b-row v-for="i in 4" :key="i">
                 <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
-                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.bid)"/>
+                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
                         <b-card-body class="goods-body">
                             <span>{{goods.title}}</span>
                         </b-card-body>
@@ -96,8 +95,8 @@
             }
         },
         methods: {
-            clickRow(bid) {
-                this.$router.push(`/goods/${this.categoryNum}/${bid}`)
+            clickRow(gid) {
+                this.$router.push(`/goods/${this.categoryNum}/${gid}`)
                 this.$store.dispatch('setCriteria', this.criteria)
             },
             getList(){

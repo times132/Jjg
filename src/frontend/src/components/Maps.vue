@@ -11,8 +11,8 @@
                     class="info-window"
                     :isOpen="info"
                     :marker="marker">
-                <div class="info-window-container">
-                    <h4>{{shopInfo}}</h4>
+                <div class="info-window-container m-1">
+                    <h5>{{shopInfo}}</h5>
                 </div>
             </naver-info-window>
             <naver-marker :lat="33.497950" :lng="126.537930" @click="onMarkerClicked" @load="onMarkerLoaded"/>
@@ -24,12 +24,12 @@
 <script>
     export default {
         name: "Location",
-        props: ['mapWidth', 'mapHeight'],
+        props: ['size'],
         data() {
             return {
                 windowWidth: 0,
-                width: this.mapWidth,
-                height: this.mapHeight,
+                width: this.size,
+                height: this.size,
                 info: false,
                 map: null,
                 marker: null,
@@ -44,7 +44,7 @@
         },
         computed: {
             shopInfo() {
-                return '제주 중고쇼핑몰'
+                return '중고쇼핑몰'
             }
         },
         mounted() {
@@ -53,16 +53,16 @@
                 if (this.windowWidth >= 1200) {
                     this.map.setSize({width: 450, height: 450})
                 } else if(992 <= this.windowWidth && this.windowWidth < 1200) {
-                    this.map.setSize({width: 400, height: 400})
+                    this.map.setSize({width: 375, height: 375})
                 } else if(768 <= this.windowWidth && this.windowWidth < 992){
-                    this.map.setSize({width: 300, height: 300})
+                    this.map.setSize({width: 275, height: 275})
                 } else{
                     this.map.setSize({width: 345, height: 345})
                 }
             })
         },
         methods: {
-            onLoad(vue){
+            onLoad(vue) {
                 this.map = vue
             },
             onMarkerClicked() {

@@ -30,20 +30,29 @@ public class GoodsService {
         switch (criteria.getType()){
             case "T": page = goodsRepository.findAllByTitleContaining(criteria.getKeyword(), pageable); break; // 제목
             case "C": page = goodsRepository.findAllByContentContaining(criteria.getKeyword(), pageable); break; // 내용
-//            case "I": page = goodsRepository.findAllByCategory(criteria.getKeyword(), pageable); break; // 카테고리
             case "W": page = goodsRepository.findAllByWriter(criteria.getKeyword(), pageable); break; // 작성자
-            default: page = goodsRepository.findAllByCategoryItem(categoryItem, pageable); break;
+            default: page = goodsRepository.findAllByCategoryItem(categoryItem, pageable); break; // 서브 카테고리
         }
 
         return new PageImpl<>(mapper.goodsEntityToListDTO(page.getContent()), pageable, page.getTotalElements());
     }
 
+    public Page<GoodsList> mainCategoryList(Criteria criteria, List<Goods> goods){
+        Pageable pageable = PageRequest.of(criteria.getPage() - 1, criteria.getPageSize(), Sort.by(Sort.Direction.DESC, "createdDate"));
+
+        int start = (int)pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > goods.size() ? goods.size() : (start + pageable.getPageSize());
+
+        return new PageImpl<>(mapper.goodsEntityToListDTO(goods.subList(start, end)), pageable, goods.size());
+    }
+
+    // 제품 저장
     @Transactional
     public Goods save(GoodsRequest request, Image image){
-
         return goodsRepository.save(mapper.goodsDtoToEntity(request, image));
     }
 
+    // 제품 상세
     @Transactional
     public GoodsResponse findOne(Long gid){
         Goods goods = goodsRepository.findByGid(gid)
@@ -52,6 +61,7 @@ public class GoodsService {
         return mapper.goodsEntityToDTO(goods);
     }
 
+    // 제품 수정
     @Transactional
     public Long update(Long gid, GoodsRequest request, Image image){
         Goods goods = goodsRepository.findById(gid)
@@ -62,6 +72,7 @@ public class GoodsService {
         return gid;
     }
 
+    // 제품 삭제
     @Transactional
     public Long delete(Long bid){
         if (goodsRepository.existsById(bid)){

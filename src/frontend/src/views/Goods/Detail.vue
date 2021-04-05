@@ -64,7 +64,7 @@
         data() {
             return {
                 goods: {
-                    bid: this.$route.params.bid,
+                    gid: this.$route.params.gid,
                     categoryItem: null,
                     title: '',
                     price: 0,
@@ -81,7 +81,7 @@
             }
         },
         created() {
-            getDetail('/api/goods/detail', this.goods.bid)
+            getDetail('/api/goods/detail', this.goods.gid)
                 .then(({data}) => {
                     this.goods.content = data.content
                     this.goods.title = data.title
@@ -107,7 +107,7 @@
                 this.$router.push({name: 'modify', params: {goods: this.goods}})
             },
             deleteGoods() {
-                deleteGoods(this.goods.bid)
+                deleteGoods(this.goods.gid)
                     .then(({data}) => {
                         console.log(data)
                         this.$router.push({name: 'goods', params: {'categoryNum': this.$route.params.categoryNum, 'page': this.getCri.page, 'pageSize': this.getCri.pageSize, 'type': this.getCri.type, 'keyword': this.getCri.keyword}})

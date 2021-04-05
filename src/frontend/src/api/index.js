@@ -96,6 +96,14 @@ function uploadGoodsImage(file) {
 }
 
 // 회원
+function userSignup(signupData) {
+    return instance({
+        url: '/user/signup',
+        method: 'post',
+        data: signupData
+    })
+}
+
 function userLogin(userData) {
     return instance({
         url: '/user/login',
@@ -126,6 +134,7 @@ export {
     deleteGoods,
     displayGoodsImage,
     uploadGoodsImage,
+    userSignup,
     userLogin,
     userLogout,
     getUserInfo

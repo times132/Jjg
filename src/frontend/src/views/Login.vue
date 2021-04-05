@@ -20,7 +20,11 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block btn-lg">로그인</button>
                 </div>
-                <p class="hint-text"><a href="#">Forgot Password?</a></p>
+                <div class="sub-group">
+                    <b-link class="signup" to="/signup">회원가입</b-link>
+                    <b-link class="hint"><a href="#">아이디/비밀번호 찾기</a></b-link>
+                </div>
+
             </form>
         </div>
 
@@ -116,5 +120,11 @@
     }
     .form-group .btn:hover, form-group .btn:focus{
         background: #179b81!important;
+    }
+    .signup{
+        float: left;
+    }
+    .hint{
+        float: right;
     }
 </style>

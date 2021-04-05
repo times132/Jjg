@@ -30,6 +30,9 @@ public class CategoryItem {
     @OneToMany(mappedBy = "categoryItem")
     private List<Goods> goods;
 
+    @OneToMany(mappedBy = "categoryItem")
+    private List<Board> boards;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

@@ -29,8 +29,13 @@ public class GoodsController {
     // 세부 카테고리 제품 리스트
     @GetMapping("/{categoryNum}")
     public ResponseEntity<GoodsListResponse> goodsListGET(@PathVariable("categoryNum") String categoryNum, Criteria criteria){
+        Page page;
+        if (categoryNum.length() == 2){
+            page = goodsService.mainCategoryList(criteria, categoryService.findMainCategory(Long.parseLong(categoryNum)));
+        }else {
+            page = goodsService.list(criteria, categoryService.findSubCategory(categoryNum));
+        }
 
-        Page page = goodsService.list(criteria, categoryService.findOne(categoryNum));
         Pagination pagination = Pagination.builder()
                 .criteria(criteria)
                 .pageRange(criteria.getPageRange())
@@ -46,10 +51,25 @@ public class GoodsController {
         return new ResponseEntity<>(goodsListResponse, HttpStatus.OK);
     }
 
-//    @GetMapping("/{categoryName}")
-//    public ResponseEntity<ArrayList<Goods>> mainCategoryList(@PathVariable("categoryName") String categoryName){
-//        ArrayList<Goods> mainCategoryGoods = categoryService.findMainCategoryGoods(categoryName);
-//    }
+    // 메인 카테고리 제품 리스트
+    @GetMapping("/all/{categoryNum}")
+    public ResponseEntity<GoodsListResponse> mainCategoryList(@PathVariable("categoryNum") Long categoryNum, Criteria criteria){
+        Page page = goodsService.mainCategoryList(criteria, categoryService.findMainCategory(categoryNum));
+
+        Pagination pagination = Pagination.builder()
+                .criteria(criteria)
+                .pageRange(criteria.getPageRange())
+                .realEndPage(page.getTotalPages())
+                .total(page.getTotalElements())
+                .build();
+
+        GoodsListResponse goodsListResponse = GoodsListResponse.builder()
+                .goodsList(page.getContent())
+                .pagination(pagination)
+                .build();
+
+        return new ResponseEntity<>(goodsListResponse, HttpStatus.OK);
+    }
 
     // 제품 상세 페이지
     @GetMapping("/detail/{gid}")

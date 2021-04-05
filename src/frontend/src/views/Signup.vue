@@ -43,6 +43,15 @@
                 ></b-form-input>
             </b-form-group>
 
+            <b-form-group id="input-group-5" label="Your Nickname:" label-for="input-2">
+                <b-form-input
+                        id="input-4"
+                        v-model="form.nickname"
+                        required
+                        placeholder="닉네임"
+                ></b-form-input>
+            </b-form-group>
+
             <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
 
@@ -50,7 +59,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import { userSignup } from '../api'
 
     export default {
         name: "Signup",
@@ -60,15 +69,15 @@
                     email: '',
                     password: '',
                     username: '',
-                    name: ''
+                    name: '',
+                    nickname: ''
                 }
             }
         },
         methods: {
             onSubmit(event) {
                 event.preventDefault()
-
-                axios.post('http://localhost:9000/user/signup', JSON.stringify(this.form))
+                userSignup(JSON.stringify(this.form))
                     .then(() => {
                         alert("등록되었습니다.")
                         this.$router.replace(this.$route.query.redirect || '/login')

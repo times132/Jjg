@@ -25,10 +25,4 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<CategoryItem> categoryItems;
 
-//    @Builder
-//    public Category(Long id, String name, List<CategoryItem> categoryItems) {
-//        this.id = id;
-//        this.name = name;
-//        this.categoryItems = categoryItems;
-//    }
 }
