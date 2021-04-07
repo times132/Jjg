@@ -1,5 +1,6 @@
 package com.jejujg.model;
 
+import com.jejujg.payload.request.BoardRequest;
 import com.jejujg.payload.request.GoodsRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,10 @@ public class Board extends DateAudit{
     private Integer depth;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CategoryItem_id")
     private CategoryItem categoryItem;
 
@@ -46,10 +51,10 @@ public class Board extends DateAudit{
         if (this.replyCnt == null) this.replyCnt = 0;
     }
 
-    public void update(GoodsRequest request, List<Image> imageList){
+    public void update(BoardRequest request, List<Image> imageList){
         this.title = request.getTitle();
         this.content = request.getContent();
         this.categoryItem = request.getCategoryItem();
-        this.imageList = imageList;
+        this.imageList = request.getImageList();
     }
 }

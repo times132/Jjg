@@ -17,7 +17,7 @@ public class GoodsTestHelper {
     private CategoryService categoryService;
 
     public GoodsRequest.GoodsRequestBuilder makeBoard(User user, String title, String content, String categoryNum) {
-        CategoryItem categoryItem = categoryService.findOne(categoryNum);
+        CategoryItem categoryItem = categoryService.findSubCategory(categoryNum);
 
         return GoodsRequest.builder()
                 .title(title)
