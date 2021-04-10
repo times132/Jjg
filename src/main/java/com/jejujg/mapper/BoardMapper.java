@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
-    @Mapping(target = "gid", ignore = true)
+    @Mapping(target = "bid", ignore = true)
     Board boardDtoToEntity(BoardRequest request);
 
     BoardResponse boardEntityToDto(Board board);

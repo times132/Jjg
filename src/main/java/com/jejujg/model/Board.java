@@ -24,6 +24,7 @@ public class Board extends DateAudit{
     private String title;
     @Lob
     private String content;
+    private Integer price;
     private String writer;
     private Integer viewCnt;
     private Integer replyCnt;
