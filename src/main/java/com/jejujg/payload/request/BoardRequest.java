@@ -18,6 +18,7 @@ public class BoardRequest {
     private CategoryItem categoryItem;
     private String title;
     private String content;
+    private Integer price;
     private String writer;
     private List<Image> imageList;
 }

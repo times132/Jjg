@@ -11,14 +11,14 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @EntityGraph(attributePaths = "image")
+    @EntityGraph(attributePaths = "imageList")
     @Query(value = "select DISTINCT b from Board b where b.categoryItem=?1")
     Page<Board> findAllByCategoryItem(CategoryItem categoryItem, Pageable pageable);
     Page<Board> findAllByTitleContaining(String title, Pageable pageable);
     Page<Board> findAllByContentContaining(String content, Pageable pageable);
     Page<Board> findAllByWriter(String writer, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"image", "categoryItem"})
+    @EntityGraph(attributePaths = {"imageList", "categoryItem"})
     @Query(value = "select DISTINCT b from Board b where b.bid=?1")
     Optional<Board> findByBid(Long bid);
 }

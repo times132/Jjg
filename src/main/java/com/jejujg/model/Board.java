@@ -24,10 +24,11 @@ public class Board extends DateAudit{
     private String title;
     @Lob
     private String content;
+    private Integer price;
     private String writer;
     private Integer viewCnt;
     private Integer replyCnt;
-    private Integer groupNum;
+    private Long groupNum;
     private Integer groupOrder;
     private Integer depth;
 
@@ -49,6 +50,14 @@ public class Board extends DateAudit{
     protected void prePersist() {
         if (this.viewCnt == null) this.viewCnt = 0;
         if (this.replyCnt == null) this.replyCnt = 0;
+    }
+
+    @PostPersist
+    private void postPersist() {
+        if (this.groupNum == null) {
+            this.groupNum = this.bid;
+            this.groupOrder = 1;
+        }
     }
 
     public void update(BoardRequest request, List<Image> imageList){

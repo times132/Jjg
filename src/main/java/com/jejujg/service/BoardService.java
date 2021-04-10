@@ -6,6 +6,7 @@ import com.jejujg.mapper.GoodsMapper;
 import com.jejujg.model.Board;
 import com.jejujg.model.CategoryItem;
 import com.jejujg.model.Image;
+import com.jejujg.model.User;
 import com.jejujg.payload.dto.BoardList;
 import com.jejujg.payload.dto.GoodsList;
 import com.jejujg.payload.request.BoardRequest;
@@ -44,8 +45,8 @@ public class BoardService {
     }
 
     @Transactional
-    public Board save(BoardRequest request){
-        return boardRepository.save(boardMapper.boardDtoToEntity(request));
+    public Board save(BoardRequest request, User user){
+        return boardRepository.save(boardMapper.boardDtoToEntity(request, user));
     }
 
     @Transactional
