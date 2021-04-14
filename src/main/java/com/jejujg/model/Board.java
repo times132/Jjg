@@ -43,8 +43,8 @@ public class Board extends DateAudit{
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replyList;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> imageList;
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Image> imageList;
 
     @PrePersist
     protected void prePersist() {
@@ -64,6 +64,6 @@ public class Board extends DateAudit{
         this.title = request.getTitle();
         this.content = request.getContent();
         this.categoryItem = request.getCategoryItem();
-        this.imageList = request.getImageList();
+//        this.imageList = request.getImageList();
     }
 }

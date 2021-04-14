@@ -2,10 +2,10 @@ package com.jejujg.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jejujg.model.CategoryItem;
+import com.jejujg.model.Image;
 import lombok.*;
 
-import javax.persistence.Lob;
-import java.util.Map;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +20,5 @@ public class GoodsRequest {
     private String content;
     private Integer price;
     private String writer;
-    private Map<String, Object> image;
+    private List<Image> imageList;
 }

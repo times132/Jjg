@@ -49,7 +49,7 @@
                     content: '',
                     categoryItem: null,
                     writer: this.$store.state.login.userInfo.username,
-                    image: null
+                    imageList: null
                 },
                 options: [
                     { value: null, text: '------------'},
@@ -77,19 +77,20 @@
                 this.form.content = this.$refs.tuiWrite.getHtml()
 
                 const uploadData = new FormData()
-                uploadData.append('file', this.file)
+                uploadData.append('fileList', this.file)
                 uploadData.append('categoryNum', this.form.categoryItem.itemNum)
 
                 let uploadResponse = null
                 if (this.file !== null) {
                     try {
                         uploadResponse = await uploadGoodsImage(uploadData)
-
-                        this.form.image = {
-                            uuid: uploadResponse.data.uuid,
-                            path: uploadResponse.data.path,
-                            fileName: uploadResponse.data.fileName
-                        }
+                        console.log(uploadResponse)
+                        // this.form.imageList = {
+                        //     uuid: uploadResponse.data.uuid,
+                        //     path: uploadResponse.data.path,
+                        //     fileName: uploadResponse.data.fileName
+                        // }
+                        this.form.imageList = uploadResponse.data.imageList
 
                         writeGoods(JSON.stringify(this.form))
                             .then(() => {

@@ -12,14 +12,14 @@ import java.util.Optional;
 
 public interface GoodsRepository extends JpaRepository<Goods, Long> {
     // image 필드를 Eager로 조회한다.
-    @EntityGraph(attributePaths = "image")
-    @Query(value = "select DISTINCT b from Goods b where b.categoryItem=?1")
+//    @EntityGraph(attributePaths = "imageList")
+//    @Query(value = "select DISTINCT b from Goods b where b.categoryItem=?1")
     Page<Goods> findAllByCategoryItem(CategoryItem categoryItem, Pageable pageable);
     Page<Goods> findAllByTitleContaining(String title, Pageable pageable);
     Page<Goods> findAllByContentContaining(String content, Pageable pageable);
     Page<Goods> findAllByWriter(String writer, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"image", "categoryItem"})
+    @EntityGraph(attributePaths = {"imageList", "categoryItem"})
     @Query(value = "select DISTINCT b from Goods b where b.gid=?1")
     Optional<Goods> findByGid(Long gid);
 //    Image findImageByGid(Long gid);

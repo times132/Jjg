@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -14,5 +16,5 @@ public class GoodsList {
 
     private Long gid;
     private String title;
-    private Image image;
+    private String thumbImageName;
 }

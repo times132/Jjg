@@ -75,8 +75,7 @@ public class BoardServiceTest extends DiffRoleUserSetting {
     @DisplayName("4. 게시물 수정")
     @Test
     void test_4() {
-        BoardRequest request = boardTestHelper.makeBoardRequest(USER1, "수정 테스트", "수정 내용", "011");
-        boardService.update(1L, )
+
     }
 
     @DisplayName("5. 게시물 삭제")

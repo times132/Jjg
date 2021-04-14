@@ -1,5 +1,6 @@
 package com.jejujg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,9 @@ public class Image extends DateAudit{
     private String fileName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "goods_id")
+    @JsonIgnoreProperties({"imageList"})
+    private Goods goods;
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "goods_id")

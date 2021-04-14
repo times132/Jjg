@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class UploadResponse {
+public class ImageResponse {
 
     private Long fid;
     private String uuid;

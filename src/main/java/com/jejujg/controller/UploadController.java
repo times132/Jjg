@@ -34,17 +34,10 @@ public class UploadController {
 
     @Secured("ROLE_USER")
     @PostMapping(value = "/upload/goods")
-    public ResponseEntity<?> imagePOST(@RequestPart MultipartFile file, String categoryNum) {
-        Map<String, Object> map = uploadService.uploadGoodsImage(file, categoryNum);
-        String errorMessage = "error";
+    public ResponseEntity<?> imagePOST(@RequestPart MultipartFile[] fileList, String categoryNum) {
+        Map<String, Object> map = uploadService.uploadImage(fileList, categoryNum);
 
-        if (map.get("isImage").equals(true)){
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        }else {
-            errorMessage = "not image";
-        }
-
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @GetMapping("/display")

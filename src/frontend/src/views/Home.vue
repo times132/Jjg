@@ -78,7 +78,6 @@
             } else{
                 this.mapSize = 345
             }
-            console.log(this.mapSize)
         }
     }
 </script>

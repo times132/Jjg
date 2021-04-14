@@ -7,7 +7,6 @@ import com.jejujg.payload.request.GoodsRequest;
 import com.jejujg.payload.response.GoodsListResponse;
 import com.jejujg.payload.response.GoodsResponse;
 import com.jejujg.service.CategoryService;
-import com.jejujg.service.BoardService;
 import com.jejujg.service.GoodsService;
 import com.jejujg.service.UploadService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -81,12 +82,9 @@ public class GoodsController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> goodsPOST(@RequestBody GoodsRequest request){
-        Image image = null;
-        if (request.getImage() != null) {
-            image = uploadService.saveGoodsImageDB(request.getImage());
-        }
+        List<Image> imageList = (uploadService.saveGoodsImageDB(request.getImageList()));
 
-        return new ResponseEntity<>(goodsService.save(request, image).getGid(), HttpStatus.OK);
+        return new ResponseEntity<>(goodsService.save(request, imageList).getGid(), HttpStatus.OK);
     }
 
     // 제품 수정
@@ -94,22 +92,22 @@ public class GoodsController {
     @PutMapping("/{gid}")
     public ResponseEntity<?> goodsPUT(@PathVariable("gid") Long gid, @RequestBody GoodsRequest request){
         Image image = null;
-        Image oldImage = goodsService.findImage(gid);
+//        Image oldImage = goodsService.findImage(gid);
 
-        if (request.getImage() != null) { // 요청에 이미지가 있을 때
-            if (oldImage == null) { // 기존에 이미지가 없을 경우(삭제할 이미지가 없음)
-                image = uploadService.updateGoodsImageDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
-            } else if(!request.getImage().get("fid").equals(oldImage.getFid())) { // 기존 이미지랑 다를 경우
-                uploadService.deleteGoodsImage(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
-                image = uploadService.updateGoodsImageDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
-            } else { // 변화가 없는 경우
-                image = oldImage;
-            }
-        }else { // 이미지가 없을 경우
-            if (oldImage != null){ // 기존 이미지를 삭제 할 경우
-                uploadService.deleteGoodsImage(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
-            }
-        }
+//        if (request.getImage() != null) { // 요청에 이미지가 있을 때
+//            if (oldImage == null) { // 기존에 이미지가 없을 경우(삭제할 이미지가 없음)
+//                image = uploadService.updateGoodsImageDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+//            } else if(!request.getImage().get("fid").equals(oldImage.getFid())) { // 기존 이미지랑 다를 경우
+//                uploadService.deleteGoodsImage(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
+//                image = uploadService.updateGoodsImageDB(Long.valueOf(String.valueOf(request.getImage().get("fid"))), request.getImage());
+//            } else { // 변화가 없는 경우
+//                image = oldImage;
+//            }
+//        }else { // 이미지가 없을 경우
+//            if (oldImage != null){ // 기존 이미지를 삭제 할 경우
+//                uploadService.deleteGoodsImage(oldImage.getUuid() + "_" + oldImage.getFileName(), oldImage.getPath());
+//            }
+//        }
 
         return new ResponseEntity<>(goodsService.update(gid, request, image), HttpStatus.OK);
     }
@@ -118,8 +116,8 @@ public class GoodsController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{gid}")
     public ResponseEntity<?> goodsDEL(@PathVariable("gid") Long gid){
-        Image image = goodsService.findImage(gid);
-        uploadService.deleteGoodsImage(image.getUuid() + "_" + image.getFileName(), image.getPath());
+//        Image image = goodsService.findImage(gid);
+//        uploadService.deleteGoodsImage(image.getUuid() + "_" + image.getFileName(), image.getPath());
 
         return new ResponseEntity<>(goodsService.delete(gid), HttpStatus.OK);
     }

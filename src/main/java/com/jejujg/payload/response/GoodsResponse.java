@@ -24,7 +24,7 @@ public class GoodsResponse {
     private String content;
     private Integer price;
     private String writer;
-    private Image image;
+    private List<Image> imageList;
 //    @JsonIgnoreProperties({"board"})
 //    private List<Reply> replyList;
 }

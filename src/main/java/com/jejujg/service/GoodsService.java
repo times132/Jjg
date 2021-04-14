@@ -48,8 +48,8 @@ public class GoodsService {
 
     // 제품 저장
     @Transactional
-    public Goods save(GoodsRequest request, Image image){
-        return goodsRepository.save(mapper.goodsDtoToEntity(request, image));
+    public Goods save(GoodsRequest request, List<Image> imageList){
+        return goodsRepository.save(mapper.goodsDtoToEntity(request, imageList));
     }
 
     // 제품 상세
@@ -84,7 +84,7 @@ public class GoodsService {
     }
 
     @Transactional
-    public Image findImage(Long bid){
-        return goodsRepository.findByGid(bid).get().getImage();
+    public List<Image> findImage(Long bid){
+        return goodsRepository.findByGid(bid).get().getImageList();
     }
 }

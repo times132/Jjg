@@ -13,9 +13,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
-    @Mapping(target = "bid", ignore = true)
-    Board boardDtoToEntity(BoardRequest request, User user);
-
-    BoardResponse boardEntityToDto(Board board);
-    List<BoardList> boardEntityToListDto(List<Board> boardList);
+//    @Mapping(target = "bid", ignore = true)
+//    Board boardDtoToEntity(BoardRequest request, User user);
+//
+//    BoardResponse boardEntityToDto(Board board);
+//    List<BoardList> boardEntityToListDto(List<Board> boardList);
 }

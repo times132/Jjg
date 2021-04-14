@@ -19,7 +19,7 @@
             <b-row v-for="i in 4" :key="i">
                 <b-col class="goods-list" cols="6" sm="3" v-for="(goods, j) in goods.slice((i-1)*4, i*4)" :key="j">
                     <b-card no-body>
-                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.image)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
+                        <b-img class="goods-img" fluid :src="'/api/display?imageName='+thumbnail(goods.thumbImageName)" @error="$event.target.src=noImage" @click="clickRow(goods.gid)"/>
                         <b-card-body class="goods-body">
                             <span>{{goods.title}}</span>
                         </b-card-body>
@@ -105,12 +105,14 @@
                         this.pagination = data.pagination
                         this.goods = data.goodsList
                         this.isDataFetch = true
+                        console.log(this.goods)
                     })
             },
             thumbnail(value) {
                 if (value === null) {
                     return null
                 }else {
+                    console.log(value)
                     return value.path+'/s_'+value.uuid+'_'+value.fileName
                 }
             }
